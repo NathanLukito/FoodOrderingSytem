@@ -14,7 +14,7 @@ private:
 
 public:
 	User();
-	User(string name, int p);
+	User(string name, int p, string telPhoneNumber);
 	void setName(string n);
 	void setPassword(int p);
 	string getName();

@@ -57,7 +57,7 @@ void DoublyLinkedList::print() {
     struct node* current = head;
 
     while (current != NULL) {
-        cout << current->data << " | ";
+        cout << current->data.getTotalPrice() << " | ";
         current = current->next;
     }
 

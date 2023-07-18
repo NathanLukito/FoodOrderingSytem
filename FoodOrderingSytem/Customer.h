@@ -1,7 +1,7 @@
 #pragma once
 #include "User.h"
 #include "Order.h"
-#include <queue>
+#include "DoublyLinkedList.h"
 #include<string>
 #include<iostream>
 using namespace std;
@@ -9,5 +9,9 @@ using namespace std;
 class Customer : public User
 {
 private:
-	queue<Order> OrderList;
+	DoublyLinkedList OrderList;
+public:
+	Customer();
+	Customer(string name, int p, string telPhoneNumber, DoublyLinkedList OrderList);
+	DoublyLinkedList getOrderList();
 };
