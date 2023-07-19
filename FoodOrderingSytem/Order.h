@@ -10,7 +10,7 @@ class Order
 public:
 	int orderID;
 	string orderStatus;
-	DoublyLinkedList OrderItemList;
+	DoublyLinkedList<OrderItem> OrderItemList;
 	int userID;
 	Order();
 	~Order();
@@ -19,5 +19,5 @@ public:
 	string getOrderStatus();
 	int getUserID();
 	void printOrder();
-	DoublyLinkedList getOrderItemList();
+	DoublyLinkedList<OrderItem> getOrderItemList();
 };

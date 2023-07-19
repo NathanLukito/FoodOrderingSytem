@@ -4,25 +4,28 @@
 #include "Order.h"
 using namespace std;
 
-typedef OrderItem ItemType;
-class DoublyLinkedList {
-private:
-    struct node
-    {
-        ItemType data;
-        struct node* prev;
-        struct node* next;
-    };
+template <typename T>
+T data;
+struct Node
+{
+    struct Node* prev;
+    struct Node* next;
+};
+
+template <typename T>
+class DoublyLinkedList 
+{
 public:
     DoublyLinkedList();
     ~DoublyLinkedList();
 
-    void insert(Order data);
-    void remove(Order data);
+    void insert(T data);
+    void remove(T data);
     void print();
     bool isEmpty();
     double getTotalPrice();
 
 private:
-    struct node* head;
+    Node<T>* head;
+    Node<T>* tail;
 };

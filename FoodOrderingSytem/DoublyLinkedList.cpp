@@ -5,39 +5,49 @@
 #include <string>
 
 using namespace std;
-DoublyLinkedList::DoublyLinkedList() {
-    head = NULL;
+
+template <typename T>
+DoublyLinkedList<T>::DoublyLinkedList() 
+{
+    head = nullptr;
+    tail = nullptr;
 }
 
-DoublyLinkedList::~DoublyLinkedList() {
-    while (head != NULL) {
+template <typename T>
+DoublyLinkedList<T>::~DoublyLinkedList() 
+{
+    while (head != nullptr) {
         struct node* temp = head;
         head = head->next;
         free(temp);
     }
 }
 
-void DoublyLinkedList::insert(Order data) {
-    struct node* new_node = new struct node;
+template <typename T>
+void DoublyLinkedList<T>::insert(T data) 
+{
+    Node<T>* new_node = new Node<T>();
     new_node->data = data;
-    new_node->prev = NULL;
+    new_node->prev = nullptr;
     new_node->next = head;
 
-    if (head != NULL) {
+    if (head != nullptr) {
         head->prev = new_node;
     }
 
     head = new_node;
 }
 
-void DoublyLinkedList::remove(Order data) {
-    struct node* current = head;
+template <typename T>
+void DoublyLinkedList<T>::remove(T data) 
+{
+    Node<T>* current = head;
 
-    while (current != NULL) 
+    while (current != nullptr)
     {
         if (current->data == data) 
         {
-            if (current->prev != NULL) 
+            if (current->prev != nullptr)
             {
                 current->prev->next = current->next;
             }
@@ -46,7 +56,7 @@ void DoublyLinkedList::remove(Order data) {
                 head = current->next;
             }
 
-            if (current->next != NULL) 
+            if (current->next != nullptr)
             {
                 current->next->prev = current->prev;
             }
@@ -59,22 +69,36 @@ void DoublyLinkedList::remove(Order data) {
     }
 }
 
-void DoublyLinkedList::print() 
+template <typename T>
+void DoublyLinkedList<T>::print() 
 {
-    struct node* current = head;
-
-    while (current != NULL) 
+    Node<T>* current = head;
+    if (typeid(current).name() == "OrderItem")
     {
-        cout << current->data.FoodItem.getName() << " | Quantity: " << current->data.getQuantity << " | Price: " << current->data.getTotalPrice() << endl;
-        current = current->next;
+        while (current != nullptr)
+        {
+            cout << current->data.FoodItem.FoodItemName << " | Quantity: " << current->data.Quantity << " | Price: " << current->data.getTotalPrice() << endl;
+            current = current->next;
+        }
+        cout << endl;
     }
-
-    cout << endl;
+    else
+    {
+        while (current != nullptr))
+        {
+            {
+                cout << current->data.name << " | Telephone Number: " << current->data.telPhoneNumber << endl;
+                current = current->next;
+            }
+        }
+        cout << endl;
+    }
 }
 
-bool DoublyLinkedList::isEmpty() 
+template <typename T>
+bool DoublyLinkedList<T>::isEmpty() 
 {
-    if (head->data == NULL)
+    if (head->data == nullptr)
     {
         return true;
     }
@@ -84,11 +108,12 @@ bool DoublyLinkedList::isEmpty()
     }
 }
 
-double DoublyLinkedList::getTotalPrice()
+template <typename T>
+double DoublyLinkedList<T>::getTotalPrice()
 {
-    struct node* current = head;
+    Node<T>* current = head;
     double totalPrice = 0;
-    while (current != NULL)
+    while (current != nullptr)
     {
         totalPrice += current->data.getTotalPrice();
         current = current->next;

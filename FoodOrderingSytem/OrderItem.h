@@ -6,13 +6,11 @@ using namespace std;
 
 class OrderItem
 {
-private:
-	FoodItem foodItem;
-	int Quantity;
-	double totalPrice;
 public:
+	FoodItem foodItem;
+	int quantity;
 	OrderItem();
-	OrderItem(FoodItem foodItem, int Quantity, double totalPrice);
-	int getQuantity();
+	~OrderItem();
+	OrderItem(FoodItem foodItem, int quantity);
 	double getTotalPrice();
 };

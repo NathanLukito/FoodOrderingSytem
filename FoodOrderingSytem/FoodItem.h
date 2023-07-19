@@ -4,17 +4,12 @@
 using namespace std;
 
 class FoodItem
-{
-private:
+{	
+public:
 	int foodItemID;
 	string foodItemName;
 	string description;
 	double price;
-public:
 	FoodItem();
-	FoodItem(int foodItemID, string foodItemName);
-	string getName();
-	string getDescription();
-	string getPrice();
-
+	FoodItem(int foodItemID, string foodItemName, string description, double price);
 };
