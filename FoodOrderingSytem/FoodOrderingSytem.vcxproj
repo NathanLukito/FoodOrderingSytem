@@ -127,8 +127,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Customer.cpp" />
     <ClCompile Include="DoublyLinkedList.cpp" />
     <ClCompile Include="FoodOrderingSytem.cpp" />
+    <ClCompile Include="Order.cpp" />
     <ClCompile Include="Queue.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>

@@ -9,9 +9,9 @@ using namespace std;
 class Customer : public User
 {
 private:
-	DoublyLinkedList OrderList;
+	Order order;
 public:
 	Customer();
-	Customer(string name, int p, string telPhoneNumber, DoublyLinkedList OrderList);
-	DoublyLinkedList getOrderList();
+	~Customer();
+	Customer(string name, int password, string telPhoneNumber, DoublyLinkedList orderList);
 };

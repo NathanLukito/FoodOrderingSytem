@@ -1,5 +1,6 @@
 #include "Order.h"
 #include "DoublyLinkedList.h"
+#include "OrderItem.h"
 #include <iostream>
 #include <string>
 
@@ -32,16 +33,21 @@ void DoublyLinkedList::insert(Order data) {
 void DoublyLinkedList::remove(Order data) {
     struct node* current = head;
 
-    while (current != NULL) {
-        if (current->data == data) {
-            if (current->prev != NULL) {
+    while (current != NULL) 
+    {
+        if (current->data == data) 
+        {
+            if (current->prev != NULL) 
+            {
                 current->prev->next = current->next;
             }
-            else {
+            else 
+            {
                 head = current->next;
             }
 
-            if (current->next != NULL) {
+            if (current->next != NULL) 
+            {
                 current->next->prev = current->prev;
             }
 
@@ -53,13 +59,39 @@ void DoublyLinkedList::remove(Order data) {
     }
 }
 
-void DoublyLinkedList::print() {
+void DoublyLinkedList::print() 
+{
     struct node* current = head;
 
-    while (current != NULL) {
-        cout << current->data.getTotalPrice() << " | ";
+    while (current != NULL) 
+    {
+        cout << current->data.FoodItem.getName() << " | Quantity: " << current->data.getQuantity << " | Price: " << current->data.getTotalPrice() << endl;
         current = current->next;
     }
 
     cout << endl;
+}
+
+bool DoublyLinkedList::isEmpty() 
+{
+    if (head->data == NULL)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+double DoublyLinkedList::getTotalPrice()
+{
+    struct node* current = head;
+    double totalPrice = 0;
+    while (current != NULL)
+    {
+        totalPrice += current->data.getTotalPrice();
+        current = current->next;
+    }
+    return totalPrice;
 }

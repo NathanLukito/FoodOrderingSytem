@@ -2,21 +2,22 @@
 #include<string>
 #include<iostream>
 #include "DoublyLinkedList.h"
+#include "OrderItem.h"
 using namespace std;
 
 class Order 
 {
-private:
+public:
 	int orderID;
-	double totalPrice;
 	string orderStatus;
 	DoublyLinkedList OrderItemList;
 	int userID;
-public:
 	Order();
-	Order(int orderID, double totalPrice, string orderStatus, int userID);
+	~Order();
+	Order(int orderID, string orderStatus, DoublyLinkedList OrderItemList, int userID);
 	double getTotalPrice();
-	double getOrderStatus();
+	string getOrderStatus();
 	int getUserID();
 	void printOrder();
+	DoublyLinkedList getOrderItemList();
 };

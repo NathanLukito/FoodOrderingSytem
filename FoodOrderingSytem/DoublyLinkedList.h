@@ -4,7 +4,7 @@
 #include "Order.h"
 using namespace std;
 
-typedef Order ItemType;
+typedef OrderItem ItemType;
 class DoublyLinkedList {
 private:
     struct node
@@ -20,6 +20,8 @@ public:
     void insert(Order data);
     void remove(Order data);
     void print();
+    bool isEmpty();
+    double getTotalPrice();
 
 private:
     struct node* head;
