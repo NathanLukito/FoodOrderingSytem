@@ -8,11 +8,11 @@ using namespace std;
 Order::Order() {};
 Order::~Order() {};
 
-Order::Order(int orderID, string orderStatus, DoublyLinkedList orderItemList, int userID)
+Order::Order(int orderID, string orderStatus, DoublyLinkedList<OrderItem> orderItemList, int userID)
 {
 	int orderID = orderID;
 	string orderStatus = orderStatus;
-	DoublyLinkedList orderItemList = orderItemList;
+	DoublyLinkedList<OrderItem> orderItemList = orderItemList;
 	int userID = userID;
 }
 

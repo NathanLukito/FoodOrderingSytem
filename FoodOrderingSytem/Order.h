@@ -14,7 +14,7 @@ public:
 	int userID;
 	Order();
 	~Order();
-	Order(int orderID, string orderStatus, DoublyLinkedList OrderItemList, int userID);
+	Order(int orderID, string orderStatus, DoublyLinkedList<OrderItem> OrderItemList, int userID);
 	double getTotalPrice();
 	string getOrderStatus();
 	int getUserID();
