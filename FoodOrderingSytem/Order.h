@@ -10,11 +10,12 @@ class Order
 public:
 	int orderID;
 	string orderStatus;
-	DoublyLinkedList<OrderItem> OrderItemList;
+	DoublyLinkedList<OrderItem> orderItemList;
 	int userID;
+
 	Order();
 	~Order();
-	Order(int orderID, string orderStatus, DoublyLinkedList<OrderItem> OrderItemList, int userID);
+	Order(int orderID, string orderStatus, DoublyLinkedList<OrderItem> orderItemList, int userID);
 	double getTotalPrice();
 	string getOrderStatus();
 	int getUserID();

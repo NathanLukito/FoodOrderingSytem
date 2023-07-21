@@ -10,15 +10,15 @@ Order::~Order() {};
 
 Order::Order(int orderID, string orderStatus, DoublyLinkedList<OrderItem> orderItemList, int userID)
 {
-	int orderID = orderID;
-	string orderStatus = orderStatus;
-	DoublyLinkedList<OrderItem> orderItemList = orderItemList;
-	int userID = userID;
+	this->orderID = orderID;
+	this->orderStatus = orderStatus;
+	this->orderItemList = orderItemList;
+	this->userID = userID;
 }
 
 double Order::getTotalPrice()
 {
-	return OrderItemList.getTotalPrice();
+	return this->orderItemList.getTotalPrice();
 }
 
 string Order::getOrderStatus()
@@ -32,12 +32,12 @@ int Order::getUserID()
 }
 void Order::printOrder()
 {
-	if (OrderItemList.isEmpty())
+	if (this->orderItemList.isEmpty())
 	{
 		cout << "Order is empty" << endl;
 	}
 	else
 	{
-		OrderItemList.print();
+		this->orderItemList.print();
 	}
 }

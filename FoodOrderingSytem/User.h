@@ -6,17 +6,17 @@ using namespace std;
 
 class User
 {
-private:
+
+public:
 	int userID;
 	string name;
 	int password;
 	string telPhoneNumber;
-
-public:
 	User();
-	User(string name, int p, string telPhoneNumber);
-	void setName(string n);
-	void setPassword(int p);
+	~User();
+	User(string name, int password, string telPhoneNumber);
+	void setName(string name);
+	void setPassword(int password);
 	string getName();
 	int getPassword();
 };

@@ -9,8 +9,8 @@ OrderItem::~OrderItem() {};
 
 OrderItem::OrderItem(FoodItem foodItem, int quantity)
 {
-	FoodItem foodItem = foodItem;
-	int quantity = quantity;
+	this->foodItem = foodItem;
+	this->quantity = quantity;
 }
 
 double OrderItem::getTotalPrice()

@@ -8,10 +8,10 @@ using namespace std;
 
 class Customer : public User
 {
-private:
-	Order order;
 public:
+	Order order;
+
 	Customer();
 	~Customer();
-	Customer(string name, int password, string telPhoneNumber, DoublyLinkedList orderList);
+	Customer(Order order) : User(name, password, telPhoneNumber) {};
 };
