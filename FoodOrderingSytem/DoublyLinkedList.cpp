@@ -1,122 +1,160 @@
-#include "Order.h"
-#include "DoublyLinkedList.h"
-#include "OrderItem.h"
 #include <iostream>
-#include <string>
-
+#include "DoublyLinkedList.h"
 using namespace std;
 
-template <typename T>
-DoublyLinkedList<T>::DoublyLinkedList() 
-{
-    head = nullptr;
-    tail = nullptr;
+List::List() 
+{ 
+	size = 0;
+	firstNode = nullptr;
 }
 
-template <typename T>
-DoublyLinkedList<T>::~DoublyLinkedList() 
-{
-    while (head != nullptr) {
-        struct node* temp = head;
-        head = head->next;
-        free(temp);
-    }
+List::~List() 
+{ 
+	size = 0;
+	firstNode = nullptr;
 }
 
-template <typename T>
-void DoublyLinkedList<T>::insert(T data) 
+bool List::add(ItemType item)
 {
-    Node<T>* new_node = new Node<T>();
-    new_node->data = data;
-    new_node->prev = nullptr;
-    new_node->next = head;
 
-    if (head != nullptr) {
-        head->prev = new_node;
-    }
+	struct Node* temp = firstNode;
+	struct Node* node1 = new Node;
+	node1->item = item;
+	node1->next = NULL;
 
-    head = new_node;
+	if (isEmpty())
+	{
+		firstNode = node1;
+		size++;
+		return false;
+	}
+	else
+	{
+		while (temp->next != NULL)
+		{
+			temp = temp->next;
+		}
+		temp->next = node1;
+		size++;
+		return true;
+	}
+	temp = NULL;
+	delete temp;
 }
 
-template <typename T>
-void DoublyLinkedList<T>::remove(T data) 
+bool List::add(int index, ItemType item)
 {
-    Node<T>* current = head;
-
-    while (current != nullptr)
-    {
-        if (current->data == data) 
-        {
-            if (current->prev != nullptr)
-            {
-                current->prev->next = current->next;
-            }
-            else 
-            {
-                head = current->next;
-            }
-
-            if (current->next != nullptr)
-            {
-                current->next->prev = current->prev;
-            }
-
-            free(current);
-            return;
-        }
-
-        current = current->next;
-    }
+	struct Node* temp = firstNode;
+	struct Node* node1 = new Node;
+	node1->next = NULL;
+	if (index > size)
+	{
+		cout << "index out of range" << endl;
+		return false;
+	}
+	else if (index != 0)
+	{
+		for (int i = 1; i < index; i++)
+		{
+			if (temp->next != NULL)
+			{
+				temp = temp->next;
+			}
+		}
+		node1->item = item;
+		node1->next = temp->next;
+		size++;
+		return true;
+	}
+	else
+	{
+		node1->item = item;
+		node1->next = temp;
+		firstNode = node1;
+		return true;
+	}
+	temp = NULL;
+	delete temp;
 }
 
-template <typename T>
-void DoublyLinkedList<T>::print() 
+void List::remove(int index)
 {
-    Node<T>* current = head;
-    if (typeid(current).name() == "OrderItem")
-    {
-        while (current != nullptr)
-        {
-            cout << current->data.FoodItem.FoodItemName << " | Quantity: " << current->data.Quantity << " | Price: " << current->data.getTotalPrice() << endl;
-            current = current->next;
-        }
-        cout << endl;
-    }
-    else
-    {
-        while (current != nullptr))
-        {
-            {
-                cout << current->data.name << " | Telephone Number: " << current->data.telPhoneNumber << endl;
-                current = current->next;
-            }
-        }
-        cout << endl;
-    }
+	struct Node* temp = firstNode;
+	if (index > size)
+	{
+		cout << "index out of range" << endl;
+	}
+	else if (index != 0)
+	{
+		for (int i = 1; i < index; i++)
+		{
+			if (temp->next != NULL)
+			{
+				temp = temp->next;
+			}
+		}
+		temp->next = temp->next->next;
+		size--;
+	}
+	else
+	{
+		firstNode = temp->next;
+		size--;
+	}
+	temp = NULL;
+	delete temp;
 }
 
-template <typename T>
-bool DoublyLinkedList<T>::isEmpty() 
+ItemType List::get(int index)
 {
-    if (head->data == nullptr)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+	struct Node* temp = firstNode;
+	if (index > size)
+	{
+		cout << "index out of range" << endl;
+	}
+	else if (index != 0)
+	{
+		for (int i = 1; i < index; i++)
+		{
+			if (temp->next != NULL)
+			{
+				temp = temp->next;
+			}
+		}
+		return temp->item;
+	}
+	else
+	{
+		firstNode = temp->next;
+	}
+	temp = NULL;
+	delete temp;
 }
 
-template <typename T>
-double DoublyLinkedList<T>::getTotalPrice()
+bool List::isEmpty()
 {
-    Node<T>* current = head;
-    double totalPrice = 0;
-    while (current != nullptr)
-    {
-        totalPrice += current->data.getTotalPrice();
-        current = current->next;
-    }
-    return totalPrice;
+	if (size == 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
+
+int List::getLength() { return size; }
+
+void List::print()
+{
+	struct Node* temp = firstNode;
+	while (temp != NULL)
+	{
+		cout << temp->item.name << endl;
+		temp = temp->next;
+	}
+	temp = NULL;
+	delete temp;
+}
+
+

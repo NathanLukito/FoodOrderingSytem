@@ -11,7 +11,7 @@ using namespace std;
 Customer::Customer() {};
 Customer::~Customer() {};
 
-Customer::Customer(Order order) : User(name, password, telPhoneNumber)
+Customer::Customer(string name, int password, string telPhoneNumber, Order order) : User(name, password, telPhoneNumber)
 {
 	this->name = name;
 	this->password = password;

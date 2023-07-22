@@ -1,31 +1,46 @@
 #pragma once
 #include<string>
 #include<iostream>
-#include "Order.h"
+#include"User.h"
 using namespace std;
 
-template <typename T>
-T data;
-struct Node
-{
-    struct Node* prev;
-    struct Node* next;
-};
+typedef User ItemType;
 
-template <typename T>
-class DoublyLinkedList 
+class List
 {
 public:
-    DoublyLinkedList();
-    ~DoublyLinkedList();
+	struct Node
+	{
+		ItemType item;	// item
+		Node* next;	// pointer pointing to next item
+	};
+	Node* firstNode = nullptr;	// point to the first item
+	int  size;		// number of items in the list
+	// constructor
+	List();
 
-    void insert(T data);
-    void remove(T data);
-    void print();
-    bool isEmpty();
-    double getTotalPrice();
+	// destructor
+	~List();
 
-private:
-    Node<T>* head;
-    Node<T>* tail;
+	// add an item to the back of the list (append)
+	bool add(ItemType item);
+
+	// add an item at a specified position in the list (insert)
+	bool add(int index, ItemType item);
+
+	// remove an item at a specified position in the list
+	void remove(int index);
+
+	// get an item at a specified position of the list (retrieve)
+	ItemType get(int index);
+
+	// check if the list is empty
+	bool isEmpty();
+
+	// check the size of the list
+	int getLength();
+
+	// display all the items in the list
+	void print();
 };
+

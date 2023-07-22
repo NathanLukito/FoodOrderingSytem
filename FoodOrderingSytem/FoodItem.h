@@ -11,5 +11,6 @@ public:
 	string description;
 	double price;
 	FoodItem();
-	FoodItem(int foodItemID, string foodItemName, string description, double price);
+	~FoodItem();
+	FoodItem(string foodItemName, string description, double price);
 };

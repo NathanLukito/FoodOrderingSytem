@@ -1,5 +1,6 @@
 #include "Dictionary.h"
 #include "Customer.h"
+#include "DoublyLinkedList.h"
 #include <iostream>
 using namespace std;
 
@@ -19,7 +20,6 @@ Dictionary::~Dictionary()
         {
             KeyValuePair* temp = table[i];
             table[i] = table[i]->next;
-            delete temp;
         }
     }
 }
@@ -31,35 +31,51 @@ int Dictionary::hashFunction(string key)
     {
         hash = 256 * hash + letter;
     }
-    return hash;
+    return hash%100;
 }
 
 int Dictionary::checkUnique(string key)
 {
     for (int i = 0; i < SIZE; i++)
     {
-        if (table[i]->key == hashFunction(key))
+        if (table[i] != NULL)
         {
-            return false;
+            if (table[i]->key == hashFunction(key))
+            {
+                return false;
+            }
         }
     }
     return true;
 }
 
-void Dictionary::insert(string key, Customer value)
+void Dictionary::insert(string key, User value)
 {
     int index = hashFunction(key);
     if (checkUnique(key))
     {
-        DoublyLinkedList<Customer>* CustomerList = new DoublyLinkedList<Customer>;
-        CustomerList->insert(value);
-        table[index] = new KeyValuePair;
-        table[index]->key = index;
-        table[index]->value = CustomerList;
-        table[index]->next = nullptr;
+        List* CustomerList = new List();
+        ItemType item;
+        KeyValuePair* keyValuePair = new KeyValuePair();
+        CustomerList->add(value);
+        keyValuePair->key = index;
+        keyValuePair->value = CustomerList;
+        keyValuePair->next = nullptr;
+        table[index] = keyValuePair;
     }
     else
     {
-        table[index]->value->insert(value);
+        table[index]->value->add(value);
+    }
+}
+
+void Dictionary::print()
+{
+    for (int i = 0; i < SIZE; i++)
+    {
+        if (table[i] != NULL)
+        {
+            table[i]->value->print();
+        }
     }
 }

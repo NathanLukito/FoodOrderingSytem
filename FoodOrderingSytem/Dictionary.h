@@ -1,12 +1,10 @@
 #pragma once
 #include <iostream>>
 #include <string>
-#include "Customer.h"
+#include "User.h"
 #include "DoublyLinkedList.h"
-#define SIZE 5
+#define SIZE 100
 using namespace std;
-
-typedef DoublyLinkedList<Customer>* ItemType;
 
 class Dictionary 
 {
@@ -14,7 +12,7 @@ private:
 	struct KeyValuePair
 	{
 		int key;
-		ItemType value;
+		List* value;
 		KeyValuePair* next;
 	};
 	KeyValuePair* table[SIZE];
@@ -23,6 +21,7 @@ public:
 	~Dictionary();
 	int hashFunction(string key);
 	int checkUnique(string key);
-	void insert(string key, Customer value);
+	void insert(string key, User value);
+	void print();
 };
 

@@ -2,13 +2,14 @@
 #include "Order.h"
 #include "OrderItem.h"
 #include<string>
+#include<list>
 #include<iostream>
 using namespace std;
 
 Order::Order() {};
 Order::~Order() {};
 
-Order::Order(int orderID, string orderStatus, DoublyLinkedList<OrderItem> orderItemList, int userID)
+Order::Order(int orderID, string orderStatus, list<OrderItem> orderItemList, int userID)
 {
 	this->orderID = orderID;
 	this->orderStatus = orderStatus;
@@ -18,7 +19,12 @@ Order::Order(int orderID, string orderStatus, DoublyLinkedList<OrderItem> orderI
 
 double Order::getTotalPrice()
 {
-	return this->orderItemList.getTotalPrice();
+	double TotalPrice = 0;
+	for(auto i : this->orderItemList)
+	{
+		TotalPrice += i.getTotalPrice();
+	}
+	return TotalPrice;
 }
 
 string Order::getOrderStatus()
@@ -32,12 +38,15 @@ int Order::getUserID()
 }
 void Order::printOrder()
 {
-	if (this->orderItemList.isEmpty())
+	if (this->orderItemList.empty())
 	{
 		cout << "Order is empty" << endl;
 	}
 	else
 	{
-		this->orderItemList.print();
+		for (OrderItem i : this->orderItemList)
+		{
+			cout << i.foodItem.foodItemName << " x" << i.quantity << " : $" << getTotalPrice()<< endl;
+		}
 	}
 }

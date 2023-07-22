@@ -6,9 +6,6 @@ using namespace std;
 Queue::Queue() {};
 Queue::~Queue() {};
 
-struct Node* frontNode;
-struct Node* backNode;
-
 void Queue::enqueue(ItemType item)
 {
 	struct Node* node = new Node;
@@ -70,10 +67,10 @@ void Queue::displayItems()
 	struct Node* temp = frontNode;
 	while (temp != backNode)
 	{
-		cout << temp->item.getName() << endl;
+		cout << temp->item.userID << endl;
 		temp = temp->next;
 	}
-	cout << temp->item.getName() << endl;
+	cout << temp->item.userID << endl;
 	temp = NULL;
 	delete temp;
 }

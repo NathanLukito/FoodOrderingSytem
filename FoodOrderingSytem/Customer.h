@@ -10,8 +10,7 @@ class Customer : public User
 {
 public:
 	Order order;
-
 	Customer();
 	~Customer();
-	Customer(Order order) : User(name, password, telPhoneNumber) {};
+	Customer(string name, int password, string telPhoneNumber, Order order);
 };
