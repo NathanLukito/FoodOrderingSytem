@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Customer.h"
 #include "Dictionary.h"
+#include "DoublyLinkedList.h"
+#include "Restaurant.h"
 using namespace std;
 
 
