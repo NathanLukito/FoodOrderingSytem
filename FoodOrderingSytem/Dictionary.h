@@ -23,6 +23,6 @@ public:
 	int checkUnique(string key);
 	void insert(string key, User value);
 	void print();
-	User findUser(string key, int password);
+	User* findUser(string key, int password);
 };
 

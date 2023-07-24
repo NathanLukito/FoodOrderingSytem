@@ -80,12 +80,14 @@ void Dictionary::print()
     }
 }
 
-User Dictionary::findUser(string key, int password)
+User* Dictionary::findUser(string key, int password)
 {
     if (checkUnique(key) == false)
     {
         return table[hashFunction(key)]->value->getUser(password);
     }
     cout << "User cannot be found" << endl;
-    return User();
+
+    User* user = new User();
+    return user;
 }

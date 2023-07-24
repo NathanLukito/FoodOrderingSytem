@@ -157,7 +157,7 @@ void List::print()
 	delete temp;
 }
 
-ItemType List::getUser(int password)
+ItemType* List::getUser(int password)
 {
 	struct Node* temp = firstNode;
 
@@ -165,11 +165,12 @@ ItemType List::getUser(int password)
 	{
 		if (temp->item.password == password)
 		{
-			return temp->item;
+			return &temp->item;
 		}
 		temp = temp->next;
 	}
-	return User();
+	User* user = new User();
+	return user;
 }
 
 

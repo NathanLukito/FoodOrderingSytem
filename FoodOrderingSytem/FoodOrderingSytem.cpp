@@ -1,20 +1,21 @@
 #include <iostream>
 #include "Customer.h"
 #include "Dictionary.h"
+#include <typeinfo>
 using namespace std;
 
 Dictionary Users = Dictionary();
 
 void init_Data()
 {
-    Users.insert("Nathan", Customer("Nathan", 60398455, "56347891", Order()));
+    Users.insert("Nathan", Customer("Nathan", 12345678, "56347891", Order()));
     Users.insert("Marcello", Customer("Marcello", 22375453, "56335863", Order()));
     Users.insert("Fionntan", Customer("Fionntan", 57890457, "50577898", Order()));
     Users.insert("Julia", Customer("Julia", 20396008, "56245395", Order()));
     Users.insert("Lucian", Customer("Lucian", 80398454, "45689297", Order()));
 }
 
-User loginAccount()
+User* loginAccount()
 {
     cout << "Enter your name: " << endl;
     string Name;
@@ -50,7 +51,7 @@ int printMenu()
     return option;
 }
 
-int printAccountMenu()
+int printCustomerMenu()
 {
     cout << "1) Browse Restaurants" << endl;
     cout << "2) Track Current Order" << endl;
@@ -68,25 +69,34 @@ void main()
         int option = printMenu();
         if (option == 1)
         {
-            User user = loginAccount();
-            int accountOption = printAccountMenu();
-            if (accountOption == 1)
-            {
-                exit(0);
-            }
-            else if (accountOption == 2)
-            {
-                cout << "Order" << endl;
-            }
-            else if (accountOption == 3)
-            {
-                cout << "Logged Out" << endl;
+            User* user = loginAccount();
+            cout << typeid(user).name() << endl;
+            Customer* customer = dynamic_cast<Customer*>(user);
+            if (typeid(customer) == typeid(Customer*))
+            { 
+                customer->order.printOrder();
+                int accountOption = printCustomerMenu();
+                if (accountOption == 1)
+                {
+                    exit(0);
+                }
+                else if (accountOption == 2)
+                {
+                    customer->order.printOrder();
+                }
+                else if (accountOption == 3)
+                {
+                    cout << "Logged Out" << endl;
+                }
+                else
+                {
+                    cout << "Enter a valid option" << endl;
+                }
             }
             else
             {
-                cout << "Enter a valid option" << endl;
+                cout << "Admin" << endl;
             }
-
         }
         else if (option == 2)
         {

@@ -12,11 +12,11 @@ User::User(string name, int p, string telPhoneNumber)
 	this->telPhoneNumber = telPhoneNumber;
 }
 
-void setName(string name)
+void User::setName(string name)
 {
-	name = name;
+	this->name = name;
 }
-void setPassword(int password)
+void User::setPassword(int password)
 {
-	password = password;
+	this->password = password;
 }

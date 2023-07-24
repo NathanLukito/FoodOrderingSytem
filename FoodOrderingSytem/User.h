@@ -15,8 +15,8 @@ public:
 	User();
 	~User();
 	User(string name, int password, string telPhoneNumber);
-	void setName(string name);
-	void setPassword(int password);
 	string getName();
+	virtual void setName(string name);
+	virtual void setPassword(int password);
 	int getPassword();
 };

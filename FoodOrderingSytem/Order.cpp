@@ -38,7 +38,7 @@ int Order::getUserID()
 }
 void Order::printOrder()
 {
-	if (this->orderItemList.empty())
+	if (orderItemList.empty())
 	{
 		cout << "Order is empty" << endl;
 	}

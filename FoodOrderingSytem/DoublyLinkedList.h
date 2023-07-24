@@ -43,6 +43,6 @@ public:
 	// display all the items in the list
 	void print();
 
-	ItemType getUser(int password);
+	ItemType* getUser(int password);
 };
 
