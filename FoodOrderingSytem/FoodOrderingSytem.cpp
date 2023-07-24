@@ -3,21 +3,103 @@
 #include "Dictionary.h"
 using namespace std;
 
+Dictionary Users = Dictionary();
 
-Dictionary init_Data()
+void init_Data()
 {
-    Dictionary Users = Dictionary();
-    Users.insert("Nathan", Customer(string("Nathan"), 60398455, string("56347891"), Order()));
-    Users.insert("Marcello", Customer(string("Marcello"), 22375453, string("56335863"), Order()));
-    Users.insert("Fionntan", Customer(string("Fionntan"), 57890457, string("50577898"), Order()));
-    Users.insert("Julia", Customer(string("Julia"), 20396008, string("56245395"), Order()));
-    Users.insert("Lucian", Customer(string("Lucian"), 80398454, string("45689297"), Order()));
-    return Users;
+    Users.insert("Nathan", Customer("Nathan", 60398455, "56347891", Order()));
+    Users.insert("Marcello", Customer("Marcello", 22375453, "56335863", Order()));
+    Users.insert("Fionntan", Customer("Fionntan", 57890457, "50577898", Order()));
+    Users.insert("Julia", Customer("Julia", 20396008, "56245395", Order()));
+    Users.insert("Lucian", Customer("Lucian", 80398454, "45689297", Order()));
 }
 
-int main()
+User loginAccount()
 {
-    Dictionary Users = init_Data();
-    Users.print();
-    return 0;
+    cout << "Enter your name: " << endl;
+    string Name;
+    cin >> Name;
+    cout << "Enter a password: " << endl;
+    int Password;
+    cin >> Password;
+    return Users.findUser(Name, Password);
+}
+
+void createAccount()
+{
+    cout << "Enter your name: " << endl;
+    string Name;
+    cin >> Name;
+    cout << "Enter a password: " << endl;
+    int Password;
+    cin >> Password;
+    cout << "Enter your phone number: " << endl;
+    string telPhoneNum;
+    cin >> telPhoneNum;
+
+    Users.insert(Name, Customer(Name, Password, telPhoneNum, Order()));
+}
+
+int printMenu()
+{
+    cout << "1) Login" << endl;
+    cout << "2) Register" << endl;
+    cout << "3) Exit" << endl;
+    int option;
+    cin >> option;
+    return option;
+}
+
+int printAccountMenu()
+{
+    cout << "1) Browse Restaurants" << endl;
+    cout << "2) Track Current Order" << endl;
+    cout << "3) Logout" << endl;
+    int accountOption;
+    cin >> accountOption;
+    return accountOption;
+}
+
+void main()
+{
+    init_Data();
+    while (true)
+    {
+        int option = printMenu();
+        if (option == 1)
+        {
+            User user = loginAccount();
+            int accountOption = printAccountMenu();
+            if (accountOption == 1)
+            {
+                exit(0);
+            }
+            else if (accountOption == 2)
+            {
+                cout << "Order" << endl;
+            }
+            else if (accountOption == 3)
+            {
+                cout << "Logged Out" << endl;
+            }
+            else
+            {
+                cout << "Enter a valid option" << endl;
+            }
+
+        }
+        else if (option == 2)
+        {
+            createAccount();
+        }
+        else if (option == 3)
+        {
+            cout << "Exiting Program" << endl;
+            exit(0);
+        }
+        else
+        {
+            cout << "Enter a valid option" << endl;
+        }
+    }
 }

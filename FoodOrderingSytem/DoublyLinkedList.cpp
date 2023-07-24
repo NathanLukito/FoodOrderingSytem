@@ -157,4 +157,19 @@ void List::print()
 	delete temp;
 }
 
+ItemType List::getUser(int password)
+{
+	struct Node* temp = firstNode;
+
+	while (temp != nullptr)
+	{
+		if (temp->item.password == password)
+		{
+			return temp->item;
+		}
+		temp = temp->next;
+	}
+	return User();
+}
+
 
