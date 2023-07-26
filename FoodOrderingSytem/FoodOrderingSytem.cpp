@@ -20,9 +20,13 @@ Customer* loginAccount()
     cout << "Enter your name: " << endl;
     string Name;
     cin >> Name;
+    cin.clear();
+    cin.ignore(10000, '\n');
     cout << "Enter a password: " << endl;
     int Password;
     cin >> Password;
+    cin.clear();
+    cin.ignore(10000, '\n');
     return Customers.findCustomer(Name, Password);
 }
 
@@ -31,34 +35,57 @@ void createAccount()
     cout << "Enter your name: " << endl;
     string Name;
     cin >> Name;
+    cin.clear();
+    cin.ignore(10000, '\n');
     cout << "Enter a password: " << endl;
     int Password;
     cin >> Password;
     cout << "Enter your phone number: " << endl;
     string telPhoneNum;
     cin >> telPhoneNum;
-
+    cin.clear();
+    cin.ignore(10000, '\n');
     Customers.insert(Name, Customer(Name, Password, telPhoneNum, Order()));
 }
 
-int printMenu()
+string printMenu()
 {
-    cout << "1) Login" << endl;
-    cout << "2) Register" << endl;
-    cout << "3) Exit" << endl;
-    int option;
+    cout << "1) Login\n2) Register\n3) Exit" << endl;
+    string option;
     cin >> option;
+    cin.clear();
+    cin.ignore(10000, '\n');
     return option;
 }
 
-int printCustomerMenu()
+int printCustomerMenu(Customer* customer)
 {
-    cout << "1) Browse Restaurants" << endl;
-    cout << "2) Track Current Order" << endl;
-    cout << "3) Logout" << endl;
-    int accountOption;
-    cin >> accountOption;
-    return accountOption;
+    while (true)
+    {
+        cout << "1) Browse Restaurants\n2) View Order\n3) Logout" << endl;;
+        string accountOption;
+        cin >> accountOption;
+        cin.clear();
+        cin.ignore(10000, '\n');
+        if (accountOption == "1")
+        {
+            return 0;
+        }
+        else if (accountOption == "2")
+        {
+            customer->order.printOrder();
+        }
+        else if (accountOption == "3")
+        {
+            cout << "Logged Out" << endl;
+            return 0;
+        }
+        else
+        {
+            cout << "Enter a valid option" << endl;
+        }
+    }
+    return 0;
 }
 
 void main()
@@ -66,33 +93,26 @@ void main()
     init_Data();
     while (true)
     {
-        int option = printMenu();
-        if (option == 1)
+        string option = printMenu();
+
+        if (option == "1")
         {
             Customer* customer = loginAccount();
-            int accountOption = printCustomerMenu();
-            if (accountOption == 1)
+            if (customer->name == "")
             {
-                exit(0);
-            }
-            else if (accountOption == 2)
-            {
-                customer->order.printOrder();
-            }
-            else if (accountOption == 3)
-            {
-                cout << "Logged Out" << endl;
+                cout << "User cannot be found" << endl;
             }
             else
             {
-                cout << "Enter a valid option" << endl;
-            }  
+                int accountOption = printCustomerMenu(customer);
+            }
+            
         }
-        else if (option == 2)
+        else if (option == "2")
         {
             createAccount();
         }
-        else if (option == 3)
+        else if (option == "3")
         {
             cout << "Exiting Program" << endl;
             exit(0);

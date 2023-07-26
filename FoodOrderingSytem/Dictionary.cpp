@@ -86,8 +86,6 @@ Customer* Dictionary::findCustomer(string key, int password)
     {
         return table[hashFunction(key)]->value->getCustomer(password);
     }
-    cout << "User cannot be found" << endl;
-
     Customer* customer = new Customer();
     return customer;
 }
