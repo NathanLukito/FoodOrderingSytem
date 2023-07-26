@@ -1,10 +1,10 @@
 #pragma once
 #include<string>
 #include<iostream>
-#include"User.h"
+#include"Customer.h"
 using namespace std;
 
-typedef User ItemType;
+typedef Customer ItemType;
 
 class List
 {
@@ -43,6 +43,6 @@ public:
 	// display all the items in the list
 	void print();
 
-	ItemType* getUser(int password);
+	ItemType* getCustomer(int password);
 };
 

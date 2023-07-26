@@ -49,7 +49,7 @@ int Dictionary::checkUnique(string key)
     return true;
 }
 
-void Dictionary::insert(string key, User value)
+void Dictionary::insert(string key, Customer value)
 {
     int index = hashFunction(key);
     if (checkUnique(key))
@@ -80,14 +80,14 @@ void Dictionary::print()
     }
 }
 
-User* Dictionary::findUser(string key, int password)
+Customer* Dictionary::findCustomer(string key, int password)
 {
     if (checkUnique(key) == false)
     {
-        return table[hashFunction(key)]->value->getUser(password);
+        return table[hashFunction(key)]->value->getCustomer(password);
     }
     cout << "User cannot be found" << endl;
 
-    User* user = new User();
-    return user;
+    Customer* customer = new Customer();
+    return customer;
 }

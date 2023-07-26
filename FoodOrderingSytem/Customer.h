@@ -1,14 +1,15 @@
 #pragma once
-#include "User.h"
 #include "Order.h"
-#include "DoublyLinkedList.h"
 #include<string>
 #include<iostream>
 using namespace std;
 
-class Customer : public User
+class Customer
 {
 public:
+	string name;
+	int password;
+	string telPhoneNumber;
 	Order order;
 	Customer();
 	~Customer();

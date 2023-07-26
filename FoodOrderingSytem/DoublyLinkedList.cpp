@@ -157,7 +157,7 @@ void List::print()
 	delete temp;
 }
 
-ItemType* List::getUser(int password)
+ItemType* List::getCustomer(int password)
 {
 	struct Node* temp = firstNode;
 
@@ -169,8 +169,8 @@ ItemType* List::getUser(int password)
 		}
 		temp = temp->next;
 	}
-	User* user = new User();
-	return user;
+	Customer* customer = new Customer();
+	return customer;
 }
 
 

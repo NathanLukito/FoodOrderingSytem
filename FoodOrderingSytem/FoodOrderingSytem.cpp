@@ -4,18 +4,18 @@
 #include <typeinfo>
 using namespace std;
 
-Dictionary Users = Dictionary();
+Dictionary Customers = Dictionary();
 
 void init_Data()
 {
-    Users.insert("Nathan", Customer("Nathan", 12345678, "56347891", Order()));
-    Users.insert("Marcello", Customer("Marcello", 22375453, "56335863", Order()));
-    Users.insert("Fionntan", Customer("Fionntan", 57890457, "50577898", Order()));
-    Users.insert("Julia", Customer("Julia", 20396008, "56245395", Order()));
-    Users.insert("Lucian", Customer("Lucian", 80398454, "45689297", Order()));
+    Customers.insert("Nathan", Customer("Nathan", 12345678, "56347891", Order()));
+    Customers.insert("Marcello", Customer("Marcello", 22375453, "56335863", Order()));
+    Customers.insert("Fionntan", Customer("Fionntan", 57890457, "50577898", Order()));
+    Customers.insert("Julia", Customer("Julia", 20396008, "56245395", Order()));
+    Customers.insert("Lucian", Customer("Lucian", 80398454, "45689297", Order()));
 }
 
-User* loginAccount()
+Customer* loginAccount()
 {
     cout << "Enter your name: " << endl;
     string Name;
@@ -23,7 +23,7 @@ User* loginAccount()
     cout << "Enter a password: " << endl;
     int Password;
     cin >> Password;
-    return Users.findUser(Name, Password);
+    return Customers.findCustomer(Name, Password);
 }
 
 void createAccount()
@@ -38,7 +38,7 @@ void createAccount()
     string telPhoneNum;
     cin >> telPhoneNum;
 
-    Users.insert(Name, Customer(Name, Password, telPhoneNum, Order()));
+    Customers.insert(Name, Customer(Name, Password, telPhoneNum, Order()));
 }
 
 int printMenu()
@@ -69,34 +69,24 @@ void main()
         int option = printMenu();
         if (option == 1)
         {
-            User* user = loginAccount();
-            cout << typeid(user).name() << endl;
-            Customer* customer = dynamic_cast<Customer*>(user);
-            if (typeid(customer) == typeid(Customer*))
-            { 
+            Customer* customer = loginAccount();
+            int accountOption = printCustomerMenu();
+            if (accountOption == 1)
+            {
+                exit(0);
+            }
+            else if (accountOption == 2)
+            {
                 customer->order.printOrder();
-                int accountOption = printCustomerMenu();
-                if (accountOption == 1)
-                {
-                    exit(0);
-                }
-                else if (accountOption == 2)
-                {
-                    customer->order.printOrder();
-                }
-                else if (accountOption == 3)
-                {
-                    cout << "Logged Out" << endl;
-                }
-                else
-                {
-                    cout << "Enter a valid option" << endl;
-                }
+            }
+            else if (accountOption == 3)
+            {
+                cout << "Logged Out" << endl;
             }
             else
             {
-                cout << "Admin" << endl;
-            }
+                cout << "Enter a valid option" << endl;
+            }  
         }
         else if (option == 2)
         {

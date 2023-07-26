@@ -2,6 +2,7 @@
 
 #include<string>
 #include<iostream>
+#include "Order.h"
 using namespace std;
 
 class User
@@ -12,6 +13,7 @@ public:
 	string name;
 	int password;
 	string telPhoneNumber;
+	Order order;
 	User();
 	~User();
 	User(string name, int password, string telPhoneNumber);

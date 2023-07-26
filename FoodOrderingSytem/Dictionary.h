@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>>
 #include <string>
-#include "User.h"
+#include "Customer.h"
 #include "DoublyLinkedList.h"
 #define SIZE 100
 using namespace std;
@@ -21,8 +21,8 @@ public:
 	~Dictionary();
 	int hashFunction(string key);
 	int checkUnique(string key);
-	void insert(string key, User value);
+	void insert(string key, Customer value);
 	void print();
-	User* findUser(string key, int password);
+	Customer* findCustomer(string key, int password);
 };
 
