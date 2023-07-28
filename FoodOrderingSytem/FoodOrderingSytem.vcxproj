@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Admin.cpp" />
     <ClCompile Include="Customer.cpp" />
     <ClCompile Include="Dictionary.cpp" />
     <ClCompile Include="DoublyLinkedList.cpp" />
@@ -135,9 +136,11 @@
     <ClCompile Include="Order.cpp" />
     <ClCompile Include="OrderItem.cpp" />
     <ClCompile Include="Queue.cpp" />
+    <ClCompile Include="Restaurant.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Admin.h" />
     <ClInclude Include="Customer.h" />
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="DoublyLinkedList.h" />
@@ -145,6 +148,7 @@
     <ClInclude Include="Order.h" />
     <ClInclude Include="OrderItem.h" />
     <ClInclude Include="Queue.h" />
+    <ClInclude Include="Restaurant.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
