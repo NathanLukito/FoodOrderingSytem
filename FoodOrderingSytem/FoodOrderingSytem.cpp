@@ -112,16 +112,7 @@ int printCustomerMenu(Customer* customer)
 void main()
 {
     init_Data();
-    string targetName = "McDonalds";
-    Restaurant* foundRestaurant = Restaurants.findRestaurantByName(targetName);
-    if (foundRestaurant != nullptr) {
-        cout << "Restaurant found: " << foundRestaurant->restaurantName << "\n";
-        // Do something with the found restaurant
-    }
-    else {
-        cout << "Restaurant not found.\n";
-    }
-    /*while (true)
+    while (true)
     {
         string option = printMenu();
 
@@ -151,5 +142,5 @@ void main()
         {
             cout << "Enter a valid option" << endl;
         }
-    }*/
+    }
 }
