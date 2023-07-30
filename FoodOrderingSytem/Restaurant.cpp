@@ -10,10 +10,26 @@ using namespace std;
 Restaurant::Restaurant() {};
 Restaurant::~Restaurant() {};
 
-Restaurant::Restaurant(int restaurantID, string restaurantName, list<FoodItem> foodItemList, string description, list<Order> foodOrderList) {
-	this->restaurantID = restaurantID;
+Restaurant::Restaurant(string restaurantName, string description) {
 	this->restaurantName = restaurantName;
-	this->foodItemList = foodItemList;
 	this->description = description;
-	this->foodOrderList = foodOrderList;
+}
+
+void Restaurant::addFoodItem(string itemName, string description, double price) {
+	FoodItem item;
+	item.foodItemName = itemName;
+	item.description = description;
+	item.price = price;
+	foodItem.push_back(item);
+}
+
+void Restaurant::displayMenu() {
+	cout << "Menu for " << restaurantName << ":\n";
+	for (const auto& item : foodItem) {
+		cout << item.foodItemName << " - $" << item.price << "\n" << item.description << "\n";
+	}
+}
+
+void Restaurant::addOrder(const Order& order) {
+	foodOrder.push_back(order);
 }

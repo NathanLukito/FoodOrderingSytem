@@ -6,7 +6,6 @@ using namespace std;
 class FoodItem
 {	
 public:
-	int foodItemID;
 	string foodItemName;
 	string description;
 	double price;

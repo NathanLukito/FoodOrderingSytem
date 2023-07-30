@@ -5,18 +5,22 @@
 #include "FoodItem.h"
 #include "Order.h"
 #include <list>
+#ifndef RESTAURANT_H
+#define RESTAURANT_H
 using namespace std;
 
 class Restaurant {
 public:
-	int restaurantID;
 	string restaurantName;
-	list<FoodItem> foodItemList;
+	list<FoodItem> foodItem;
 	string description;
-	list<Order> foodOrderList;
+	list<Order> foodOrder;
 
 	Restaurant();
 	~Restaurant();
-	Restaurant(int restaurantID, string restaurantName, list<FoodItem> foodItemList, string description, list<Order> foodOrderList);
-
+	Restaurant(string restaurantName, string description);
+	void addFoodItem(string itemName, string description, double price);
+	void displayMenu();
+	void addOrder(const Order& order);
 };
+#endif // RESTAURANT_H
