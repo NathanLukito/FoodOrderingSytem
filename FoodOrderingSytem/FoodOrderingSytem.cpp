@@ -13,12 +13,6 @@ LinkedList Restaurants;
 
 void init_Data()
 {
-    Customers.insert("Nathan", Customer("Nathan", 12345678, "56347891", Order()));
-    Customers.insert("Marcello", Customer("Marcello", 22375453, "56335863", Order()));
-    Customers.insert("Fionntan", Customer("Fionntan", 57890457, "50577898", Order()));
-    Customers.insert("Julia", Customer("Julia", 20396008, "56245395", Order()));
-    Customers.insert("Lucian", Customer("Lucian", 80398454, "45689297", Order()));
-
     Restaurant Restaurant1("McDonalds", "Number 1 fast-food restaurant");
     Restaurant1.addFoodItem("McSpicy", "Spiciest burger", 7.90);
     Restaurant1.addFoodItem("Filet-o-fish", "Fishy burger", 5.60);
@@ -34,6 +28,7 @@ void init_Data()
     Restaurant3.addFoodItem("Crispy chicken cube", "Chicken", 8.00);
     Restaurant3.addFoodItem("Crispy Chicken cutlet", "Rice with chicken cutlet", 10.40);
     Restaurants.addRestaurant(Restaurant3);
+
     Customers.insert("Nathan", Customer("Nathan", 12345678, "56347891", Order("0", list<OrderItem>{}, "Nathan")));
     Customers.insert("Marcello", Customer("Marcello", 22375453, "56335863", Order("0", list<OrderItem>{}, "Marcello")));
     Customers.insert("Fionntan", Customer("Fionntan", 57890457, "50577898", Order("0", list<OrderItem>{}, "Fionntan")));
