@@ -5,14 +5,35 @@
 using namespace std;
 
 Dictionary Customers = Dictionary();
-
 void init_Data()
 {
-    Customers.insert("Nathan", Customer("Nathan", 12345678, "56347891", Order()));
-    Customers.insert("Marcello", Customer("Marcello", 22375453, "56335863", Order()));
-    Customers.insert("Fionntan", Customer("Fionntan", 57890457, "50577898", Order()));
-    Customers.insert("Julia", Customer("Julia", 20396008, "56245395", Order()));
-    Customers.insert("Lucian", Customer("Lucian", 80398454, "45689297", Order()));
+    Customers.insert("Nathan", Customer("Nathan", 12345678, "56347891", Order("0", list<OrderItem>{}, "Nathan")));
+    Customers.insert("Marcello", Customer("Marcello", 22375453, "56335863", Order("0", list<OrderItem>{}, "Marcello")));
+    Customers.insert("Fionntan", Customer("Fionntan", 57890457, "50577898", Order("0", list<OrderItem>{}, "Fionntan")));
+    Customers.insert("Julia", Customer("Julia", 20396008, "56245395", Order("0", list<OrderItem>{}, "Julia")));
+    Customers.insert("Lucian", Customer("Lucian", 80398454, "45689297", Order("0", list<OrderItem>{}, "Lucian")));
+}
+
+string* splitString(string str)
+{
+    string arr[2] = {};
+    int count = 0;
+    for (int i = 0; i > str.size();i++)
+    {
+        if (!isspace(str[i]))
+        {
+            if (str[i] != (char)",")
+            {
+                arr[count] = arr[count] + str[i];
+            }
+            else
+            {
+                count++;
+            }
+            
+        }
+    }
+    return arr;
 }
 
 Customer* loginAccount()
@@ -48,7 +69,7 @@ void createAccount()
     Customers.insert(Name, Customer(Name, Password, telPhoneNum, Order()));
 }
 
-string printMenu()
+string printMainMenu()
 {
     cout << "1) Login\n2) Register\n3) Exit" << endl;
     string option;
@@ -58,7 +79,7 @@ string printMenu()
     return option;
 }
 
-int printCustomerMenu(Customer* customer)
+int customerMenu(Customer* customer)
 {
     while (true)
     {
@@ -74,6 +95,7 @@ int printCustomerMenu(Customer* customer)
         else if (accountOption == "2")
         {
             customer->order.printOrder();
+            orderMenu(customer);
         }
         else if (accountOption == "3")
         {
@@ -88,12 +110,68 @@ int printCustomerMenu(Customer* customer)
     return 0;
 }
 
+void orderMenu(Customer* customer)
+{
+    while (true)
+    {
+        if (customer->order.orderStatus == "0" || customer->order.orderStatus == "1" || customer->order.orderStatus == "2")
+        {
+            cout << "1) Go back\n2) Remove Items\n3) Cancel Order" << endl;
+            string orderOption;
+            cin >> orderOption;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            if (orderOption == "1")
+            {
+                return;
+            }
+            else if (orderOption == "2")
+            {
+                removeItemMenu(customer);
+            }
+            else if (orderOption == "3")
+            {
+                //Empty out order, reset orderStatus to 0
+                customer->order.orderItemList = {};
+                customer->order.orderStatus = "0";
+                cout << "Order Cancelled" << endl;
+            }
+        }
+        else
+        {
+            return;
+        }
+    }
+}
+
+void removeItemMenu(Customer* customer)
+{
+    while (true)
+    {
+        customer->order.printOrder();
+        cout << "Type the name of the item then the quantity you want removed e.g. Chicken, 2" << endl;
+        string Item;
+        getline(cin, Item);
+        cin.clear();
+        cin.ignore(10000, '\n');
+
+        string input[2];
+        for (int i = 0; i < 2; i++)
+        {
+            input[i] = splitString(Item)[i];
+        }
+        customer->order.remove(input[0], stoi(input[1]));
+    }
+}
+
+
+
 void main()
 {
     init_Data();
     while (true)
     {
-        string option = printMenu();
+        string option = printMainMenu();
 
         if (option == "1")
         {
@@ -104,7 +182,7 @@ void main()
             }
             else
             {
-                int accountOption = printCustomerMenu(customer);
+                int accountOption = customerMenu(customer);
             }
             
         }

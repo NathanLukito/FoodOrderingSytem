@@ -67,10 +67,10 @@ void Queue::displayItems()
 	struct Node* temp = frontNode;
 	while (temp != backNode)
 	{
-		cout << temp->item.userID << endl;
+		cout << temp->item.customerName << endl;
 		temp = temp->next;
 	}
-	cout << temp->item.userID << endl;
+	cout << temp->item.customerName << endl;
 	temp = NULL;
 	delete temp;
 }

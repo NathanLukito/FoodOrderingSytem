@@ -9,12 +9,11 @@ using namespace std;
 Order::Order() {};
 Order::~Order() {};
 
-Order::Order(int orderID, string orderStatus, list<OrderItem> orderItemList, int userID)
+Order::Order(string orderStatus, list<OrderItem> orderItemList, string customerName)
 {
-	this->orderID = orderID;
 	this->orderStatus = orderStatus;
 	this->orderItemList = orderItemList;
-	this->userID = userID;
+	this->customerName = customerName;
 }
 
 double Order::getTotalPrice()
@@ -32,10 +31,6 @@ string Order::getOrderStatus()
 	return orderStatus;
 }
 
-int Order::getUserID()
-{
-	return userID;
-}
 void Order::printOrder()
 {
 	if (orderItemList.empty())
@@ -48,5 +43,31 @@ void Order::printOrder()
 		{
 			cout << i.foodItem.foodItemName << " x" << i.quantity << " : $" << getTotalPrice()<< endl;
 		}
+		cout << "Total Price = $" << getTotalPrice() << endl;
 	}
+}
+void Order::remove(string name, int quantity)
+{
+	for (OrderItem& orderItem : this->orderItemList)
+	{
+		if (orderItem.foodItem.foodItemName == name)
+		{
+			if (orderItem.quantity >= quantity)
+			{
+				orderItem.quantity -= quantity;
+				cout << "Order Item removed" << endl;
+				if (orderItem.quantity == 0)
+				{
+					this->orderItemList.remove(orderItem);
+					cout << "Order Item fully removed from list" << endl;
+				}
+				else
+				{
+					return;
+				}
+			}
+		}
+	}
+	cout << "Order Item cannot be found" << endl;
+	return;
 }
