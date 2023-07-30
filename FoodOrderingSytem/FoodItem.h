@@ -8,8 +8,10 @@ class FoodItem
 public:
 	string foodItemName;
 	string description;
+	string category;
 	double price;
 	FoodItem();
 	~FoodItem();
-	FoodItem(string foodItemName, string description, double price);
+	FoodItem(string foodItemName, string description, string category, double price);
+	void print();
 };

@@ -11,13 +11,14 @@ public:
 	int orderID;
 	string orderStatus;
 	list<OrderItem> orderItemList;
-	int userID;
+	string customerName;
 
 	Order();
 	~Order();
-	Order(int orderID, string orderStatus, list<OrderItem> orderItemList, int userID);
+	Order(string orderStatus, list<OrderItem> orderItemList, string customerName);
 	double getTotalPrice();
 	string getOrderStatus();
 	int getUserID();
 	void printOrder();
+	void remove(string name, int quantity);
 };
