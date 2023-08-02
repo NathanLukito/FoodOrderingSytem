@@ -191,7 +191,8 @@ void removeItemMenu(Customer* customer)
 void main()
 {
     init_Data();
-    while (true)
+    Restaurants.print();
+    /*while (true)
     {
         string option = printMainMenu();
 
@@ -221,5 +222,5 @@ void main()
         {
             cout << "Enter a valid option" << endl;
         }
-    }
+    }*/
 }

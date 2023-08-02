@@ -1,10 +1,12 @@
 #include "List.h"
 #include "Restaurant.h"
+#include <iostream>
 using namespace std;
 
-Node::Node(const Restaurant& restaurant) : restaurant(restaurant), next(nullptr) {}
-
-LinkedList::LinkedList() : firstNode(nullptr) {}
+LinkedList::LinkedList() {
+	size = 0;
+	firstNode = nullptr;
+}
 
 LinkedList::~LinkedList() {
 	Node* current = firstNode;
@@ -15,8 +17,8 @@ LinkedList::~LinkedList() {
 	}
 }
 
-void LinkedList::addRestaurant(const Restaurant& restaurant) {
-	Node* newNode = new Node(restaurant);
+void LinkedList::addRestaurant(Restaurant restaurant) {
+	Node* newNode = new Node;
 	if (firstNode == nullptr) {
 		firstNode = newNode;
 	}
@@ -77,5 +79,6 @@ Restaurant* LinkedList::findRestaurantByName(string name) {
 		}
 		current = current->next;
 	}
-	return nullptr; // Restaurant not found
+	Restaurant* findRestaurant = new Restaurant();
+	return findRestaurant; // Restaurant not found
 }
