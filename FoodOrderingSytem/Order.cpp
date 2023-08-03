@@ -71,3 +71,17 @@ void Order::remove(string name, int quantity)
 	cout << "Order Item cannot be found" << endl;
 	return;
 }
+
+void Order::add(FoodItem foodItem, int quantity)
+{
+	for (OrderItem& orderItem : this->orderItemList)
+	{
+		if (orderItem.foodItem.foodItemName == foodItem.foodItemName)
+		{
+			orderItem.quantity += quantity;
+		}
+	}
+
+	this->orderItemList.push_back(OrderItem(foodItem, quantity));
+	return;
+}

@@ -21,4 +21,5 @@ public:
 	int getUserID();
 	void printOrder();
 	void remove(string name, int quantity);
+	void add(FoodItem foodItem, int quantity);
 };

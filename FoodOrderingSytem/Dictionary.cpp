@@ -1,6 +1,6 @@
 #include "Dictionary.h"
 #include "Customer.h"
-#include "DoublyLinkedList.h"
+#include "LinkedList.h"
 #include <iostream>
 using namespace std;
 

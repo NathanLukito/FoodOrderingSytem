@@ -33,3 +33,31 @@ void Restaurant::displayMenu() {
 void Restaurant::addOrder(const Order& order) {
 	foodOrder.push_back(order);
 }
+
+list<FoodItem>* Restaurant::searchCategory(string category)
+{
+	list<FoodItem>* searched = {};
+	for (FoodItem& foodItem : this->foodItem)
+	{
+		if (foodItem.category == category)
+		{
+			searched->push_back(foodItem);
+		}
+	}
+	if (searched->empty())
+	{
+		cout << "No food items with category: " + category + " found";
+	}
+	return searched;
+}
+
+FoodItem* Restaurant::searchName(string name)
+{
+	for (FoodItem& foodItem : this->foodItem)
+	{
+		if (foodItem.foodItemName == name)
+		{
+			return &foodItem;
+		}
+	}
+}

@@ -1,7 +1,7 @@
 #pragma once
 #include<string>
 #include<iostream>
-#include "DoublyLinkedList.h"
+#include "LinkedList.h"
 #include "FoodItem.h"
 #include "Order.h"
 #include <list>
@@ -22,5 +22,7 @@ public:
 	void addFoodItem(string itemName, string description, double price);
 	void displayMenu();
 	void addOrder(const Order& order);
+	list<FoodItem>* searchCategory(string category);
+	FoodItem* searchName(string name);
 };
 #endif // RESTAURANT_H

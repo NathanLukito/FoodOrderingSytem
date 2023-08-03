@@ -79,3 +79,47 @@ Restaurant* LinkedList::findRestaurantByName(string name) {
 	}
 	return nullptr; // Restaurant not found
 }
+
+
+void LinkedList::dynamicSearch(string option, string searchString, list<FoodItem>* foodItems, Restaurant* restaurant, FoodItem* foodItem)
+{
+	if (option == "1")
+	{
+		//restaurant search
+		Node* current = firstNode;
+		while (current != nullptr) {
+			if (current->restaurant.restaurantName == searchString) {
+				*restaurant = current->restaurant;
+				return;
+			}
+			current = current->next;
+		}
+		cout << "No restaurants with the name: " << searchString << " found" << endl;
+		return;
+	}
+	else if (option == "2")
+	{
+		//foodname search
+		Node* current = firstNode;
+		while (current != nullptr) {
+			FoodItem* searchItem = current->restaurant.searchName(searchString);
+			if (searchItem->foodItemName == searchString) 
+			{
+				foodItem = searchItem;
+				return;
+			}
+			current = current->next;
+		}
+	}
+	else if (option == "3")
+	{
+		//category search
+		Node* current = firstNode;
+		while (current != nullptr)
+		{
+			list<FoodItem>* searchedFoodItems = current->restaurant.searchCategory(searchString);
+			foodItems->assign(searchedFoodItems->begin(), searchedFoodItems->end());
+			current = current->next;
+		}
+	}
+}

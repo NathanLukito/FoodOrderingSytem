@@ -2,7 +2,7 @@
 #include <iostream>>
 #include <string>
 #include "Customer.h"
-#include "DoublyLinkedList.h"
+#include "LinkedList.h"
 #define SIZE 100
 using namespace std;
 

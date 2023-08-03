@@ -58,5 +58,7 @@ public:
 	// int search(ItemType item);
 
 	Restaurant* findRestaurantByName(string name);
+
+	void dynamicSearch(string option, string searchString, list<FoodItem>* foodItems, Restaurant* restaurant, FoodItem* foodItem);
 };
 #endif // LIST_H

@@ -1,6 +1,6 @@
 #pragma once
 #include "User.h"
-#include "DoublyLinkedList.h"
+#include "LinkedList.h"
 #include <string>
 #include <iostream>
 

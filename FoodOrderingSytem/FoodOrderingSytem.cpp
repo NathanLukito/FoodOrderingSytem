@@ -2,7 +2,6 @@
 #include "Customer.h"
 #include "Dictionary.h"
 #include "List.h" 
-#include <typeinfo>
 #include "Restaurant.h"
 #include "FoodItem.h"
 
@@ -101,6 +100,116 @@ string printMainMenu()
     return option;
 }
 
+void removeItemMenu(Customer* customer)
+{
+    while (true)
+    {
+        customer->order.printOrder();
+        cout << "Type the name of the item then the quantity you want removed e.g. Chicken, 2" << endl;
+        string Item;
+        getline(cin, Item);
+        cin.clear();
+        cin.ignore(10000, '\n');
+
+        string input[2];
+        for (int i = 0; i < 2; i++)
+        {
+            input[i] = splitString(Item)[i];
+        }
+        customer->order.remove(input[0], stoi(input[1]));
+    }
+}
+
+void addItemMenu(Customer* customer)
+{
+    list<FoodItem> foodItems = {};
+    Restaurant restaurant = Restaurant();
+    FoodItem foodItem = FoodItem();
+    while (true)
+    {
+        string searchOption;
+        Restaurants.print();
+        cout << "1) Search restaurant\n2) Search food name\n3) Search Category\n4) Cancel" << endl;
+        cin >> searchOption;
+        cin.clear();
+        cin.ignore(10000, '\n');
+        if (searchOption == "3")
+        {
+            Restaurants.dynamicSearch(searchOption, searchOption, &foodItems, &restaurant, &foodItem);
+            restaurant.displayMenu();
+        }
+    }
+}
+
+void orderMenu(Customer* customer)
+{
+    string orderOption;
+    string menuArray[2] = { "1) Go back\n2) Add Items\n3) Cancel Order\n4) Send Order", "1) Go back\n2) Remove Items\n3) Add Items\n4) Cancel Order\n5) Send Order" };
+    while (true)
+    {
+        if (customer->order.orderStatus == "0")
+        {
+            cout << menuArray[0] << endl;
+            cin >> orderOption;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            if (orderOption == "1")
+            {
+                return;
+            }
+            else if (orderOption == "2")
+            {
+                addItemMenu(customer);
+            }
+            else if (orderOption == "3")
+            {
+                //Empty out order, reset orderStatus to 0
+                customer->order.orderItemList = {};
+                customer->order.orderStatus = "0";
+                cout << "Order Cancelled" << endl;
+            }
+            else if (orderOption == "4")
+            {
+                //Send order function
+            }
+        }
+        else if (customer->order.orderStatus == "1")
+        {
+            cout << menuArray[1] << endl;
+            cin >> orderOption;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            if (orderOption == "1")
+            {
+                return;
+            }
+            else if (orderOption == "2")
+            {
+                removeItemMenu(customer);
+            }
+            else if (orderOption == "3")
+            {
+                addItemMenu(customer);
+            }
+            else if (orderOption == "4")
+            {
+                //Empty out order, reset orderStatus to 0
+                customer->order.orderItemList = {};
+                customer->order.orderStatus = "0";
+                cout << "Order Cancelled" << endl;
+            }
+            else if (orderOption == "5")
+            {
+                //send order function
+            }
+            return;
+        }
+    }
+}
+
+
+
+
 int customerMenu(Customer* customer)
 {
     while (true)
@@ -132,59 +241,11 @@ int customerMenu(Customer* customer)
     return 0;
 }
 
-void orderMenu(Customer* customer)
-{
-    while (true)
-    {
-        if (customer->order.orderStatus == "0" || customer->order.orderStatus == "1" || customer->order.orderStatus == "2")
-        {
-            cout << "1) Go back\n2) Remove Items\n3) Cancel Order" << endl;
-            string orderOption;
-            cin >> orderOption;
-            cin.clear();
-            cin.ignore(10000, '\n');
-            if (orderOption == "1")
-            {
-                return;
-            }
-            else if (orderOption == "2")
-            {
-                removeItemMenu(customer);
-            }
-            else if (orderOption == "3")
-            {
-                //Empty out order, reset orderStatus to 0
-                customer->order.orderItemList = {};
-                customer->order.orderStatus = "0";
-                cout << "Order Cancelled" << endl;
-            }
-        }
-        else
-        {
-            return;
-        }
-    }
-}
 
-void removeItemMenu(Customer* customer)
-{
-    while (true)
-    {
-        customer->order.printOrder();
-        cout << "Type the name of the item then the quantity you want removed e.g. Chicken, 2" << endl;
-        string Item;
-        getline(cin, Item);
-        cin.clear();
-        cin.ignore(10000, '\n');
 
-        string input[2];
-        for (int i = 0; i < 2; i++)
-        {
-            input[i] = splitString(Item)[i];
-        }
-        customer->order.remove(input[0], stoi(input[1]));
-    }
-}
+
+
+
 
 
 
