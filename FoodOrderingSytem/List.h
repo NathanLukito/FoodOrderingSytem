@@ -1,22 +1,22 @@
 #ifndef LIST_H
 #define LIST_H
 
+#include <iostream>
 #include <string>
 #include "Restaurant.h"
 using namespace std;
 
-struct Node
-{
-	Restaurant restaurant;
-	Node* next;	// pointer pointing to next item
-	Node(const Restaurant& restaurant);
-};
-
 class LinkedList
 {
+	struct Node
+	{
+		Restaurant restaurant;
+		Node* next;	// pointer pointing to next item
+	};
+
 private:
 
-	Node* firstNode;	// point to the first item
+	Node* firstNode = nullptr;	// point to the first item
 	int  size;			// number of items in the list
 
 public:
@@ -28,7 +28,7 @@ public:
 	// pre : size < MAX_SIZE
 	// post: item is added to the back of the list
 	//       size of list is increased by 1
-	void addRestaurant(const Restaurant& restaurant);
+	void addRestaurant(Restaurant restaurant);
 
 	// remove an item at a specified position in the list
 	// pre : 0 <= index < size
