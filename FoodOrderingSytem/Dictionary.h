@@ -12,7 +12,7 @@ private:
 	struct KeyValuePair
 	{
 		int key;
-		List* value;
+		List<Customer>* value;
 		KeyValuePair* next;
 	};
 	KeyValuePair* table[SIZE];

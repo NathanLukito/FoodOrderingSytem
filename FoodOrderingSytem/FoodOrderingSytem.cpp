@@ -2,6 +2,7 @@
 #include "Customer.h"
 #include "Dictionary.h"
 #include "List.h" 
+#include "LinkedList.h"
 #include "Restaurant.h"
 #include "FoodItem.h"
 
@@ -28,11 +29,11 @@ void init_Data()
     Restaurant3.addFoodItem("Crispy Chicken cutlet", "Rice with chicken cutlet", 10.40);
     Restaurants.addRestaurant(Restaurant3);
 
-    Customers.insert("Nathan", Customer("Nathan", 12345678, "56347891", Order("0", list<OrderItem>{}, "Nathan")));
-    Customers.insert("Marcello", Customer("Marcello", 22375453, "56335863", Order("0", list<OrderItem>{}, "Marcello")));
-    Customers.insert("Fionntan", Customer("Fionntan", 57890457, "50577898", Order("0", list<OrderItem>{}, "Fionntan")));
-    Customers.insert("Julia", Customer("Julia", 20396008, "56245395", Order("0", list<OrderItem>{}, "Julia")));
-    Customers.insert("Lucian", Customer("Lucian", 80398454, "45689297", Order("0", list<OrderItem>{}, "Lucian")));
+    Customers.insert("Nathan", Customer("Nathan", 12345678, "56347891", Order("0", List<OrderItem>{}, "Nathan")));
+    Customers.insert("Marcello", Customer("Marcello", 22375453, "56335863", Order("0", List<OrderItem>{}, "Marcello")));
+    Customers.insert("Fionntan", Customer("Fionntan", 57890457, "50577898", Order("0", List<OrderItem>{}, "Fionntan")));
+    Customers.insert("Julia", Customer("Julia", 20396008, "56245395", Order("0", List<OrderItem>{}, "Julia")));
+    Customers.insert("Lucian", Customer("Lucian", 80398454, "45689297", Order("0", List<OrderItem>{}, "Lucian")));
 }
 
 string* splitString(string str)
@@ -116,13 +117,13 @@ void removeItemMenu(Customer* customer)
         {
             input[i] = splitString(Item)[i];
         }
-        customer->order.remove(input[0], stoi(input[1]));
+        customer->order.remove(input[0]);
     }
 }
 
 void addItemMenu(Customer* customer)
 {
-    list<FoodItem> foodItems = {};
+    List<FoodItem*> foodItems = {};
     Restaurant restaurant = Restaurant();
     FoodItem foodItem = FoodItem();
     while (true)
@@ -135,7 +136,7 @@ void addItemMenu(Customer* customer)
         cin.ignore(10000, '\n');
         if (searchOption == "3")
         {
-            Restaurants.dynamicSearch(searchOption, searchOption, &foodItems, &restaurant, &foodItem);
+            //Restaurants.dynamicSearch(searchOption, searchOption, &foodItems, &restaurant, &foodItem);
             restaurant.displayMenu();
         }
     }
@@ -240,13 +241,6 @@ int customerMenu(Customer* customer)
     }
     return 0;
 }
-
-
-
-
-
-
-
 
 
 void main()

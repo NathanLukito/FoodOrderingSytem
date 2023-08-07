@@ -82,7 +82,7 @@ Restaurant* LinkedList::findRestaurantByName(string name) {
 	return nullptr; // Restaurant not found
 }
 
-
+/*
 void LinkedList::dynamicSearch(string option, string searchString, list<FoodItem>* foodItems, Restaurant* restaurant, FoodItem* foodItem)
 {
 	if (option == "1")
@@ -125,3 +125,4 @@ void LinkedList::dynamicSearch(string option, string searchString, list<FoodItem
 		}
 	}
 }
+*/

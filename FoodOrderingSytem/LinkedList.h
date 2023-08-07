@@ -1,20 +1,19 @@
 #pragma once
 #include<string>
 #include<iostream>
-#include"Customer.h"
 using namespace std;
 
-typedef Customer ItemType;
-
+template <typename T>
 class List
 {
 public:
+	template <typename T>
 	struct Node
 	{
-		ItemType item;	// item
-		Node* next;	// pointer pointing to next item
+		T item;	// item
+		Node<T>* next;	// pointer pointing to next item
 	};
-	Node* firstNode = nullptr;	// point to the first item
+	Node<T>* firstNode = nullptr;	// point to the first item
 	int  size;		// number of items in the list
 	// constructor
 	List()
@@ -29,11 +28,11 @@ public:
 		firstNode = nullptr;
 	}
 
-	bool add(ItemType item)
+	bool add(T item)
 	{
 
-		struct Node* temp = firstNode;
-		struct Node* node1 = new Node;
+		struct Node<T>* temp = firstNode;
+		struct Node<T>* node1 = new Node<T>;
 		node1->item = item;
 		node1->next = NULL;
 
@@ -57,10 +56,10 @@ public:
 		delete temp;
 	}
 
-	bool add(int index, ItemType item)
+	bool add(int index, T item)
 	{
-		struct Node* temp = firstNode;
-		struct Node* node1 = new Node;
+		struct Node<T>* temp = firstNode;
+		struct Node<T>* node1 = new Node<T>;
 		node1->next = NULL;
 		if (index > size)
 		{
@@ -94,7 +93,7 @@ public:
 
 	void remove(int index)
 	{
-		struct Node* temp = firstNode;
+		struct Node<T>* temp = firstNode;
 		if (index > size)
 		{
 			cout << "index out of range" << endl;
@@ -120,9 +119,9 @@ public:
 		delete temp;
 	}
 
-	ItemType get(int index)
+	Node<T>* get(int index)
 	{
-		struct Node* temp = firstNode;
+		struct Node<T>* temp = firstNode;
 		if (index > size)
 		{
 			cout << "index out of range" << endl;
@@ -136,7 +135,7 @@ public:
 					temp = temp->next;
 				}
 			}
-			return temp->item;
+			return temp;
 		}
 		else
 		{
@@ -160,32 +159,5 @@ public:
 
 	int getLength() { return size; }
 
-	void print()
-	{
-		struct Node* temp = firstNode;
-		while (temp != NULL)
-		{
-			cout << temp->item.name << endl;
-			temp = temp->next;
-		}
-		temp = NULL;
-		delete temp;
-	}
-
-	ItemType* getCustomer(int password)
-	{
-		struct Node* temp = firstNode;
-
-		while (temp != nullptr)
-		{
-			if (temp->item.password == password)
-			{
-				return &temp->item;
-			}
-			temp = temp->next;
-		}
-		Customer* customer = new Customer();
-		return customer;
-	}
 };
 

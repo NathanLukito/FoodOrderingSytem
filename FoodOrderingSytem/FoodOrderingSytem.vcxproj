@@ -130,7 +130,6 @@
     <ClCompile Include="Admin.cpp" />
     <ClCompile Include="Customer.cpp" />
     <ClCompile Include="Dictionary.cpp" />
-    <ClCompile Include="LinkedList.cpp" />
     <ClCompile Include="FoodItem.cpp" />
     <ClCompile Include="FoodOrderingSytem.cpp" />
     <ClCompile Include="List.cpp" />

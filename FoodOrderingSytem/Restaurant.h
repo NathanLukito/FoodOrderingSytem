@@ -22,7 +22,7 @@ public:
 	void addFoodItem(string itemName, string description, double price);
 	void displayMenu();
 	void addOrder(const Order& order);
-	list<FoodItem>* searchCategory(string category);
+	List<FoodItem>* searchCategory(string category);
 	FoodItem* searchName(string name);
 };
 #endif // RESTAURANT_H

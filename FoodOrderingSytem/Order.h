@@ -2,7 +2,7 @@
 #include<string>
 #include<iostream>
 #include "OrderItem.h"
-#include <list>
+#include "LinkedList.h"
 using namespace std;
 
 class Order
@@ -10,16 +10,16 @@ class Order
 public:
 	int orderID;
 	string orderStatus;
-	list<OrderItem> orderItemList;
+	List<OrderItem> orderItemList;
 	string customerName;
 
 	Order();
 	~Order();
-	Order(string orderStatus, list<OrderItem> orderItemList, string customerName);
+	Order(string orderStatus, List<OrderItem> orderItemList, string customerName);
 	double getTotalPrice();
 	string getOrderStatus();
 	int getUserID();
 	void printOrder();
-	void remove(string name, int quantity);
-	void add(FoodItem foodItem, int quantity);
+	void remove(string name);
+	void add(FoodItem foodItem);
 };

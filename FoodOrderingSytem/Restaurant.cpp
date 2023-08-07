@@ -34,17 +34,17 @@ void Restaurant::addOrder(const Order& order) {
 	foodOrder.push_back(order);
 }
 
-list<FoodItem>* Restaurant::searchCategory(string category)
+List<FoodItem>* Restaurant::searchCategory(string category)
 {
-	list<FoodItem>* searched = {};
+	List<FoodItem>* searched = {};
 	for (FoodItem& foodItem : this->foodItem)
 	{
 		if (foodItem.category == category)
 		{
-			searched->push_back(foodItem);
+			searched->add(foodItem);
 		}
 	}
-	if (searched->empty())
+	if (searched->isEmpty() == true)
 	{
 		cout << "No food items with category: " + category + " found";
 	}

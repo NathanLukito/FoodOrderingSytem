@@ -1,15 +1,13 @@
 #pragma once
 #include "Order.h"
-#include "OrderItem.h"
 #include<string>
-#include<list>
 #include<iostream>
 using namespace std;
 
 Order::Order() {};
 Order::~Order() {};
 
-Order::Order(string orderStatus, list<OrderItem> orderItemList, string customerName)
+Order::Order(string orderStatus, List<OrderItem> orderItemList, string customerName)
 {
 	this->orderStatus = orderStatus;
 	this->orderItemList = orderItemList;
@@ -18,10 +16,13 @@ Order::Order(string orderStatus, list<OrderItem> orderItemList, string customerN
 
 double Order::getTotalPrice()
 {
+	List<OrderItem>* list = &this->orderItemList;
 	double TotalPrice = 0;
-	for(auto i : this->orderItemList)
+	List<OrderItem>::Node<OrderItem>* firstNode = list->get(0);
+	while (firstNode->next != nullptr)
 	{
-		TotalPrice += i.getTotalPrice();
+		TotalPrice += firstNode->item.getTotalPrice();
+		firstNode = firstNode->next;
 	}
 	return TotalPrice;
 }
@@ -33,55 +34,59 @@ string Order::getOrderStatus()
 
 void Order::printOrder()
 {
-	if (orderItemList.empty())
+	List<OrderItem>* list = &this->orderItemList;
+	List<OrderItem>::Node<OrderItem>* firstNode = list->get(0);
+	while (firstNode->next != nullptr)
 	{
-		cout << "Order is empty" << endl;
-	}
-	else
-	{
-		for (OrderItem i : this->orderItemList)
-		{
-			cout << i.foodItem.foodItemName << " x" << i.quantity << " : $" << getTotalPrice()<< endl;
-		}
-		cout << "Total Price = $" << getTotalPrice() << endl;
+		cout << "Name: " << firstNode->item.foodItem.foodItemName << " | x" << firstNode->item.quantity << " | Price: $" << firstNode->item.getTotalPrice();
+		firstNode = firstNode->next;
 	}
 }
-void Order::remove(string name, int quantity)
+void Order::remove(string name)
 {
-	for (OrderItem& orderItem : this->orderItemList)
+	List<OrderItem>* list = &this->orderItemList;
+	List<OrderItem>::Node<OrderItem>* firstNode = list->get(0);
+	while (firstNode->next != nullptr)
 	{
-		if (orderItem.foodItem.foodItemName == name)
+		if (firstNode->item.foodItem.foodItemName == name)
 		{
-			if (orderItem.quantity >= quantity)
+			if (firstNode->item.quantity == 1)
 			{
-				orderItem.quantity -= quantity;
+				firstNode = firstNode->next;
 				cout << "Order Item removed" << endl;
-				if (orderItem.quantity == 0)
-				{
-					this->orderItemList.remove(orderItem);
-					cout << "Order Item fully removed from list" << endl;
-				}
-				else
-				{
-					return;
-				}
+			}
+			else
+			{
+				firstNode->item.quantity -= 1;
+				cout << "Order Item quantity is reduced by 1, new quantity is: " << firstNode->item.quantity << endl;
 			}
 		}
+		firstNode = firstNode->next;
 	}
 	cout << "Order Item cannot be found" << endl;
 	return;
 }
 
-void Order::add(FoodItem foodItem, int quantity)
+void Order::add(FoodItem foodItem)
 {
-	for (OrderItem& orderItem : this->orderItemList)
+	List<OrderItem>* list = &this->orderItemList;
+	List<OrderItem>::Node<OrderItem>* firstNode = list->get(0);
+	int index = 0;
+	while (firstNode->next != nullptr)
 	{
-		if (orderItem.foodItem.foodItemName == foodItem.foodItemName)
+		if (firstNode->item.foodItem.foodItemName == foodItem.foodItemName)
 		{
-			orderItem.quantity += quantity;
+			firstNode->item.quantity += 1;
+			cout << "Order Item quantity increased by 1, new quantity is: " << firstNode->item.quantity << endl;
 		}
+		else
+		{
+			list->add(OrderItem(foodItem, 1));
+			cout << "Order Item added" << endl;
+		}
+		firstNode = firstNode->next;
+		index++;
 	}
-
-	this->orderItemList.push_back(OrderItem(foodItem, quantity));
+	cout << "Order Item cannot be found" << endl;
 	return;
 }

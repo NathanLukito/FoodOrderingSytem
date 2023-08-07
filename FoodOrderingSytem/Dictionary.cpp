@@ -54,8 +54,8 @@ void Dictionary::insert(string key, Customer value)
     int index = hashFunction(key);
     if (checkUnique(key))
     {
-        List* CustomerList = new List();
-        ItemType item;
+        List<Customer>* CustomerList = new List<Customer>();
+        Customer item;
         KeyValuePair* keyValuePair = new KeyValuePair();
         CustomerList->add(value);
         keyValuePair->key = index;
@@ -69,22 +69,37 @@ void Dictionary::insert(string key, Customer value)
     }
 }
 
+/*
 void Dictionary::print()
 {
     for (int i = 0; i < SIZE; i++)
     {
         if (table[i] != NULL)
         {
-            table[i]->value->print();
+            List<Customer>* list = table[i]->value;
+            List<Customer>::Node<Customer>* firstNode = list->get(0);
+            while (firstNode->next != nullptr)
+            {
+
+            }
         }
     }
 }
+*/
 
 Customer* Dictionary::findCustomer(string key, int password)
 {
     if (checkUnique(key) == false)
     {
-        return table[hashFunction(key)]->value->getCustomer(password);
+        List<Customer>* list = table[hashFunction(key)]->value;
+        List<Customer>::Node<Customer>* firstNode = list->get(0);
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.password == password)
+            {
+                return &firstNode->item;
+            }
+        }
     }
     Customer* customer = new Customer();
     return customer;
