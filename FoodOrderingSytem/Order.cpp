@@ -34,12 +34,19 @@ string Order::getOrderStatus()
 
 void Order::printOrder()
 {
-	List<OrderItem>* list = &this->orderItemList;
-	List<OrderItem>::Node<OrderItem>* firstNode = list->get(0);
-	while (firstNode->next != nullptr)
+	if (IsEmpty())
 	{
-		cout << "Name: " << firstNode->item.foodItem.foodItemName << " | x" << firstNode->item.quantity << " | Price: $" << firstNode->item.getTotalPrice();
-		firstNode = firstNode->next;
+		cout << "Order is empty" << endl;
+	}
+	else
+	{
+		List<OrderItem>* list = &this->orderItemList;
+		List<OrderItem>::Node<OrderItem>* firstNode = list->get(0);
+		while (firstNode->next != nullptr)
+		{
+			cout << "Name: " << firstNode->item.foodItem.foodItemName << " | x" << firstNode->item.quantity << " | Price: $" << firstNode->item.getTotalPrice();
+			firstNode = firstNode->next;
+		}
 	}
 }
 void Order::remove(string name)
@@ -89,4 +96,18 @@ void Order::add(FoodItem foodItem)
 	}
 	cout << "Order Item cannot be found" << endl;
 	return;
+}
+
+bool Order::IsEmpty()
+{
+	List<OrderItem>* list = &this->orderItemList;
+	List<OrderItem>::Node<OrderItem>* firstNode = list->get(0);
+	if (firstNode == nullptr)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

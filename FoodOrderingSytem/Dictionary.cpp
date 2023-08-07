@@ -99,6 +99,11 @@ Customer* Dictionary::findCustomer(string key, int password)
             {
                 return &firstNode->item;
             }
+            firstNode = firstNode->next;
+        }
+        if (firstNode->item.password == password)
+        {
+            return &firstNode->item;
         }
     }
     Customer* customer = new Customer();

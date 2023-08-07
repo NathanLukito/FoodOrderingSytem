@@ -22,4 +22,5 @@ public:
 	void printOrder();
 	void remove(string name);
 	void add(FoodItem foodItem);
+	bool IsEmpty();
 };

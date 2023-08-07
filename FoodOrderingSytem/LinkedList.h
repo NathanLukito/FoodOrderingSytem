@@ -139,7 +139,7 @@ public:
 		}
 		else
 		{
-			firstNode = temp->next;
+			return firstNode;
 		}
 		temp = NULL;
 		delete temp;
