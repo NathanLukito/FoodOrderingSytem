@@ -5,14 +5,21 @@
 #include "LinkedList.h"
 #include "Restaurant.h"
 #include "FoodItem.h"
+#include "Admin.h"
 
 using namespace std;
 
 Dictionary Customers = Dictionary();
-LinkedList Restaurants;
+LinkedList Admins;
 
 void init_Data()
 {
+    Admin admin1("McDonalds", 123456789, "Fast food restaurant");
+
+    FoodItem foodItem1("McSpicy", "Spicy burger", "Fast Food", 7.90);
+    FoodItem foodItem2("Filet-o-fish", "Fishy burger", "Fast Food", 5.60);
+    FoodItem food
+
     /*Restaurant Restaurant1("McDonalds", "Number 1 fast-food restaurant");
     Restaurant1.addFoodItem("McSpicy", "Spiciest burger", 7.90);
     Restaurant1.addFoodItem("Filet-o-fish", "Fishy burger", 5.60);
