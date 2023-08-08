@@ -5,10 +5,13 @@
 #include "LinkedList.h"
 #include "Restaurant.h"
 #include "FoodItem.h"
-
+#include <fstream>
 using namespace std;
 
 Dictionary Customers = Dictionary();
+List<Order> Orders;
+List<OrderItem> OrderItems;
+List<FoodItem> FoodItems;
 LinkedList Restaurants;
 
 void init_Data()
@@ -29,11 +32,36 @@ void init_Data()
     Restaurant3.addFoodItem("Crispy Chicken cutlet", "Rice with chicken cutlet", 10.40);
     Restaurants.addRestaurant(Restaurant3);*/
 
-    Customers.insert("Nathan", Customer("Nathan", 12345678, "56347891", Order("0", List<OrderItem>{}, "Nathan")));
-    Customers.insert("Marcello", Customer("Marcello", 22375453, "56335863", Order("0", List<OrderItem>{}, "Marcello")));
-    Customers.insert("Fionntan", Customer("Fionntan", 57890457, "50577898", Order("0", List<OrderItem>{}, "Fionntan")));
-    Customers.insert("Julia", Customer("Julia", 20396008, "56245395", Order("0", List<OrderItem>{}, "Julia")));
-    Customers.insert("Lucian", Customer("Lucian", 80398454, "45689297", Order("0", List<OrderItem>{}, "Lucian")));
+    Customers.insert("Nathan", Customer("Nathan", 12345678, "56347891"));
+    Customers.insert("Marcello", Customer("Marcello", 22375453, "56335863"));
+    Customers.insert("Fionntan", Customer("Fionntan", 57890457, "50577898"));
+    Customers.insert("Julia", Customer("Julia", 20396008, "56245395"));
+    Customers.insert("Lucian", Customer("Lucian", 80398454, "45689297"));
+
+    Orders.add(Order(1, "0", "Nathan"));
+    Orders.add(Order(2, "0", "Marcello"));
+    Orders.add(Order(3, "0", "Fionntan"));
+    Orders.add(Order(4, "0", "Julia"));
+    Orders.add(Order(5, "0", "Lucian"));
+
+    OrderItems.add(OrderItem("Foodname", 1, 1));
+    OrderItems.add(OrderItem("Foodname", 1, 1));
+    OrderItems.add(OrderItem("Foodname", 1, 1));
+    OrderItems.add(OrderItem("Foodname", 1, 2));
+    OrderItems.add(OrderItem("Foodname", 1, 2));
+    OrderItems.add(OrderItem("Foodname", 1, 2));
+    OrderItems.add(OrderItem("Foodname", 1, 3));
+    OrderItems.add(OrderItem("Foodname", 1, 3));
+    OrderItems.add(OrderItem("Foodname", 1, 3));
+    OrderItems.add(OrderItem("Foodname", 1, 4));
+    OrderItems.add(OrderItem("Foodname", 1, 4));
+    OrderItems.add(OrderItem("Foodname", 1, 4));
+    OrderItems.add(OrderItem("Foodname", 1, 5));
+    OrderItems.add(OrderItem("Foodname", 1, 5));
+    OrderItems.add(OrderItem("Foodname", 1, 5));
+
+    FoodItems.add(FoodItem("Foodname", "Description", "Category", 10.00));
+
 }
 
 string* splitString(string str)
@@ -56,6 +84,60 @@ string* splitString(string str)
         }
     }
     return arr;
+}
+
+Order getOrder(Customer* customer)
+{
+    List<Order>::Node<Order>* firstNode = Orders.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.customerName == customer->name)
+            {
+                return firstNode->item;
+            }
+            firstNode = firstNode->next;
+        }
+    }
+    else
+    {
+        cout << "There are no Orders" << endl;
+    }
+}
+
+void printOrder(Order order)
+{
+    List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.OrderID == order.OrderID)
+            {
+                cout << firstNode->item.name << " | x" << firstNode->item.quantity << "Price: $" << getOrderItemTotalPrice(firstNode->item) << endl;
+            }
+            firstNode = firstNode->next;
+        }
+    }
+}
+
+int getOrderItemTotalPrice(OrderItem orderItem)
+{
+    List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
+    double totalPrice = 0;
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.foodItemName == orderItem.name)
+            {
+                totalPrice += firstNode->item.price;
+            }
+            firstNode = firstNode->next;
+        }
+    }
+    return totalPrice;
 }
 
 Customer* loginAccount()
@@ -88,7 +170,7 @@ void createAccount()
     cin >> telPhoneNum;
     cin.clear();
     cin.ignore(10000, '\n');
-    Customers.insert(Name, Customer(Name, Password, telPhoneNum, Order()));
+    Customers.insert(Name, Customer(Name, Password, telPhoneNum));
 }
 
 string printMainMenu()
@@ -105,7 +187,7 @@ void removeItemMenu(Customer* customer)
 {
     while (true)
     {
-        customer->order.printOrder();
+        printOrder(getOrder(customer));
         cout << "Type the name of the item then the quantity you want removed e.g. Chicken, 2" << endl;
         string Item;
         getline(cin, Item);

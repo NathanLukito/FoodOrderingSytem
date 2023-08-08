@@ -7,10 +7,11 @@ using namespace std;
 class OrderItem
 {
 public:
-	FoodItem foodItem;
+	string name;
 	int quantity;
+	int OrderID;
 	OrderItem();
 	~OrderItem();
-	OrderItem(FoodItem foodItem, int quantity);
+	OrderItem(string name, int quantity, int OrderID);
 	double getTotalPrice();
 };

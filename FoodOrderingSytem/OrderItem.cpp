@@ -7,13 +7,15 @@ using namespace std;
 OrderItem::OrderItem() {};
 OrderItem::~OrderItem() {};
 
-OrderItem::OrderItem(FoodItem foodItem, int quantity)
+OrderItem::OrderItem(string name, int quantity, int OrderID)
 {
-	this->foodItem = foodItem;
+	this->name = name;
 	this->quantity = quantity;
+	this->OrderID = OrderID;
 }
-
+/*
 double OrderItem::getTotalPrice()
 {
 	return foodItem.price * quantity;
 }
+*/
