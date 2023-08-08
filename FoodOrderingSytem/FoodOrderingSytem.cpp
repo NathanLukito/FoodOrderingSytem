@@ -106,22 +106,6 @@ Order getOrder(Customer* customer)
     }
 }
 
-void printOrder(Order order)
-{
-    List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
-    if (firstNode != nullptr)
-    {
-        while (firstNode->next != nullptr)
-        {
-            if (firstNode->item.OrderID == order.OrderID)
-            {
-                cout << firstNode->item.name << " | x" << firstNode->item.quantity << "Price: $" << getOrderItemTotalPrice(firstNode->item) << endl;
-            }
-            firstNode = firstNode->next;
-        }
-    }
-}
-
 int getOrderItemTotalPrice(OrderItem orderItem)
 {
     List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
@@ -138,6 +122,70 @@ int getOrderItemTotalPrice(OrderItem orderItem)
         }
     }
     return totalPrice;
+}
+
+void printOrder(Order order)
+{
+    List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.OrderID == order.OrderID)
+            {
+                cout << firstNode->item.name << " | x" << firstNode->item.quantity << "Price: $" << getOrderItemTotalPrice(firstNode->item) << endl;
+            }
+            firstNode = firstNode->next;
+        }
+    }
+}
+
+
+
+void removeOrderItem(string name, Customer* customer)
+{
+    Order order = getOrder(customer);
+    List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
+    int index = 0;
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.name == name)
+            {
+                if (firstNode->item.quantity != 1)
+                {
+                    firstNode->item.quantity -= 1;
+                }
+                else
+                {
+                    OrderItems.remove(index);
+                }
+            }
+            index++;
+            firstNode = firstNode->next;
+        }
+    }
+}
+
+void clearOrder(Customer* customer)
+{
+    Order order = getOrder(customer);
+    order.orderStatus = "0";
+    List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
+    int index = 0;
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.OrderID == order.OrderID)
+            {
+                OrderItems.remove(index);      
+            }
+            index++;
+            firstNode = firstNode->next;
+        }
+    }
 }
 
 Customer* loginAccount()
@@ -188,18 +236,12 @@ void removeItemMenu(Customer* customer)
     while (true)
     {
         printOrder(getOrder(customer));
-        cout << "Type the name of the item then the quantity you want removed e.g. Chicken, 2" << endl;
-        string Item;
-        getline(cin, Item);
+        cout << "Type the name of the item then the quantity you want removed" << endl;
+        string name;
+        getline(cin, name);
         cin.clear();
         cin.ignore(10000, '\n');
-
-        string input[2];
-        for (int i = 0; i < 2; i++)
-        {
-            input[i] = splitString(Item)[i];
-        }
-        customer->order.remove(input[0]);
+        removeOrderItem(name, customer);
     }
 }
 
@@ -230,7 +272,8 @@ void orderMenu(Customer* customer)
     string menuArray[2] = { "1) Go back\n2) Add Items\n3) Cancel Order\n4) Send Order", "1) Go back\n2) Remove Items\n3) Add Items\n4) Cancel Order\n5) Send Order" };
     while (true)
     {
-        if (customer->order.orderStatus == "0")
+        string orderStatus = getOrder(customer).orderStatus;
+        if (orderStatus == "0")
         {
             cout << menuArray[0] << endl;
             cin >> orderOption;
@@ -247,8 +290,7 @@ void orderMenu(Customer* customer)
             else if (orderOption == "3")
             {
                 //Empty out order, reset orderStatus to 0
-                customer->order.orderItemList = {};
-                customer->order.orderStatus = "0";
+                clearOrder(customer);
                 cout << "Order Cancelled" << endl;
             }
             else if (orderOption == "4")
@@ -256,7 +298,7 @@ void orderMenu(Customer* customer)
                 //Send order function
             }
         }
-        else if (customer->order.orderStatus == "1")
+        else if (orderStatus == "1")
         {
             cout << menuArray[1] << endl;
             cin >> orderOption;
@@ -277,8 +319,7 @@ void orderMenu(Customer* customer)
             else if (orderOption == "4")
             {
                 //Empty out order, reset orderStatus to 0
-                customer->order.orderItemList = {};
-                customer->order.orderStatus = "0";
+                clearOrder(customer);
                 cout << "Order Cancelled" << endl;
             }
             else if (orderOption == "5")
@@ -308,7 +349,7 @@ int customerMenu(Customer* customer)
         }
         else if (accountOption == "2")
         {
-            customer->order.printOrder();
+            printOrder(getOrder(customer));
             orderMenu(customer);
         }
         else if (accountOption == "3")
