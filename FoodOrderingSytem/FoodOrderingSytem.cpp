@@ -38,30 +38,20 @@ void init_Data()
     Customers.insert("Julia", Customer("Julia", 20396008, "56245395"));
     Customers.insert("Lucian", Customer("Lucian", 80398454, "45689297"));
 
-    Orders.add(Order(1, "0", "Nathan"));
-    Orders.add(Order(2, "0", "Marcello"));
-    Orders.add(Order(3, "0", "Fionntan"));
-    Orders.add(Order(4, "0", "Julia"));
-    Orders.add(Order(5, "0", "Lucian"));
+    Orders.add(Order(1, "1", "Nathan"));
+    Orders.add(Order(2, "1", "Marcello"));
+    Orders.add(Order(3, "1", "Fionntan"));
+    Orders.add(Order(4, "1", "Julia"));
+    Orders.add(Order(5, "1", "Lucian"));
 
-    OrderItems.add(OrderItem("Foodname", 1, 1));
-    OrderItems.add(OrderItem("Foodname", 1, 1));
-    OrderItems.add(OrderItem("Foodname", 1, 1));
-    OrderItems.add(OrderItem("Foodname", 1, 2));
-    OrderItems.add(OrderItem("Foodname", 1, 2));
-    OrderItems.add(OrderItem("Foodname", 1, 2));
-    OrderItems.add(OrderItem("Foodname", 1, 3));
-    OrderItems.add(OrderItem("Foodname", 1, 3));
-    OrderItems.add(OrderItem("Foodname", 1, 3));
-    OrderItems.add(OrderItem("Foodname", 1, 4));
-    OrderItems.add(OrderItem("Foodname", 1, 4));
-    OrderItems.add(OrderItem("Foodname", 1, 4));
-    OrderItems.add(OrderItem("Foodname", 1, 5));
-    OrderItems.add(OrderItem("Foodname", 1, 5));
-    OrderItems.add(OrderItem("Foodname", 1, 5));
+    OrderItems.add(OrderItem("Foodname", 3, 1));
+    OrderItems.add(OrderItem("Foodname2", 3, 1));
+    OrderItems.add(OrderItem("Foodname", 3, 2));
+    OrderItems.add(OrderItem("Foodname", 3, 3));
+    OrderItems.add(OrderItem("Foodname", 3, 4));
+    OrderItems.add(OrderItem("Foodname", 3, 5));
 
     FoodItems.add(FoodItem("Foodname", "Description", "Category", 10.00));
-
 }
 
 string* splitString(string str)
@@ -120,8 +110,9 @@ int getOrderItemTotalPrice(OrderItem orderItem)
             }
             firstNode = firstNode->next;
         }
+        totalPrice += firstNode->item.price;
     }
-    return totalPrice;
+    return totalPrice*orderItem.quantity;
 }
 
 void printOrder(Order order)
@@ -133,7 +124,7 @@ void printOrder(Order order)
         {
             if (firstNode->item.OrderID == order.OrderID)
             {
-                cout << firstNode->item.name << " | x" << firstNode->item.quantity << "Price: $" << getOrderItemTotalPrice(firstNode->item) << endl;
+                cout << firstNode->item.name << " | x" << firstNode->item.quantity << " | Price: $" << getOrderItemTotalPrice(firstNode->item) << endl;
             }
             firstNode = firstNode->next;
         }
@@ -182,7 +173,6 @@ void clearOrder(Customer* customer)
             {
                 OrderItems.remove(index);      
             }
-            index++;
             firstNode = firstNode->next;
         }
     }
@@ -233,16 +223,13 @@ string printMainMenu()
 
 void removeItemMenu(Customer* customer)
 {
-    while (true)
-    {
-        printOrder(getOrder(customer));
-        cout << "Type the name of the item then the quantity you want removed" << endl;
-        string name;
-        getline(cin, name);
-        cin.clear();
-        cin.ignore(10000, '\n');
-        removeOrderItem(name, customer);
-    }
+    cout << "Type the name of the item you want removed" << endl;
+    string name;
+    cin >> name;
+    cin.clear();
+    cin.ignore(10000, '\n');
+    removeOrderItem(name, customer);
+    return;
 }
 
 void addItemMenu(Customer* customer)
@@ -285,13 +272,16 @@ void orderMenu(Customer* customer)
             }
             else if (orderOption == "2")
             {
+                printOrder(getOrder(customer));
                 addItemMenu(customer);
+                printOrder(getOrder(customer));
             }
             else if (orderOption == "3")
             {
                 //Empty out order, reset orderStatus to 0
                 clearOrder(customer);
                 cout << "Order Cancelled" << endl;
+                return;
             }
             else if (orderOption == "4")
             {
@@ -310,17 +300,22 @@ void orderMenu(Customer* customer)
             }
             else if (orderOption == "2")
             {
+                printOrder(getOrder(customer));
                 removeItemMenu(customer);
+                printOrder(getOrder(customer));
             }
             else if (orderOption == "3")
             {
+                printOrder(getOrder(customer));
                 addItemMenu(customer);
+                printOrder(getOrder(customer));
             }
             else if (orderOption == "4")
             {
                 //Empty out order, reset orderStatus to 0
                 clearOrder(customer);
                 cout << "Order Cancelled" << endl;
+                return;
             }
             else if (orderOption == "5")
             {
