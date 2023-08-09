@@ -135,7 +135,7 @@ void init_fooditems()
 
 void init_Data()
 {
-   
+   /*
     for (int store = 0; store < Admins.getLength(); store++)
     {
         List<Admin>::Node<Admin>* storeNode = Admins.get(store);
@@ -145,7 +145,7 @@ void init_Data()
                 storeNode->item.addFoodItem(foodItemNode->item);
             }
         }
-    }
+    }*/
 
     init_customers();
     init_orders();
@@ -489,11 +489,12 @@ int customerMenu(Customer* customer)
 void main()
 {
     init_Data();
+    /*
     for (int store = 0; store < Admins.getLength(); store++) {
         List<Admin>::Node<Admin>* storeNode = Admins.get(store);
         printStore(storeNode->item);
-    }
-    /*while (true)
+    }*/
+    while (true)
     {
         string option = printMainMenu();
 
@@ -523,5 +524,5 @@ void main()
         {
             cout << "Enter a valid option" << endl;
         }
-    }*/
+    }
 }
