@@ -262,15 +262,17 @@ void removeOrderItem(string name, Customer* customer)
     {
         while (firstNode->next != nullptr)
         {
-            if (firstNode->item.name == name)
+            if (firstNode->item.name == name && firstNode->item.OrderID == order.OrderID)
             {
                 if (firstNode->item.quantity != 1)
                 {
                     firstNode->item.quantity -= 1;
+                    return;
                 }
                 else
                 {
                     OrderItems.remove(index);
+                    return;
                 }
             }
             index++;
@@ -359,13 +361,23 @@ string printMainMenu()
 
 void removeItemMenu(Customer* customer)
 {
-    cout << "Type the name of the item you want removed" << endl;
-    string name;
-    cin >> name;
-    cin.clear();
-    cin.ignore(10000, '\n');
-    removeOrderItem(name, customer);
-    return;
+    while (true)
+    {
+        cout << "Type the name of the item you want removed or 'exit' to exit this menu" << endl;
+        string name;
+        cin >> name;
+        cin.clear();
+        cin.ignore(10000, '\n');
+        if (name == "exit")
+        {
+            return;
+        }
+        else
+        {
+            removeOrderItem(name, customer);
+            printOrder(getOrder(customer));
+        }
+    }
 }
 
 void addItemMenu(Customer* customer)
