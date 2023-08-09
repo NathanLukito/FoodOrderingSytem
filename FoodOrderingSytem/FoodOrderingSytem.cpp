@@ -6,6 +6,8 @@
 #include "Restaurant.h"
 #include "FoodItem.h"
 #include <fstream>
+#include <string>
+#include <sstream>
 using namespace std;
 
 Dictionary Customers = Dictionary();
@@ -14,8 +16,33 @@ List<OrderItem> OrderItems;
 List<FoodItem> FoodItems;
 LinkedList Restaurants;
 
+void init_customers()
+{
+    ifstream File("Text.csv");
+    if (!File.is_open()) cout << "File Opened" << "\n";
+    string line;
+    while (getline(File,line))
+    {
+        stringstream ss(line);
+        string name;
+        string password;
+        string telPhoneNumber;
+        getline(ss, name, ',');
+        if (name == "")
+        {
+            break;
+        }
+        getline(ss, password, ',');
+        getline(ss, telPhoneNumber, ',');
+        Customers.insert(name, Customer(name, stoi(password), telPhoneNumber));
+    }
+    File.close();
+}
+
+
 void init_Data()
 {
+    init_customers();
     /*Restaurant Restaurant1("McDonalds", "Number 1 fast-food restaurant");
     Restaurant1.addFoodItem("McSpicy", "Spiciest burger", 7.90);
     Restaurant1.addFoodItem("Filet-o-fish", "Fishy burger", 5.60);
@@ -32,11 +59,11 @@ void init_Data()
     Restaurant3.addFoodItem("Crispy Chicken cutlet", "Rice with chicken cutlet", 10.40);
     Restaurants.addRestaurant(Restaurant3);*/
 
-    Customers.insert("Nathan", Customer("Nathan", 12345678, "56347891"));
+    /*Customers.insert("Nathan", Customer("Nathan", 12345678, "56347891"));
     Customers.insert("Marcello", Customer("Marcello", 22375453, "56335863"));
     Customers.insert("Fionntan", Customer("Fionntan", 57890457, "50577898"));
     Customers.insert("Julia", Customer("Julia", 20396008, "56245395"));
-    Customers.insert("Lucian", Customer("Lucian", 80398454, "45689297"));
+    Customers.insert("Lucian", Customer("Lucian", 80398454, "45689297"));*/
 
     Orders.add(Order(1, "1", "Nathan"));
     Orders.add(Order(2, "1", "Marcello"));
@@ -53,7 +80,6 @@ void init_Data()
 
     FoodItems.add(FoodItem("Foodname", "Description", "Category", 10.00));
 }
-
 string* splitString(string str)
 {
     string arr[2] = {};
