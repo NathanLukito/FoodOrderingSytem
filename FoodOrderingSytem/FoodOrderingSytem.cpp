@@ -5,6 +5,8 @@
 #include "LinkedList.h"
 #include "Restaurant.h"
 #include "FoodItem.h"
+#include "Admin.h"
+
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -14,7 +16,7 @@ Dictionary Customers = Dictionary();
 List<Order> Orders;
 List<OrderItem> OrderItems;
 List<FoodItem> FoodItems;
-LinkedList Restaurants;
+List<Admin> Admins;
 
 void init_customers()
 {
@@ -42,6 +44,31 @@ void init_customers()
 
 void init_Data()
 {
+    Admins.add(Admin("McDonalds", "12345678", "Fast food restaurant"));
+    Admins.add(Admin("Saizeriya", "98765432", "Italian restaurant"));
+    Admins.add(Admin("XiMenJie", "67543821", "Taiwan food"));
+
+    FoodItems.add(FoodItem("McSpicy", "Spiciest burger", "Burger", 7.90, "McDonalds"));
+    FoodItems.add(FoodItem("Filet-o-fish", "Fishy burger", "Burger", 5.60, "McDonalds"));
+    FoodItems.add(FoodItem("McChicken", "Chicken burger", "Burger", 5.00, "McDonalds"));
+    FoodItems.add(FoodItem("Milano Doria", "Cheese rice with minced meat", "Italian", 5.90, "Saizeriya"));
+    FoodItems.add(FoodItem("Milaono Gratin", "Cheese spaghetti with minced meat", "Italian", 5.90, "Saizeriya"));
+    FoodItems.add(FoodItem("Carbonara Pasta", "Bacon spaghetti", "Pasta", 5.90, "Saizeriya"));
+    FoodItems.add(FoodItem("Braised Pork Rice", "Pork rice with ginger,garlic and soy sauce", "Rice", 9.40, "XiMenJie"));
+    FoodItems.add(FoodItem("Crispy chicken cube", "Chicken", "Rice", 8.00, "XiMenJie"));
+    FoodItems.add(FoodItem("Crispy Chicken cutlet", "Rice with chicken cutlet", "Rice", 10.40, "XiMenJie"));
+
+    for (int store = 0; store < Admins.getLength(); store++)
+    {
+        List<Admin>::Node<Admin>* storeNode = Admins.get(store);
+        for (int fooditem = 0; fooditem < FoodItems.getLength(); fooditem++) {
+            List<FoodItem>::Node<FoodItem>* foodItemNode = FoodItems.get(fooditem);
+            if (storeNode->item.name == foodItemNode->item.foodItemName) {
+                storeNode->item.addFoodItem(foodItemNode->item);
+            }
+        }
+    }
+
     init_customers();
     /*Restaurant Restaurant1("McDonalds", "Number 1 fast-food restaurant");
     Restaurant1.addFoodItem("McSpicy", "Spiciest burger", 7.90);
@@ -78,7 +105,7 @@ void init_Data()
     OrderItems.add(OrderItem("Foodname", 3, 4));
     OrderItems.add(OrderItem("Foodname", 3, 5));
 
-    FoodItems.add(FoodItem("Foodname", "Description", "Category", 10.00));
+
 }
 string* splitString(string str)
 {
@@ -160,6 +187,21 @@ void printOrder(Order order)
     if (check == false)
     {
         cout << "There are no orderitems in your order" << endl;
+    }
+}
+
+void printStore(Admin store) {
+    cout << store.name << " " << store.description << endl;
+    List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.adminName == store.name) {
+                cout << firstNode->item.foodItemName << " " << firstNode->item.price << endl;
+            }
+            firstNode = firstNode->next;
+        }
     }
 }
 
@@ -288,7 +330,7 @@ void addItemMenu(Customer* customer)
     while (true)
     {
         string searchOption;
-        Restaurants.print();
+        //Restaurants.print();
         cout << "1) Search restaurant\n2) Search food name\n3) Search Category\n4) Cancel" << endl;
         cin >> searchOption;
         cin.clear();
@@ -401,7 +443,11 @@ int customerMenu(Customer* customer)
 void main()
 {
     init_Data();
-    while (true)
+    for (int store = 0; store < Admins.getLength(); store++) {
+        List<Admin>::Node<Admin>* storeNode = Admins.get(store);
+        printStore(storeNode->item);
+    }
+    /*while (true)
     {
         string option = printMainMenu();
 
@@ -431,5 +477,5 @@ void main()
         {
             cout << "Enter a valid option" << endl;
         }
-    }
+    }*/
 }
