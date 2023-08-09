@@ -6,6 +6,7 @@
 #include "Restaurant.h"
 #include "FoodItem.h"
 #include "Admin.h"
+#include <iomanip>
 
 #include <fstream>
 #include <string>
@@ -17,6 +18,13 @@ List<Order> Orders;
 List<OrderItem> OrderItems;
 List<FoodItem> FoodItems;
 List<Admin> Admins;
+
+string redundantBuffer = "\n\n_______________________________________________________________________________________________\n\n";
+void cinClear()
+{
+    cin.clear();
+    cin.ignore(10000, '\n');
+}
 
 void init_customers()
 {
@@ -195,7 +203,7 @@ Order getOrder(Customer* customer)
     }
 }
 
-int getOrderItemTotalPrice(OrderItem orderItem)
+int getOrderItemPrice(OrderItem orderItem)
 {
     List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
     double totalPrice = 0;
@@ -225,7 +233,7 @@ void printOrder(Order order)
             if (firstNode->item.OrderID == order.OrderID)
             {
                 check = true;
-                cout << firstNode->item.name << " | x" << firstNode->item.quantity << " | Price: $" << getOrderItemTotalPrice(firstNode->item) << endl;
+                cout << firstNode->item.name << " | x" << firstNode->item.quantity << " | Price: $" << getOrderItemPrice(firstNode->item) << endl;
             }
             firstNode = firstNode->next;
         }
@@ -352,8 +360,7 @@ string printMainMenu()
     cout << "1) Login\n2) Register\n3) Exit" << endl;
     string option;
     cin >> option;
-    cin.clear();
-    cin.ignore(10000, '\n');
+    cinClear();
     return option;
 }
 
@@ -364,8 +371,7 @@ void removeItemMenu(Customer* customer)
         cout << "Type the name of the item you want removed or 'exit' to exit this menu" << endl;
         string name;
         cin >> name;
-        cin.clear();
-        cin.ignore(10000, '\n');
+        cinClear();
         if (name == "exit")
         {
             return;
@@ -404,29 +410,74 @@ bool isDuplicate(List<string>Categories, string category)
             }
             firstNode = firstNode->next;
         }
+        if (firstNode->item == category)
+        {
+            return true;
+        }
     }
     return false;
 }
 
-void printCategories()
+List<string>* printCategories()
 {
     List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
     List<string> Categories;
     if (firstNode != nullptr)
     {
+        cout << redundantBuffer << "Categories" << redundantBuffer<< endl;
         while (firstNode->next != nullptr)
         {
             if (!isDuplicate(Categories, firstNode->item.category))
             {
-                cout << firstNode->item.category << endl;
+                cout << "[ " << firstNode->item.category << " ]" << endl;
                 Categories.add(firstNode->item.category);
             }
             firstNode = firstNode->next;
         }
     }
+    return &Categories;
 }
 
-void addItemMenu(Customer* customer)
+void printFoodfromCat(string category)
+{
+    List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
+    if (firstNode != nullptr)
+    {
+        cout << redundantBuffer << endl;
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.category == category)
+            {
+                firstNode->item.print();
+                firstNode = firstNode->next;
+            }
+        }
+        cout << redundantBuffer << endl;
+    }
+}
+
+void chooseCategory()
+{
+    while (true)
+    {
+        printCategories();
+        cout << redundantBuffer << "Type the name of the category you want to choose or 'exit' to exit" << redundantBuffer << endl;
+        string categoryOption;
+        cin >> categoryOption;
+        cinClear();
+        if (categoryOption == "exit")
+        {
+            return;
+        }
+        else
+        {
+            printFoodfromCat(categoryOption);
+            //addItemMenu();
+        }
+    }
+}
+
+void searchItemMenu(Customer* customer)
 {
     while (true)
     {
@@ -434,8 +485,7 @@ void addItemMenu(Customer* customer)
         cout << "display restaurant" << endl;
         cout << "1) Search restaurant\n2) Search food name\n3) Search Category\n4) Cancel" << endl;
         cin >> searchOption;
-        cin.clear();
-        cin.ignore(10000, '\n');
+        cinClear();
         if (searchOption == "1")
         {
             //Restaurant search
@@ -447,8 +497,7 @@ void addItemMenu(Customer* customer)
         }
         else if (searchOption == "3")
         {
-            printCategories();
-            //Category Search
+            chooseCategory();
         }
         else if (searchOption == "4")
         {
@@ -468,8 +517,7 @@ void orderMenu(Customer* customer)
         {
             cout << menuArray[0] << endl;
             cin >> orderOption;
-            cin.clear();
-            cin.ignore(10000, '\n');
+            cinClear();
             if (orderOption == "1")
             {
                 return;
@@ -477,7 +525,7 @@ void orderMenu(Customer* customer)
             else if (orderOption == "2")
             {
                 printOrder(getOrder(customer));
-                addItemMenu(customer);
+                searchItemMenu(customer);
                 printOrder(getOrder(customer));
             }
         }
@@ -485,8 +533,7 @@ void orderMenu(Customer* customer)
         {
             cout << menuArray[1] << endl;
             cin >> orderOption;
-            cin.clear();
-            cin.ignore(10000, '\n');
+            cinClear();
             if (orderOption == "1")
             {
                 return;
@@ -500,7 +547,7 @@ void orderMenu(Customer* customer)
             else if (orderOption == "3")
             {
                 printOrder(getOrder(customer));
-                addItemMenu(customer);
+                searchItemMenu(customer);
                 printOrder(getOrder(customer));
             }
             else if (orderOption == "4")
@@ -519,20 +566,17 @@ void orderMenu(Customer* customer)
     }
 }
 
-
-
-
 int customerMenu(Customer* customer)
 {
     while (true)
     {
-        cout << "1) Browse Restaurants\n2) View Order\n3) Logout" << endl;;
+        cout << "1) Search for food\n2) View Order\n3) Logout" << endl;;
         string accountOption;
         cin >> accountOption;
-        cin.clear();
-        cin.ignore(10000, '\n');
+        cinClear();
         if (accountOption == "1")
         {
+            searchItemMenu(customer);
             return 0;
         }
         else if (accountOption == "2")
