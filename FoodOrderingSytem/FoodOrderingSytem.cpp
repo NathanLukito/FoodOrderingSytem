@@ -278,7 +278,7 @@ void addItemMenu(Customer* customer)
 void orderMenu(Customer* customer)
 {
     string orderOption;
-    string menuArray[2] = { "1) Go back\n2) Add Items\n3) Cancel Order\n4) Send Order", "1) Go back\n2) Remove Items\n3) Add Items\n4) Cancel Order\n5) Send Order" };
+    string menuArray[2] = { "1) Go back\n2) Add Items", "1) Go back\n2) Remove Items\n3) Add Items\n4) Cancel Order\n5) Send Order" };
     while (true)
     {
         string orderStatus = getOrder(customer).orderStatus;
@@ -297,17 +297,6 @@ void orderMenu(Customer* customer)
                 printOrder(getOrder(customer));
                 addItemMenu(customer);
                 printOrder(getOrder(customer));
-            }
-            else if (orderOption == "3")
-            {
-                //Empty out order, reset orderStatus to 0
-                clearOrder(customer);
-                cout << "Order Cancelled" << endl;
-                return;
-            }
-            else if (orderOption == "4")
-            {
-                //Send order function
             }
         }
         else if (orderStatus == "1")
