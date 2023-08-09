@@ -145,16 +145,22 @@ int getOrderItemTotalPrice(OrderItem orderItem)
 void printOrder(Order order)
 {
     List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
+    bool check = false;
     if (firstNode != nullptr)
     {
         while (firstNode->next != nullptr)
         {
             if (firstNode->item.OrderID == order.OrderID)
             {
+                check = true;
                 cout << firstNode->item.name << " | x" << firstNode->item.quantity << " | Price: $" << getOrderItemTotalPrice(firstNode->item) << endl;
             }
             firstNode = firstNode->next;
         }
+    }
+    if (check == false)
+    {
+        cout << "There are no orderitems in your order" << endl;
     }
 }
 
@@ -203,15 +209,31 @@ void removeOrderItem(string name, Customer* customer)
 
 void clearOrder(Customer* customer)
 {
-    Order order = getOrder(customer);
-    order.orderStatus = "0";
+    List<Order>::Node<Order>* temp = Orders.get(0);
+    Order* tempOrder = new Order;
+    if (temp != nullptr)
+    {
+        while (temp->next != nullptr)
+        {
+            if (temp->item.customerName == customer->name)
+            {
+                temp->item.orderStatus = "0";
+                tempOrder = &temp->item;
+            }
+            temp = temp->next;
+        }
+    }
+    else
+    {
+        cout << "There are no Orders" << endl;
+    }
     List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
     int index = 0;
     if (firstNode != nullptr)
     {
         while (firstNode->next != nullptr)
         {
-            if (firstNode->item.OrderID == order.OrderID)
+            if (firstNode->item.OrderID == tempOrder->OrderID)
             {
                 OrderItems.remove(index);      
             }
@@ -298,7 +320,7 @@ void addItemMenu(Customer* customer)
 void orderMenu(Customer* customer)
 {
     string orderOption;
-    string menuArray[2] = { "1) Go back\n2) Add Items\n3) Cancel Order\n4) Send Order", "1) Go back\n2) Remove Items\n3) Add Items\n4) Cancel Order\n5) Send Order" };
+    string menuArray[2] = { "1) Go back\n2) Add Items", "1) Go back\n2) Remove Items\n3) Add Items\n4) Cancel Order\n5) Send Order" };
     while (true)
     {
         string orderStatus = getOrder(customer).orderStatus;
@@ -317,17 +339,6 @@ void orderMenu(Customer* customer)
                 printOrder(getOrder(customer));
                 addItemMenu(customer);
                 printOrder(getOrder(customer));
-            }
-            else if (orderOption == "3")
-            {
-                //Empty out order, reset orderStatus to 0
-                clearOrder(customer);
-                cout << "Order Cancelled" << endl;
-                return;
-            }
-            else if (orderOption == "4")
-            {
-                //Send order function
             }
         }
         else if (orderStatus == "1")
