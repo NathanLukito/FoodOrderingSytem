@@ -118,16 +118,22 @@ int getOrderItemTotalPrice(OrderItem orderItem)
 void printOrder(Order order)
 {
     List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
+    bool check = false;
     if (firstNode != nullptr)
     {
         while (firstNode->next != nullptr)
         {
             if (firstNode->item.OrderID == order.OrderID)
             {
+                check = true;
                 cout << firstNode->item.name << " | x" << firstNode->item.quantity << " | Price: $" << getOrderItemTotalPrice(firstNode->item) << endl;
             }
             firstNode = firstNode->next;
         }
+    }
+    if (check == false)
+    {
+        cout << "There are no orderitems in your order" << endl;
     }
 }
 
@@ -161,15 +167,31 @@ void removeOrderItem(string name, Customer* customer)
 
 void clearOrder(Customer* customer)
 {
-    Order order = getOrder(customer);
-    order.orderStatus = "0";
+    List<Order>::Node<Order>* temp = Orders.get(0);
+    Order* tempOrder = new Order;
+    if (temp != nullptr)
+    {
+        while (temp->next != nullptr)
+        {
+            if (temp->item.customerName == customer->name)
+            {
+                temp->item.orderStatus = "0";
+                tempOrder = &temp->item;
+            }
+            temp = temp->next;
+        }
+    }
+    else
+    {
+        cout << "There are no Orders" << endl;
+    }
     List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
     int index = 0;
     if (firstNode != nullptr)
     {
         while (firstNode->next != nullptr)
         {
-            if (firstNode->item.OrderID == order.OrderID)
+            if (firstNode->item.OrderID == tempOrder->OrderID)
             {
                 OrderItems.remove(index);      
             }
