@@ -10,8 +10,10 @@ public:
 	string description;
 	string category;
 	double price;
+	string adminName;
+
 	FoodItem();
 	~FoodItem();
-	FoodItem(string foodItemName, string description, string category, double price);
+	FoodItem(string foodItemName, string description, string category, double price, string adminName);
 	void print();
 };

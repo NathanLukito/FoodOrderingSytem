@@ -100,14 +100,14 @@ public:
 		}
 		else if (index != 0)
 		{
-			for (int i = 1; i < index; i++)
+			for (int i = 0; i < index; i++)
 			{
 				if (temp->next != NULL)
 				{
 					temp = temp->next;
 				}
 			}
-			temp->next = temp->next->next;
+			temp == temp->next;
 			size--;
 		}
 		else

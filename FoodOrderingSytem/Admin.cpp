@@ -8,14 +8,13 @@ using namespace std;
 Admin::Admin() {};
 Admin::~Admin() {};
 
-Admin::Admin(string name, int password, string description) {
+Admin::Admin(string name, string password, string description) {
 	this->name = name;
 	this->password = password;
 	this->description = description;
 }
 
-void Admin::addFoodItem(string foodItemName, string description, string category, double price) {
-	FoodItem foodItem(foodItemName, description, category, price);
+void Admin::addFoodItem(FoodItem foodItem) {
 	List<FoodItem>* foodList = &this->foodItemList;
 	foodList->add(foodItem);
 	cout << "FoodItem added to " + this->name << endl;

@@ -7,13 +7,14 @@ using namespace std;
 Order::Order() {};
 Order::~Order() {};
 
-Order::Order(string orderStatus, List<OrderItem> orderItemList, string customerName)
+Order::Order(int OrderID, string orderStatus, string customerName)
 {
+	this->OrderID = OrderID;
 	this->orderStatus = orderStatus;
-	this->orderItemList = orderItemList;
 	this->customerName = customerName;
 }
 
+/*
 double Order::getTotalPrice()
 {
 	List<OrderItem>* list = &this->orderItemList;
@@ -111,3 +112,4 @@ bool Order::IsEmpty()
 		return false;
 	}
 }
+*/

@@ -1,26 +1,24 @@
 #pragma once
-#include "User.h"
 #include "LinkedList.h"
 #include "FoodItem.h"
 #include "Order.h"
 #include <string>
 #include <iostream>
-#include <list>
 
 using namespace std;
 
 class Admin {
 public:
 	string name;
-	int password;
+	string password;
 	List<FoodItem> foodItemList;
 	string description;
 	List<Order> foodOrderList;
 
 	Admin();
 	~Admin();
-	Admin(string name, int password, string description);
+	Admin(string name, string password, string description);
 	void displayMenu();
-	void addFoodItem(string foodItemName, string description, string category, double price);
+	void addFoodItem(FoodItem foodItem);
 	void addOrder(Order order);
 };

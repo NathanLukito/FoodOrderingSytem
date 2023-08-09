@@ -8,14 +8,13 @@ using namespace std;
 class Order
 {
 public:
-	int orderID;
+	int OrderID;
 	string orderStatus;
-	List<OrderItem> orderItemList;
 	string customerName;
 
 	Order();
 	~Order();
-	Order(string orderStatus, List<OrderItem> orderItemList, string customerName);
+	Order(int OrderID, string orderStatus, string customerName);
 	double getTotalPrice();
 	string getOrderStatus();
 	int getUserID();
