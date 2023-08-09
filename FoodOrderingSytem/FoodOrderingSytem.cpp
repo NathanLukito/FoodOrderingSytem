@@ -20,8 +20,7 @@ List<Admin> Admins;
 
 void init_customers()
 {
-    ifstream File("Text.csv");
-    if (!File.is_open()) cout << "File Opened" << "\n";
+    ifstream File("Customers.csv");
     string line;
     while (getline(File,line))
     {
@@ -41,23 +40,102 @@ void init_customers()
     File.close();
 }
 
+void init_orders()
+{
+    ifstream File("Orders.csv");
+    string line;
+    while (getline(File, line))
+    {
+        stringstream ss(line);
+        string OrderID;
+        string orderStatus;
+        string customerName;
+        getline(ss, OrderID, ',');
+        if (OrderID == "")
+        {
+            break;
+        }
+        getline(ss, orderStatus, ',');
+        getline(ss, customerName, ',');
+        Orders.add(Order(stoi(OrderID), orderStatus, customerName));
+    }
+    File.close();
+}
+
+void init_orderItems()
+{
+    ifstream File("OrderItems.csv");
+    string line;
+    while (getline(File, line))
+    {
+        stringstream ss(line);
+        string name;
+        string quantity;
+        string OrderID;
+        getline(ss, name, ',');
+        if (name == "")
+        {
+            break;
+        }
+        getline(ss, quantity, ',');
+        getline(ss, OrderID, ',');
+        OrderItems.add(OrderItem(name, stoi(quantity), stoi(OrderID)));
+    }
+    File.close();
+}
+
+void init_admins()
+{
+    ifstream File("Admins.csv");
+    string line;
+    while (getline(File, line))
+    {
+        stringstream ss(line);
+        string name;
+        string password;
+        string description;
+        getline(ss, name, ',');
+        if (name == "")
+        {
+            break;
+        }
+        getline(ss, password, ',');
+        getline(ss, description, ',');
+        Admins.add(Admin(name, password, description));
+    }
+    File.close();
+}
+
+void init_fooditems()
+{
+    ifstream File("FoodItems.csv");
+    string line;
+    while (getline(File, line))
+    {
+        stringstream ss(line);
+        string foodItemName;
+        string description;
+        string category;
+        string price;
+        string adminName;
+        getline(ss, foodItemName, ',');
+        if (foodItemName == "")
+        {
+            break;
+        }
+        getline(ss, description, ',');
+        getline(ss, category, ',');
+        getline(ss, price, ',');
+        getline(ss, adminName, ',');
+        FoodItems.add(FoodItem(foodItemName, description, category, stod(price), adminName));
+    }
+    File.close();
+}
+
 
 void init_Data()
 {
-    Admins.add(Admin("McDonalds", "12345678", "Fast food restaurant"));
-    Admins.add(Admin("Saizeriya", "98765432", "Italian restaurant"));
-    Admins.add(Admin("XiMenJie", "67543821", "Taiwan food"));
-
-    FoodItems.add(FoodItem("McSpicy", "Spiciest burger", "Burger", 7.90, "McDonalds"));
-    FoodItems.add(FoodItem("Filet-o-fish", "Fishy burger", "Burger", 5.60, "McDonalds"));
-    FoodItems.add(FoodItem("McChicken", "Chicken burger", "Burger", 5.00, "McDonalds"));
-    FoodItems.add(FoodItem("Milano Doria", "Cheese rice with minced meat", "Italian", 5.90, "Saizeriya"));
-    FoodItems.add(FoodItem("Milaono Gratin", "Cheese spaghetti with minced meat", "Italian", 5.90, "Saizeriya"));
-    FoodItems.add(FoodItem("Carbonara Pasta", "Bacon spaghetti", "Pasta", 5.90, "Saizeriya"));
-    FoodItems.add(FoodItem("Braised Pork Rice", "Pork rice with ginger,garlic and soy sauce", "Rice", 9.40, "XiMenJie"));
-    FoodItems.add(FoodItem("Crispy chicken cube", "Chicken", "Rice", 8.00, "XiMenJie"));
-    FoodItems.add(FoodItem("Crispy Chicken cutlet", "Rice with chicken cutlet", "Rice", 10.40, "XiMenJie"));
-
+   
     for (int store = 0; store < Admins.getLength(); store++)
     {
         List<Admin>::Node<Admin>* storeNode = Admins.get(store);
@@ -70,42 +148,10 @@ void init_Data()
     }
 
     init_customers();
-    /*Restaurant Restaurant1("McDonalds", "Number 1 fast-food restaurant");
-    Restaurant1.addFoodItem("McSpicy", "Spiciest burger", 7.90);
-    Restaurant1.addFoodItem("Filet-o-fish", "Fishy burger", 5.60);
-    Restaurant1.addFoodItem("McChicken", "Chicken burger", 5.00);
-    Restaurants.addRestaurant(Restaurant1);
-    Restaurant Restaurant2("Saizeriya", "Italian restaurant");
-    Restaurant2.addFoodItem("Milano Doria", "Cheese rice with minced meat", 5.90);
-    Restaurant2.addFoodItem("Milaono Gratin", "Cheese spaghetti with minced meat", 5.90);
-    Restaurant2.addFoodItem("Carbonara Pasta", "Bacon spaghetti", 5.90);
-    Restaurants.addRestaurant(Restaurant2);
-    Restaurant Restaurant3("XiMenJie", "Taiwan food");
-    Restaurant3.addFoodItem("Braised Pork Rice", "Pork rice with ginger,garlic and soy sauce", 9.40);
-    Restaurant3.addFoodItem("Crispy chicken cube", "Chicken", 8.00);
-    Restaurant3.addFoodItem("Crispy Chicken cutlet", "Rice with chicken cutlet", 10.40);
-    Restaurants.addRestaurant(Restaurant3);*/
-
-    /*Customers.insert("Nathan", Customer("Nathan", 12345678, "56347891"));
-    Customers.insert("Marcello", Customer("Marcello", 22375453, "56335863"));
-    Customers.insert("Fionntan", Customer("Fionntan", 57890457, "50577898"));
-    Customers.insert("Julia", Customer("Julia", 20396008, "56245395"));
-    Customers.insert("Lucian", Customer("Lucian", 80398454, "45689297"));*/
-
-    Orders.add(Order(1, "1", "Nathan"));
-    Orders.add(Order(2, "1", "Marcello"));
-    Orders.add(Order(3, "1", "Fionntan"));
-    Orders.add(Order(4, "1", "Julia"));
-    Orders.add(Order(5, "1", "Lucian"));
-
-    OrderItems.add(OrderItem("Foodname", 3, 1));
-    OrderItems.add(OrderItem("Foodname2", 3, 1));
-    OrderItems.add(OrderItem("Foodname", 3, 2));
-    OrderItems.add(OrderItem("Foodname", 3, 3));
-    OrderItems.add(OrderItem("Foodname", 3, 4));
-    OrderItems.add(OrderItem("Foodname", 3, 5));
-
-
+    init_orders();
+    init_orderItems();
+    init_admins();
+    init_fooditems();
 }
 string* splitString(string str)
 {
