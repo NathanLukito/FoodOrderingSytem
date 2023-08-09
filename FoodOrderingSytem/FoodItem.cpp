@@ -18,5 +18,5 @@ FoodItem::FoodItem(string foodItemName, string description, string category, dou
 
 void FoodItem::print()
 {
-	cout << "Name: " << this->foodItemName << "\nCategory: " << this->category << "\n\nDescription:\n" << this->description << "\n\nPrice: $" << this->price << endl;
+	cout << "Name: " << this->foodItemName << " | Category: " << this->category << " | Description: " << this->description << " | Price: $" << this->price << endl;
 }

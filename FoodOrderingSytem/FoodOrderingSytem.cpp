@@ -251,8 +251,6 @@ void printStore(Admin store) {
     }
 }
 
-
-
 void removeOrderItem(string name, Customer* customer)
 {
     Order order = getOrder(customer);
@@ -380,23 +378,81 @@ void removeItemMenu(Customer* customer)
     }
 }
 
+void printFoodItems()
+{
+    List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            firstNode->item.print();
+            firstNode = firstNode->next;
+        }
+    }
+}
+
+bool isDuplicate(List<string>Categories, string category)
+{
+    List<string>::Node<string>* firstNode = Categories.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item == category)
+            {
+                return true;
+            }
+            firstNode = firstNode->next;
+        }
+    }
+    return false;
+}
+
+void printCategories()
+{
+    List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
+    List<string> Categories;
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (!isDuplicate(Categories, firstNode->item.category))
+            {
+                cout << firstNode->item.category << endl;
+                Categories.add(firstNode->item.category);
+            }
+            firstNode = firstNode->next;
+        }
+    }
+}
+
 void addItemMenu(Customer* customer)
 {
-    List<FoodItem*> foodItems = {};
-    Restaurant restaurant = Restaurant();
-    FoodItem foodItem = FoodItem();
     while (true)
     {
         string searchOption;
-        //Restaurants.print();
+        cout << "display restaurant" << endl;
         cout << "1) Search restaurant\n2) Search food name\n3) Search Category\n4) Cancel" << endl;
         cin >> searchOption;
         cin.clear();
         cin.ignore(10000, '\n');
-        if (searchOption == "3")
+        if (searchOption == "1")
         {
-            //Restaurants.dynamicSearch(searchOption, searchOption, &foodItems, &restaurant, &foodItem);
-            restaurant.displayMenu();
+            //Restaurant search
+        }
+        else if (searchOption == "2")
+        {
+            printFoodItems();
+            //searchFoodItemMenu();
+        }
+        else if (searchOption == "3")
+        {
+            printCategories();
+            //Category Search
+        }
+        else if (searchOption == "4")
+        {
+            return;
         }
     }
 }
