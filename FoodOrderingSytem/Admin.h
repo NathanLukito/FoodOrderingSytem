@@ -19,7 +19,7 @@ public:
 
 	Admin();
 	~Admin();
-	Admin(string name, string password, string description, string location);
+	Admin(string name, string password, string description);
 	void displayMenu();
 	void addFoodItem(FoodItem foodItem);
 	void addOrder(Order order);

@@ -6,8 +6,11 @@
 #include "Restaurant.h"
 #include "FoodItem.h"
 #include "Admin.h"
+#include <iomanip>
 
 #include <fstream>
+#include <string>
+#include <sstream>
 using namespace std;
 
 Dictionary Customers;
@@ -16,22 +19,133 @@ List<OrderItem> OrderItems;
 List<FoodItem> FoodItems;
 List<Admin> Admins;
 
-void init_Data()
+string redundantBuffer = "\n\n_______________________________________________________________________________________________\n\n";
+void cinClear()
 {
+    cin.clear();
+    cin.ignore(10000, '\n');
+}
     Admins.add(Admin("McDonalds", "12345678", "Fast food restaurant", "Bukit Batok"));
     Admins.add(Admin("Saizeriya", "98765432", "Italian restaurant", "Bukit Panjang"));
     Admins.add(Admin("XiMenJie", "67543821", "Taiwan food", "Choa Chu Kang"));
 
-    FoodItems.add(FoodItem("McSpicy", "Spiciest burger", "Burger", 7.90, "McDonalds"));
-    FoodItems.add(FoodItem("Filet-o-fish", "Fishy burger", "Burger", 5.60, "McDonalds"));
-    FoodItems.add(FoodItem("McChicken", "Chicken burger", "Burger", 5.00, "McDonalds"));
-    FoodItems.add(FoodItem("Milano Doria", "Cheese rice with minced meat", "Italian", 5.90, "Saizeriya"));
-    FoodItems.add(FoodItem("Milaono Gratin", "Cheese spaghetti with minced meat", "Italian", 5.90, "Saizeriya"));
-    FoodItems.add(FoodItem("Carbonara Pasta", "Bacon spaghetti", "Pasta", 5.90, "Saizeriya"));
-    FoodItems.add(FoodItem("Braised Pork Rice", "Pork rice with ginger,garlic and soy sauce", "Rice", 9.40, "XiMenJie"));
-    FoodItems.add(FoodItem("Crispy chicken cube", "Chicken", "Rice", 8.00, "XiMenJie"));
-    FoodItems.add(FoodItem("Crispy Chicken cutlet", "Rice with chicken cutlet", "Rice", 10.40, "XiMenJie"));
+void init_customers()
+{
+    ifstream File("Customers.csv");
+    string line;
+    while (getline(File,line))
+    {
+        stringstream ss(line);
+        string name;
+        string password;
+        string telPhoneNumber;
+        getline(ss, name, ',');
+        if (name == "")
+        {
+            break;
+        }
+        getline(ss, password, ',');
+        getline(ss, telPhoneNumber, ',');
+        Customers.insert(name, Customer(name, stoi(password), telPhoneNumber));
+    }
+    File.close();
+}
 
+void init_orders()
+{
+    ifstream File("Orders.csv");
+    string line;
+    while (getline(File, line))
+    {
+        stringstream ss(line);
+        string OrderID;
+        string orderStatus;
+        string customerName;
+        getline(ss, OrderID, ',');
+        if (OrderID == "")
+        {
+            break;
+        }
+        getline(ss, orderStatus, ',');
+        getline(ss, customerName, ',');
+        Orders.add(Order(stoi(OrderID), orderStatus, customerName));
+    }
+    File.close();
+}
+
+void init_orderItems()
+{
+    ifstream File("OrderItems.csv");
+    string line;
+    while (getline(File, line))
+    {
+        stringstream ss(line);
+        string name;
+        string quantity;
+        string OrderID;
+        getline(ss, name, ',');
+        if (name == "")
+        {
+            break;
+        }
+        getline(ss, quantity, ',');
+        getline(ss, OrderID, ',');
+        OrderItems.add(OrderItem(name, stoi(quantity), stoi(OrderID)));
+    }
+    File.close();
+}
+
+void init_admins()
+{
+    ifstream File("Admins.csv");
+    string line;
+    while (getline(File, line))
+    {
+        stringstream ss(line);
+        string name;
+        string password;
+        string description;
+        getline(ss, name, ',');
+        if (name == "")
+        {
+            break;
+        }
+        getline(ss, password, ',');
+        getline(ss, description, ',');
+        Admins.add(Admin(name, password, description));
+    }
+    File.close();
+}
+
+void init_fooditems()
+{
+    ifstream File("FoodItems.csv");
+    string line;
+    while (getline(File, line))
+    {
+        stringstream ss(line);
+        string foodItemName;
+        string description;
+        string category;
+        string price;
+        string adminName;
+        getline(ss, foodItemName, ',');
+        if (foodItemName == "")
+        {
+            break;
+        }
+        getline(ss, description, ',');
+        getline(ss, category, ',');
+        getline(ss, price, ',');
+        getline(ss, adminName, ',');
+        FoodItems.add(FoodItem(foodItemName, description, category, stod(price), adminName));
+    }
+    File.close();
+}
+
+void init_Data()
+{
+   /*
     for (int store = 0; store < Admins.getLength(); store++)
     {
         List<Admin>::Node<Admin>* storeNode = Admins.get(store);
@@ -41,44 +155,13 @@ void init_Data()
                 storeNode->item.addFoodItem(foodItemNode->item);
             }
         }
-    }
+    }*/
 
-    /*Restaurant Restaurant1("McDonalds", "Number 1 fast-food restaurant");
-    Restaurant1.addFoodItem("McSpicy", "Spiciest burger", 7.90);
-    Restaurant1.addFoodItem("Filet-o-fish", "Fishy burger", 5.60);
-    Restaurant1.addFoodItem("McChicken", "Chicken burger", 5.00);
-    Restaurants.addRestaurant(Restaurant1);
-    Restaurant Restaurant2("Saizeriya", "Italian restaurant");
-    Restaurant2.addFoodItem("Milano Doria", "Cheese rice with minced meat", 5.90);
-    Restaurant2.addFoodItem("Milaono Gratin", "Cheese spaghetti with minced meat", 5.90);
-    Restaurant2.addFoodItem("Carbonara Pasta", "Bacon spaghetti", 5.90);
-    Restaurants.addRestaurant(Restaurant2);
-    Restaurant Restaurant3("XiMenJie", "Taiwan food");
-    Restaurant3.addFoodItem("Braised Pork Rice", "Pork rice with ginger,garlic and soy sauce", 9.40);
-    Restaurant3.addFoodItem("Crispy chicken cube", "Chicken", 8.00);
-    Restaurant3.addFoodItem("Crispy Chicken cutlet", "Rice with chicken cutlet", 10.40);
-    Restaurants.addRestaurant(Restaurant3);*/
-
-    Customers.insert("Nathan", Customer("Nathan", 12345678, "56347891"));
-    Customers.insert("Marcello", Customer("Marcello", 22375453, "56335863"));
-    Customers.insert("Fionntan", Customer("Fionntan", 57890457, "50577898"));
-    Customers.insert("Julia", Customer("Julia", 20396008, "56245395"));
-    Customers.insert("Lucian", Customer("Lucian", 80398454, "45689297"));
-
-    Orders.add(Order(1, "1", "Nathan"));
-    Orders.add(Order(2, "1", "Marcello"));
-    Orders.add(Order(3, "1", "Fionntan"));
-    Orders.add(Order(4, "1", "Julia"));
-    Orders.add(Order(5, "1", "Lucian"));
-
-    OrderItems.add(OrderItem("Foodname", 3, 1));
-    OrderItems.add(OrderItem("Foodname2", 3, 1));
-    OrderItems.add(OrderItem("Foodname", 3, 2));
-    OrderItems.add(OrderItem("Foodname", 3, 3));
-    OrderItems.add(OrderItem("Foodname", 3, 4));
-    OrderItems.add(OrderItem("Foodname", 3, 5));
-
-
+    init_customers();
+    init_orders();
+    init_orderItems();
+    init_admins();
+    init_fooditems();
 }
 
 string* splitString(string str)
@@ -123,7 +206,7 @@ Order getOrder(Customer* customer)
     }
 }
 
-int getOrderItemTotalPrice(OrderItem orderItem)
+int getOrderItemPrice(OrderItem orderItem)
 {
     List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
     double totalPrice = 0;
@@ -146,22 +229,43 @@ void printOrder(Order order)
 {
     List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
     bool check = false;
-    if (firstNode != nullptr)
+    double totalPrice;
+    cout << redundantBuffer << endl;
+    if (firstNode != nullptr && order.orderStatus != "0")
     {
         while (firstNode->next != nullptr)
         {
             if (firstNode->item.OrderID == order.OrderID)
             {
                 check = true;
-                cout << firstNode->item.name << " | x" << firstNode->item.quantity << " | Price: $" << getOrderItemTotalPrice(firstNode->item) << endl;
+                double orderItemPrice = getOrderItemPrice(firstNode->item);
+                totalPrice = orderItemPrice;
+                cout << firstNode->item.name << " | x" << firstNode->item.quantity << " | Price: $" << orderItemPrice << endl;
             }
             firstNode = firstNode->next;
         }
     }
-    if (check == false)
+    else
     {
-        cout << "There are no orderitems in your order" << endl;
+        cout << "\n Order is empty" << endl;
     }
+    if (order.orderStatus == "2")
+    {
+        cout << "\nStatus: Order is being prepared" << endl;
+    }
+    else if (order.orderStatus == "3")
+    {
+        cout << "\nStatus: Order is waiting to be completed" << endl;
+    }
+    else if (order.orderStatus == "3")
+    {
+        cout << "\nStatus: Order has been failed" << endl;
+    }
+    else
+    {
+        cout << "\nTotal Price: $" << totalPrice << endl;
+    }
+    cout << redundantBuffer << endl;
 }
 
 void printStore(Admin store) {
@@ -179,8 +283,6 @@ void printStore(Admin store) {
     }
 }
 
-
-
 void removeOrderItem(string name, Customer* customer)
 {
     Order order = getOrder(customer);
@@ -190,15 +292,17 @@ void removeOrderItem(string name, Customer* customer)
     {
         while (firstNode->next != nullptr)
         {
-            if (firstNode->item.name == name)
+            if (firstNode->item.name == name && firstNode->item.OrderID == order.OrderID)
             {
                 if (firstNode->item.quantity != 1)
                 {
                     firstNode->item.quantity -= 1;
+                    return;
                 }
                 else
                 {
                     OrderItems.remove(index);
+                    return;
                 }
             }
             index++;
@@ -283,71 +387,285 @@ void createAccount()
     cin.clear();
     cin.ignore(10000, '\n');
     cout << "Enter a password: " << endl;
-    int Password;
+    string Password;
     cin >> Password;
     cout << "Enter your phone number: " << endl;
     string telPhoneNum;
     cin >> telPhoneNum;
     cin.clear();
     cin.ignore(10000, '\n');
-    Customers.insert(Name, Customer(Name, Password, telPhoneNum));
-}
-
-string printMainMenu()
-{
-    cout << "1) Login\n2) Register\n3) Exit" << endl;
-    string option;
-    cin >> option;
-    cin.clear();
-    cin.ignore(10000, '\n');
-    return option;
+    //Assume 1 customer has only 1 order and can only do 1 order
+    string customer = "\n" + Name + "," + Password + "," + telPhoneNum;
+    ofstream customerFile("Customers.csv", ios::app);
+    customerFile << customer;
+    customerFile.close();
+    
+    string order = "\n" + to_string(Orders.size + 1) + ",0," + Name;
+    ofstream orderFile("Orders.csv", ios::app);
+    orderFile << order;
+    orderFile.close();
 }
 
 void removeItemMenu(Customer* customer)
 {
-    cout << "Type the name of the item you want removed" << endl;
-    string name;
-    cin >> name;
-    cin.clear();
-    cin.ignore(10000, '\n');
-    removeOrderItem(name, customer);
-    return;
+    while (true)
+    {
+        cout << "Type the name of the item you want removed or 'exit' to exit this menu" << endl;
+        string name;
+        cin >> name;
+        cinClear();
+        if (name == "exit")
+        {
+            return;
+        }
+        else
+        {
+            removeOrderItem(name, customer);
+            printOrder(getOrder(customer));
+        }
+    }
 }
 
-void addItemMenu(Customer* customer)
+void printFoodItems()
 {
-    List<FoodItem*> foodItems = {};
-    Restaurant restaurant = Restaurant();
-    FoodItem foodItem = FoodItem();
+    List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            firstNode->item.print();
+            firstNode = firstNode->next;
+        }
+    }
+}
+
+bool isDuplicate(List<string>Categories, string category)
+{
+    List<string>::Node<string>* firstNode = Categories.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item == category)
+            {
+                return true;
+            }
+            firstNode = firstNode->next;
+        }
+        if (firstNode->item == category)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+List<string>* printCategories()
+{
+    List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
+    List<string> Categories;
+    if (firstNode != nullptr)
+    {
+        cout << redundantBuffer << "Categories" << redundantBuffer<< endl;
+        while (firstNode->next != nullptr)
+        {
+            if (!isDuplicate(Categories, firstNode->item.category))
+            {
+                cout << "[ " << firstNode->item.category << " ]" << endl;
+                Categories.add(firstNode->item.category);
+            }
+            firstNode = firstNode->next;
+        }
+    }
+    return &Categories;
+}
+
+void printFoodfromCat(string category)
+{
+    List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
+    if (firstNode != nullptr)
+    {
+        cout << redundantBuffer << endl;
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.category == category)
+            {
+                firstNode->item.print();
+            }
+            firstNode = firstNode->next;
+        }
+        cout << redundantBuffer << endl;
+    }
+}
+
+bool addOrderItemDuplicate(string foodName)
+{
+    List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
+    while (firstNode->next != nullptr)
+    {
+        if (firstNode->item.name == foodName)
+        {
+            firstNode->item.quantity++;
+            return true;
+        }
+    }
+    return false;
+}
+
+void addItemMenu(Customer* customer, string categoryOption)
+{
+    while (true)
+    {
+        bool check = false;
+        printFoodfromCat(categoryOption);
+        cout << "Type the name of the food you want or type 'exit' to exit" << endl;
+        string foodChoice;
+        cin >> foodChoice;
+        cinClear();
+        if (foodChoice == "exit")
+        {
+            return;
+        }
+        else
+        {
+            List <FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
+            while (firstNode->next != nullptr)
+            {
+                if (firstNode->item.foodItemName == foodChoice)
+                {
+                    check = true;
+                    if (!addOrderItemDuplicate(foodChoice))
+                    {
+                        OrderItems.add(OrderItem(foodChoice, 1, getOrder(customer).OrderID));
+                    }
+                }
+                firstNode = firstNode->next;
+            }
+            if (!check)
+            {
+                cout << "Food not found" << endl;
+            }
+        }
+    }
+}
+
+void chooseCategory(Customer* customer)
+{
+    printCategories();
+    cout << redundantBuffer << "Type the name of the category you want to choose" << redundantBuffer << endl;
+    string categoryOption;
+    cin >> categoryOption;
+    cinClear();
+    addItemMenu(customer, categoryOption);
+}
+
+void searchItemMenu(Customer* customer)
+{
     while (true)
     {
         string searchOption;
-        //Restaurants.print();
+        cout << "display restaurant" << endl;
         cout << "1) Search restaurant\n2) Search food name\n3) Search Category\n4) Cancel" << endl;
         cin >> searchOption;
-        cin.clear();
-        cin.ignore(10000, '\n');
-        if (searchOption == "3")
+        cinClear();
+        if (searchOption == "1")
         {
-            //Restaurants.dynamicSearch(searchOption, searchOption, &foodItems, &restaurant, &foodItem);
-            restaurant.displayMenu();
+            //Restaurant search
+        }
+        else if (searchOption == "2")
+        {
+            printFoodItems();
+            //searchFoodItemMenu();
+        }
+        else if (searchOption == "3")
+        {
+            chooseCategory(customer);
+        }
+        else if (searchOption == "4")
+        {
+            return;
         }
     }
+}
+
+void sendOrder(Customer* customer)
+{
+    List<Order>::Node<Order>* firstNode = Orders.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.customerName == customer->name)
+            {
+                firstNode->item.orderStatus = "2";
+            }
+            firstNode = firstNode->next;
+        }
+    }
+    cout << redundantBuffer << endl;
+    cout << "Order sent, currently preparing order... ... " << endl;
+    cout << redundantBuffer << endl;
+}
+
+void cancelOrder(Customer* customer)
+{
+    List<Order>::Node<Order>* firstNode = Orders.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.customerName == customer->name)
+            {
+                firstNode->item.orderStatus = "1";
+            }
+            firstNode = firstNode->next;
+        }
+    }
+    cout << redundantBuffer << endl;
+    cout << "Order Cancelled" << endl;
+    cout << redundantBuffer << endl;
+}
+
+void acceptOrderMessage()
+{
+    cout << redundantBuffer << endl;
+    cout << "Please collect your food at [Location]" << endl;
+    cout << "Once you have collected the food, accept the order on the system" << endl;
+    cout << redundantBuffer << endl;
+}
+
+void acceptOrder(Customer* customer)
+{
+    List<Order>::Node<Order>* firstNode = Orders.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.customerName == customer->name)
+            {
+                firstNode->item.orderStatus = "0";
+            }
+            firstNode = firstNode->next;
+        }
+    }
+    clearOrder(customer);
+    cout << redundantBuffer << endl;
+    cout << "Order Accepted" << endl;
+    cout << redundantBuffer << endl;
 }
 
 void orderMenu(Customer* customer)
 {
     string orderOption;
-    string menuArray[2] = { "1) Go back\n2) Add Items", "1) Go back\n2) Remove Items\n3) Add Items\n4) Cancel Order\n5) Send Order" };
+    string menuArray[5] = { "1) Go back\n2) Add Items", "1) Go back\n2) Remove Items\n3) Add Items\n4) Clear Order\n5) Send Order", "1) Go back\n2) Cancel Order", "1) Go back\n2) Accept Order", "1) Go back\n2) Resolved"};
     while (true)
     {
-        string orderStatus = getOrder(customer).orderStatus;
+        string orderStatus = getOrder(customer).orderStatus; // error here problem due to last person in list
         if (orderStatus == "0")
         {
             cout << menuArray[0] << endl;
             cin >> orderOption;
-            cin.clear();
-            cin.ignore(10000, '\n');
+            cinClear();
             if (orderOption == "1")
             {
                 return;
@@ -355,7 +673,7 @@ void orderMenu(Customer* customer)
             else if (orderOption == "2")
             {
                 printOrder(getOrder(customer));
-                addItemMenu(customer);
+                searchItemMenu(customer);
                 printOrder(getOrder(customer));
             }
         }
@@ -363,8 +681,7 @@ void orderMenu(Customer* customer)
         {
             cout << menuArray[1] << endl;
             cin >> orderOption;
-            cin.clear();
-            cin.ignore(10000, '\n');
+            cinClear();
             if (orderOption == "1")
             {
                 return;
@@ -378,40 +695,85 @@ void orderMenu(Customer* customer)
             else if (orderOption == "3")
             {
                 printOrder(getOrder(customer));
-                addItemMenu(customer);
+                searchItemMenu(customer);
                 printOrder(getOrder(customer));
             }
             else if (orderOption == "4")
             {
-                //Empty out order, reset orderStatus to 0
                 clearOrder(customer);
-                cout << "Order Cancelled" << endl;
+                cout << "Order Cleared" << endl;
                 return;
             }
             else if (orderOption == "5")
             {
-                //send order function
+                sendOrder(customer);
+                printOrder(getOrder(customer));
             }
             return;
+        }
+        else if(orderStatus == "2")
+        {
+            cout << menuArray[2] << endl;
+            cin >> orderOption;
+            cinClear();
+            if (orderOption == "1")
+            {
+                return;
+            }
+            else if(orderOption == "2")
+            {
+                printOrder(getOrder(customer));
+                cancelOrder(customer);
+                printOrder(getOrder(customer));
+            }
+        }
+        else if (orderStatus == "3")
+        {
+            cout << menuArray[3] << endl;
+            cin >> orderOption;
+            cinClear();
+            if (orderOption == "1")
+            {
+                return;
+            }
+            else if (orderOption == "2")
+            {
+                printOrder(getOrder(customer));
+                acceptOrderMessage();
+                acceptOrder(customer);
+            }
+        }
+        else if (orderStatus == "4")
+        {
+            cout << menuArray[4];
+            cout << "Your order has been cancelled by the restaurant, go to [Location] to find out more" << endl;
+            cin >> orderOption;
+            cinClear();
+            if (orderOption == "1")
+            {
+                return;
+            }
+            else if(orderOption == "2")
+            {
+                clearOrder(customer);
+            }
+            printOrder(getOrder(customer));
+            
         }
     }
 }
 
-
-
-
-int customerMenu(Customer* customer)
+void customerMenu(Customer* customer)
 {
     while (true)
     {
-        cout << "1) Browse Restaurants\n2) View Order\n3) Logout" << endl;;
+        cout << "1) Search for food\n2) View Order\n3) Logout" << endl;;
         string accountOption;
         cin >> accountOption;
-        cin.clear();
-        cin.ignore(10000, '\n');
+        cinClear();
         if (accountOption == "1")
         {
-            return 0;
+            searchItemMenu(customer);
         }
         else if (accountOption == "2")
         {
@@ -421,14 +783,14 @@ int customerMenu(Customer* customer)
         else if (accountOption == "3")
         {
             cout << "Logged Out" << endl;
-            return 0;
+            return;
         }
         else
         {
             cout << "Enter a valid option" << endl;
         }
     }
-    return 0;
+    return;
 }
 
 string AccountType() {
@@ -454,36 +816,32 @@ void main()
         if (accountType == "1") {
             string option = printMainMenu();
 
-            if (option == "1")
+        if (option == "1")
+        {
+            Customer* customer = loginAccount();
+            if (customer->name == "")
             {
-                Customer* customer = loginAccount();
-                if (customer->name == "")
-                {
-                    cout << "User cannot be found" << endl;
-                }
-                else
-                {
-                    int accountOption = customerMenu(customer);
-                }
-
-            }
-            else if (option == "2")
-            {
-                createAccount();
-            }
-            else if (option == "3")
-            {
-                cout << "Exiting Program" << endl;
-                exit(0);
+                cout << "User cannot be found" << endl;
             }
             else
             {
-                cout << "Enter a valid option" << endl;
+                customerMenu(customer);
             }
+            
         }
-
-        else if (accountType == "2") {
-            cout << "";
+        else if (option == "2")
+        {
+            createAccount();
+            init_Data();
+        }
+        else if (option == "3")
+        {
+            cout << "Exiting Program" << endl;
+            exit(0);
+        }
+        else
+        {
+            cout << "Enter a valid option" << endl;
         }
     }
 }

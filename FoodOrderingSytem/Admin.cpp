@@ -8,11 +8,10 @@ using namespace std;
 Admin::Admin() {};
 Admin::~Admin() {};
 
-Admin::Admin(string name, string password, string description, string location) {
+Admin::Admin(string name, string password, string description) {
 	this->name = name;
 	this->password = password;
 	this->description = description;
-	this->location = location;
 }
 
 void Admin::addFoodItem(FoodItem foodItem) {

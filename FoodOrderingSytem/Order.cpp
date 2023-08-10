@@ -14,6 +14,11 @@ Order::Order(int OrderID, string orderStatus, string customerName)
 	this->customerName = customerName;
 }
 
+void Order::modifyOrderStatus(string orderStatus)
+{
+	this->orderStatus = orderStatus;
+}
+
 /*
 double Order::getTotalPrice()
 {

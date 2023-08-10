@@ -69,7 +69,7 @@ void Dictionary::insert(string key, Customer value)
     }
 }
 
-/*
+
 void Dictionary::print()
 {
     for (int i = 0; i < SIZE; i++)
@@ -80,12 +80,14 @@ void Dictionary::print()
             List<Customer>::Node<Customer>* firstNode = list->get(0);
             while (firstNode->next != nullptr)
             {
-
+                cout << firstNode->item.name << endl;
+                firstNode = firstNode->next;
             }
+            cout << firstNode->item.name << endl;
         }
     }
 }
-*/
+
 
 Customer* Dictionary::findCustomer(string key, int password)
 {

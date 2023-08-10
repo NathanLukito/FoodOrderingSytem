@@ -84,4 +84,13 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Customers.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OrderItems.csv" />
+    <None Include="Orders.csv" />
+    <None Include="Admins.csv" />
+    <None Include="FoodItems.csv" />
+  </ItemGroup>
 </Project>
