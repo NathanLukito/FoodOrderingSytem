@@ -161,6 +161,36 @@ void init_Data()
     init_fooditems();
 }
 
+void update_customers()
+{
+    Customers.UpdateCustomer();
+}
+
+void update_orders()
+{
+
+}
+
+void update_orderItems()
+{
+
+}
+
+void update_admins()
+{
+
+}
+
+void update_fooditems()
+{
+
+}
+
+void update_Data()
+{
+    update_customers();
+}
+
 string* splitString(string str)
 {
     string arr[2] = {};
@@ -366,7 +396,7 @@ void createAccount()
     cin.clear();
     cin.ignore(10000, '\n');
     cout << "Enter a password: " << endl;
-    string Password;
+    int Password;
     cin >> Password;
     cout << "Enter your phone number: " << endl;
     string telPhoneNum;
@@ -374,15 +404,9 @@ void createAccount()
     cin.clear();
     cin.ignore(10000, '\n');
     //Assume 1 customer has only 1 order and can only do 1 order
-    string customer = "\n" + Name + "," + Password + "," + telPhoneNum;
-    ofstream customerFile("Customers.csv", ios::app);
-    customerFile << customer;
-    customerFile.close();
+    Customers.insert(Name, Customer(Name, Password, telPhoneNum));
     
-    string order = "\n" + to_string(Orders.size + 1) + ",0," + Name;
-    ofstream orderFile("Orders.csv", ios::app);
-    orderFile << order;
-    orderFile.close();
+    Orders.add(Order(Orders.size + 1, "0", Name));
 }
 
 void removeItemMenu(Customer* customer)
@@ -608,7 +632,7 @@ void cancelOrder(Customer* customer)
 void acceptOrderMessage()
 {
     cout << redundantBuffer << endl;
-    cout << "Please collect your food at [Location]" << endl;
+    cout << "Your food has been prepared, please collect your food" << endl;
     cout << "Once you have collected the food, accept the order on the system" << endl;
     cout << redundantBuffer << endl;
 }
@@ -725,7 +749,7 @@ void orderMenu(Customer* customer)
         else if (orderStatus == "4")
         {
             cout << menuArray[4];
-            cout << "Your order has been cancelled by the restaurant, go to [Location] to find out more" << endl;
+            cout << "Your order has been cancelled by the restaurant, go to the restaurant to find out more" << endl;
             cin >> orderOption;
             cinClear();
             if (orderOption == "1")
@@ -808,6 +832,7 @@ void main()
         else if (option == "3")
         {
             cout << "Exiting Program" << endl;
+            update_Data();
             exit(0);
         }
         else

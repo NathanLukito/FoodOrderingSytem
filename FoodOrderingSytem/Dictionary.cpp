@@ -2,6 +2,7 @@
 #include "Customer.h"
 #include "LinkedList.h"
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 Dictionary::Dictionary()
@@ -110,4 +111,39 @@ Customer* Dictionary::findCustomer(string key, int password)
     }
     Customer* customer = new Customer();
     return customer;
+}
+
+void Dictionary::UpdateCustomer()
+{
+    ofstream clearFile("Customers.csv", ios::trunc);
+    clearFile.close();
+    bool check = false;
+    ofstream File("Customers.csv", ios::app);
+    for (int i = 0; i < SIZE; i++)
+    {
+        if (table[i] != NULL)
+        {
+            List<Customer>* list = table[i]->value;
+            List<Customer>::Node<Customer>* firstNode = list->get(0);
+            while (firstNode->next != nullptr)
+            {
+                if (check)
+                {
+                    string customer = "\n" + firstNode->item.name + "," + to_string(firstNode->item.password) + "," + firstNode->item.telPhoneNumber;
+                    File << customer;
+                    firstNode = firstNode->next;
+                }
+                else
+                {
+                    string customer = firstNode->item.name + "," + to_string(firstNode->item.password) + "," + firstNode->item.telPhoneNumber;
+                    File << customer;
+                    firstNode = firstNode->next;
+                    check = true;
+                }
+                
+            }
+            
+        }
+    }
+    File.close();
 }

@@ -23,6 +23,7 @@ public:
 	int checkUnique(string key);
 	void insert(string key, Customer value);
 	void print();
-	Customer* findCustomer(string key, int passwor);
+	Customer* findCustomer(string key, int password);
+	void UpdateCustomer();
 };
 
