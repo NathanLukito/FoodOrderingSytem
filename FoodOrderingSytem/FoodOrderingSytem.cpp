@@ -186,10 +186,12 @@ void update_orders()
             {
                 string Order = to_string(firstNode->item.OrderID) + "," + firstNode->item.orderStatus + "," + firstNode->item.customerName;
                 File << Order;
+                check = true;
             }
             firstNode = firstNode->next;
         }
     }
+    File.close();
 }
 
 void update_orderItems()
@@ -212,10 +214,12 @@ void update_orderItems()
             {
                 string orderItem = firstNode->item.name + "," + to_string(firstNode->item.OrderID) + "," + to_string(firstNode->item.quantity);
                 File << orderItem;
+                check = true;
             }
             firstNode = firstNode->next;
         }
     }
+    File.close();
 }
 
 void update_admins()
@@ -238,10 +242,12 @@ void update_admins()
             {
                 string admin = firstNode->item.name + "," + firstNode->item.password + "," + firstNode->item.description;
                 File << admin;
+                check = true;
             }
             firstNode = firstNode->next;
         }
     }
+    File.close();
 }
 
 void update_fooditems()
@@ -264,10 +270,12 @@ void update_fooditems()
             {
                 string foodItem = firstNode->item.foodItemName + "," + firstNode->item.description + "," + firstNode->item.category + "," + to_string(firstNode->item.price) + "," + firstNode->item.adminName;
                 File << foodItem;
+                check = true;
             }
             firstNode = firstNode->next;
         }
     }
+    File.close();
 }
 
 void update_Data()
