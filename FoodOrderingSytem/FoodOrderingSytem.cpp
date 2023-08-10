@@ -10,7 +10,7 @@
 #include <fstream>
 using namespace std;
 
-Dictionary Customers = Dictionary();
+Dictionary Customers;
 List<Order> Orders;
 List<OrderItem> OrderItems;
 List<FoodItem> FoodItems;
@@ -18,9 +18,9 @@ List<Admin> Admins;
 
 void init_Data()
 {
-    Admins.add(Admin("McDonalds", "12345678", "Fast food restaurant"));
-    Admins.add(Admin("Saizeriya", "98765432", "Italian restaurant"));
-    Admins.add(Admin("XiMenJie", "67543821", "Taiwan food"));
+    Admins.add(Admin("McDonalds", "12345678", "Fast food restaurant", "Bukit Batok"));
+    Admins.add(Admin("Saizeriya", "98765432", "Italian restaurant", "Bukit Panjang"));
+    Admins.add(Admin("XiMenJie", "67543821", "Taiwan food", "Choa Chu Kang"));
 
     FoodItems.add(FoodItem("McSpicy", "Spiciest burger", "Burger", 7.90, "McDonalds"));
     FoodItems.add(FoodItem("Filet-o-fish", "Fishy burger", "Burger", 5.60, "McDonalds"));
@@ -257,6 +257,24 @@ Customer* loginAccount()
     return Customers.findCustomer(Name, Password);
 }
 
+Admin* findAdmin(string name, int password) {
+
+}
+
+Admin* adminLogin() {
+    cout << "Enter your name: " << endl;
+    string Name;
+    cin >> Name;
+    cin.clear();
+    cin.ignore(10000, '\n');
+    cout << "Enter your password: " << endl;
+    int Password;
+    cin >> Password;
+    cin.clear(10000, '\n');
+    
+
+}
+
 void createAccount()
 {
     cout << "Enter your name: " << endl;
@@ -413,43 +431,59 @@ int customerMenu(Customer* customer)
     return 0;
 }
 
+string AccountType() {
+    cout << "1) Customer\n2) Admin\n3) Exit" << endl;
+    string accountType;
+    cin >> accountType;
+    cin.clear();
+    cin.ignore(10000, '\n');
+    return accountType;
+}
+
+string AdminMenu() {
+    cout << "";
+}
 
 void main()
 {
     init_Data();
-    for (int store = 0; store < Admins.getLength(); store++) {
-        List<Admin>::Node<Admin>* storeNode = Admins.get(store);
-        printStore(storeNode->item);
-    }
-    /*while (true)
+    while (true)
     {
-        string option = printMainMenu();
+        string accountType = AccountType();
 
-        if (option == "1")
-        {
-            Customer* customer = loginAccount();
-            if (customer->name == "")
+        if (accountType == "1") {
+            string option = printMainMenu();
+
+            if (option == "1")
             {
-                cout << "User cannot be found" << endl;
+                Customer* customer = loginAccount();
+                if (customer->name == "")
+                {
+                    cout << "User cannot be found" << endl;
+                }
+                else
+                {
+                    int accountOption = customerMenu(customer);
+                }
+
+            }
+            else if (option == "2")
+            {
+                createAccount();
+            }
+            else if (option == "3")
+            {
+                cout << "Exiting Program" << endl;
+                exit(0);
             }
             else
             {
-                int accountOption = customerMenu(customer);
+                cout << "Enter a valid option" << endl;
             }
-            
         }
-        else if (option == "2")
-        {
-            createAccount();
+
+        else if (accountType == "2") {
+            cout << "";
         }
-        else if (option == "3")
-        {
-            cout << "Exiting Program" << endl;
-            exit(0);
-        }
-        else
-        {
-            cout << "Enter a valid option" << endl;
-        }
-    }*/
+    }
 }
