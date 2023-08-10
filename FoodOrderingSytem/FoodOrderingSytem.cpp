@@ -449,32 +449,72 @@ void printFoodfromCat(string category)
             if (firstNode->item.category == category)
             {
                 firstNode->item.print();
-                firstNode = firstNode->next;
             }
+            firstNode = firstNode->next;
         }
         cout << redundantBuffer << endl;
     }
 }
 
-void chooseCategory()
+bool addOrderItemDuplicate(string foodName)
+{
+    List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
+    while (firstNode->next != nullptr)
+    {
+        if (firstNode->item.name == foodName)
+        {
+            firstNode->item.quantity++;
+            return true;
+        }
+    }
+    return false;
+}
+
+void addItemMenu(Customer* customer, string categoryOption)
 {
     while (true)
     {
-        printCategories();
-        cout << redundantBuffer << "Type the name of the category you want to choose or 'exit' to exit" << redundantBuffer << endl;
-        string categoryOption;
-        cin >> categoryOption;
+        bool check = false;
+        printFoodfromCat(categoryOption);
+        cout << "Type the name of the food you want or type 'exit' to exit" << endl;
+        string foodChoice;
+        cin >> foodChoice;
         cinClear();
-        if (categoryOption == "exit")
+        if (foodChoice == "exit")
         {
             return;
         }
         else
         {
-            printFoodfromCat(categoryOption);
-            //addItemMenu();
+            List <FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
+            while (firstNode->next != nullptr)
+            {
+                if (firstNode->item.foodItemName == foodChoice)
+                {
+                    check = true;
+                    if (!addOrderItemDuplicate(foodChoice))
+                    {
+                        OrderItems.add(OrderItem(foodChoice, 1, getOrder(customer).OrderID));
+                    }
+                }
+                firstNode = firstNode->next;
+            }
+            if (!check)
+            {
+                cout << "Food not found" << endl;
+            }
         }
     }
+}
+
+void chooseCategory(Customer* customer)
+{
+    printCategories();
+    cout << redundantBuffer << "Type the name of the category you want to choose" << redundantBuffer << endl;
+    string categoryOption;
+    cin >> categoryOption;
+    cinClear();
+    addItemMenu(customer, categoryOption);
 }
 
 void searchItemMenu(Customer* customer)
@@ -497,7 +537,7 @@ void searchItemMenu(Customer* customer)
         }
         else if (searchOption == "3")
         {
-            chooseCategory();
+            chooseCategory(customer);
         }
         else if (searchOption == "4")
         {
@@ -566,7 +606,7 @@ void orderMenu(Customer* customer)
     }
 }
 
-int customerMenu(Customer* customer)
+void customerMenu(Customer* customer)
 {
     while (true)
     {
@@ -577,7 +617,6 @@ int customerMenu(Customer* customer)
         if (accountOption == "1")
         {
             searchItemMenu(customer);
-            return 0;
         }
         else if (accountOption == "2")
         {
@@ -587,14 +626,14 @@ int customerMenu(Customer* customer)
         else if (accountOption == "3")
         {
             cout << "Logged Out" << endl;
-            return 0;
+            return;
         }
         else
         {
             cout << "Enter a valid option" << endl;
         }
     }
-    return 0;
+    return;
 }
 
 
@@ -619,7 +658,7 @@ void main()
             }
             else
             {
-                int accountOption = customerMenu(customer);
+                customerMenu(customer);
             }
             
         }
