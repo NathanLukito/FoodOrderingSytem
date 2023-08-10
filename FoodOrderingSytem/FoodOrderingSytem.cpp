@@ -25,9 +25,6 @@ void cinClear()
     cin.clear();
     cin.ignore(10000, '\n');
 }
-    Admins.add(Admin("McDonalds", "12345678", "Fast food restaurant", "Bukit Batok"));
-    Admins.add(Admin("Saizeriya", "98765432", "Italian restaurant", "Bukit Panjang"));
-    Admins.add(Admin("XiMenJie", "67543821", "Taiwan food", "Choa Chu Kang"));
 
 void init_customers()
 {
@@ -811,37 +808,47 @@ void main()
     init_Data();
     while (true)
     {
-        string accountType = AccountType();
+        string Account = AccountType();
 
-        if (accountType == "1") {
-            string option = printMainMenu();
+        if (Account == "1") {
 
-        if (option == "1")
-        {
-            Customer* customer = loginAccount();
-            if (customer->name == "")
+            cout << "1) Login\n2) Register\n3) Exit" << endl;
+            string option;
+            cin >> option;
+            cinClear();
+
+            if (option == "1")
             {
-                cout << "User cannot be found" << endl;
+                Customer* customer = loginAccount();
+                if (customer->name == "")
+                {
+                    cout << "User cannot be found" << endl;
+                }
+                else
+                {
+                    customerMenu(customer);
+                }
+
+            }
+            else if (option == "2")
+            {
+                createAccount();
+                init_Data();
+            }
+            else if (option == "3")
+            {
+                cout << "Exiting Program" << endl;
+                exit(0);
             }
             else
             {
-                customerMenu(customer);
+                cout << "Enter a valid option" << endl;
             }
-            
         }
-        else if (option == "2")
-        {
-            createAccount();
-            init_Data();
-        }
-        else if (option == "3")
-        {
-            cout << "Exiting Program" << endl;
-            exit(0);
-        }
-        else
-        {
-            cout << "Enter a valid option" << endl;
+
+        else if (Account == "2") {
+
+
         }
     }
 }
