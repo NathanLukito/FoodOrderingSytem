@@ -13,7 +13,7 @@
 #include <sstream>
 using namespace std;
 
-Dictionary Customers;
+Dictionary Customers = Dictionary();
 List<Order> Orders;
 List<OrderItem> OrderItems;
 List<FoodItem> FoodItems;
@@ -159,6 +159,132 @@ void init_Data()
     init_orderItems();
     init_admins();
     init_fooditems();
+}
+
+void update_customers()
+{
+    Customers.UpdateCustomer();
+}
+
+void update_orders()
+{
+    ofstream clearFile("Orders.csv", ios::trunc);
+    clearFile.close();
+    bool check = false;
+    ofstream File("Orders.csv", ios::app);
+    List<Order>::Node<Order>* firstNode = Orders.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (check)
+            {
+                string Order = "\n" + to_string(firstNode->item.OrderID) + "," + firstNode->item.orderStatus + "," + firstNode->item.customerName;
+                File << Order;
+            }
+            else
+            {
+                string Order = to_string(firstNode->item.OrderID) + "," + firstNode->item.orderStatus + "," + firstNode->item.customerName;
+                File << Order;
+                check = true;
+            }
+            firstNode = firstNode->next;
+        }
+    }
+    File.close();
+}
+
+void update_orderItems()
+{
+    ofstream clearFile("OrderItems.csv", ios::trunc);
+    clearFile.close();
+    bool check = false;
+    ofstream File("OrderItems.csv", ios::app);
+    List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (check)
+            {
+                string orderItem = "\n" + firstNode->item.name + "," + to_string(firstNode->item.OrderID) + "," + to_string(firstNode->item.quantity);
+                File << orderItem;
+            }
+            else
+            {
+                string orderItem = firstNode->item.name + "," + to_string(firstNode->item.OrderID) + "," + to_string(firstNode->item.quantity);
+                File << orderItem;
+                check = true;
+            }
+            firstNode = firstNode->next;
+        }
+    }
+    File.close();
+}
+
+void update_admins()
+{
+    ofstream clearFile("Admins.csv", ios::trunc);
+    clearFile.close();
+    bool check = false;
+    ofstream File("Admins.csv", ios::app);
+    List<Admin>::Node<Admin>* firstNode = Admins.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (check)
+            {
+                string admin = "\n" + firstNode->item.name + "," + firstNode->item.password + "," + firstNode->item.description;
+                File << admin;
+            }
+            else
+            {
+                string admin = firstNode->item.name + "," + firstNode->item.password + "," + firstNode->item.description;
+                File << admin;
+                check = true;
+            }
+            firstNode = firstNode->next;
+        }
+    }
+    File.close();
+}
+
+void update_fooditems()
+{
+    ofstream clearFile("FoodItems.csv", ios::trunc);
+    clearFile.close();
+    bool check = false;
+    ofstream File("FoodItems.csv", ios::app);
+    List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (check)
+            {
+                string foodItem = "\n" + firstNode->item.foodItemName + "," + firstNode->item.description + "," + firstNode->item.category + "," + to_string(firstNode->item.price) + "," + firstNode->item.adminName;
+                File << foodItem;
+            }
+            else
+            {
+                string foodItem = firstNode->item.foodItemName + "," + firstNode->item.description + "," + firstNode->item.category + "," + to_string(firstNode->item.price) + "," + firstNode->item.adminName;
+                File << foodItem;
+                check = true;
+            }
+            firstNode = firstNode->next;
+        }
+    }
+    File.close();
+}
+
+void update_Data()
+{
+    update_customers();
+    update_orders();
+    update_orderItems();
+    update_fooditems();
+    update_admins();
 }
 
 string* splitString(string str)
@@ -384,7 +510,7 @@ void createAccount()
     cin.clear();
     cin.ignore(10000, '\n');
     cout << "Enter a password: " << endl;
-    string Password;
+    int Password;
     cin >> Password;
     cout << "Enter your phone number: " << endl;
     string telPhoneNum;
@@ -392,15 +518,9 @@ void createAccount()
     cin.clear();
     cin.ignore(10000, '\n');
     //Assume 1 customer has only 1 order and can only do 1 order
-    string customer = "\n" + Name + "," + Password + "," + telPhoneNum;
-    ofstream customerFile("Customers.csv", ios::app);
-    customerFile << customer;
-    customerFile.close();
+    Customers.insert(Name, Customer(Name, Password, telPhoneNum));
     
-    string order = "\n" + to_string(Orders.size + 1) + ",0," + Name;
-    ofstream orderFile("Orders.csv", ios::app);
-    orderFile << order;
-    orderFile.close();
+    Orders.add(Order(Orders.size + 1, "0", Name));
 }
 
 void removeItemMenu(Customer* customer)
@@ -626,7 +746,7 @@ void cancelOrder(Customer* customer)
 void acceptOrderMessage()
 {
     cout << redundantBuffer << endl;
-    cout << "Please collect your food at [Location]" << endl;
+    cout << "Your food has been prepared, please collect your food" << endl;
     cout << "Once you have collected the food, accept the order on the system" << endl;
     cout << redundantBuffer << endl;
 }
@@ -743,7 +863,7 @@ void orderMenu(Customer* customer)
         else if (orderStatus == "4")
         {
             cout << menuArray[4];
-            cout << "Your order has been cancelled by the restaurant, go to [Location] to find out more" << endl;
+            cout << "Your order has been cancelled by the restaurant, go to the restaurant to find out more" << endl;
             cin >> orderOption;
             cinClear();
             if (orderOption == "1")
@@ -817,38 +937,33 @@ void main()
             cin >> option;
             cinClear();
 
-            if (option == "1")
+        if (option == "1")
+        {
+            Customer* customer = loginAccount();
+            if (customer->name == "")
             {
-                Customer* customer = loginAccount();
-                if (customer->name == "")
-                {
-                    cout << "User cannot be found" << endl;
-                }
-                else
-                {
-                    customerMenu(customer);
-                }
-
-            }
-            else if (option == "2")
-            {
-                createAccount();
-                init_Data();
-            }
-            else if (option == "3")
-            {
-                cout << "Exiting Program" << endl;
-                exit(0);
+                cout << "User cannot be found" << endl;
             }
             else
             {
-                cout << "Enter a valid option" << endl;
+                customerMenu(customer);
             }
+            
         }
-
-        else if (Account == "2") {
-
-
+        else if (option == "2")
+        {
+            createAccount();
+            init_Data();
+        }
+        else if (option == "3")
+        {
+            cout << "Exiting Program" << endl;
+            update_Data();
+            exit(0);
+        }
+        else
+        {
+            cout << "Enter a valid option" << endl;
         }
     }
 }
