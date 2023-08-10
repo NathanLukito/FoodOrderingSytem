@@ -226,6 +226,8 @@ void printOrder(Order order)
 {
     List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
     bool check = false;
+    double totalPrice;
+    cout << redundantBuffer << endl;
     if (firstNode != nullptr)
     {
         while (firstNode->next != nullptr)
@@ -233,7 +235,9 @@ void printOrder(Order order)
             if (firstNode->item.OrderID == order.OrderID)
             {
                 check = true;
-                cout << firstNode->item.name << " | x" << firstNode->item.quantity << " | Price: $" << getOrderItemPrice(firstNode->item) << endl;
+                double orderItemPrice = getOrderItemPrice(firstNode->item);
+                totalPrice = orderItemPrice;
+                cout << firstNode->item.name << " | x" << firstNode->item.quantity << " | Price: $" << orderItemPrice << endl;
             }
             firstNode = firstNode->next;
         }
@@ -242,6 +246,11 @@ void printOrder(Order order)
     {
         cout << "There are no orderitems in your order" << endl;
     }
+    else
+    {
+        cout << "\nTotal Price: $" << totalPrice << endl;
+    }
+    cout << redundantBuffer << endl;
 }
 
 void printStore(Admin store) {
@@ -352,16 +361,9 @@ void createAccount()
     cin >> telPhoneNum;
     cin.clear();
     cin.ignore(10000, '\n');
+    //Assume 1 customer has only 1 order and can only do 1 order
     Customers.insert(Name, Customer(Name, Password, telPhoneNum));
-}
-
-string printMainMenu()
-{
-    cout << "1) Login\n2) Register\n3) Exit" << endl;
-    string option;
-    cin >> option;
-    cinClear();
-    return option;
+    Orders.add(Order(Orders.size + 1, "0", Name));
 }
 
 void removeItemMenu(Customer* customer)
@@ -552,7 +554,7 @@ void orderMenu(Customer* customer)
     string menuArray[2] = { "1) Go back\n2) Add Items", "1) Go back\n2) Remove Items\n3) Add Items\n4) Cancel Order\n5) Send Order" };
     while (true)
     {
-        string orderStatus = getOrder(customer).orderStatus;
+        string orderStatus = getOrder(customer).orderStatus; // error here///////////////////////////////////////////////////////////////////
         if (orderStatus == "0")
         {
             cout << menuArray[0] << endl;
@@ -592,7 +594,6 @@ void orderMenu(Customer* customer)
             }
             else if (orderOption == "4")
             {
-                //Empty out order, reset orderStatus to 0
                 clearOrder(customer);
                 cout << "Order Cancelled" << endl;
                 return;
@@ -647,7 +648,10 @@ void main()
     }*/
     while (true)
     {
-        string option = printMainMenu();
+        cout << "1) Login\n2) Register\n3) Exit" << endl;
+        string option;
+        cin >> option;
+        cinClear();
 
         if (option == "1")
         {
