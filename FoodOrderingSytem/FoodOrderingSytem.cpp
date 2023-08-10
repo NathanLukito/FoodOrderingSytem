@@ -586,10 +586,57 @@ void sendOrder(Customer* customer)
     cout << redundantBuffer << endl;
 }
 
+void cancelOrder(Customer* customer)
+{
+    List<Order>::Node<Order>* firstNode = Orders.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.customerName == customer->name)
+            {
+                firstNode->item.orderStatus = "1";
+            }
+            firstNode = firstNode->next;
+        }
+    }
+    cout << redundantBuffer << endl;
+    cout << "Order Cancelled" << endl;
+    cout << redundantBuffer << endl;
+}
+
+void acceptOrderMessage()
+{
+    cout << redundantBuffer << endl;
+    cout << "Please collect your food at [Location]" << endl;
+    cout << "Once you have collected the food, accept the order on the system" << endl;
+    cout << redundantBuffer << endl;
+}
+
+void acceptOrder(Customer* customer)
+{
+    List<Order>::Node<Order>* firstNode = Orders.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.customerName == customer->name)
+            {
+                firstNode->item.orderStatus = "0";
+            }
+            firstNode = firstNode->next;
+        }
+    }
+    clearOrder(customer);
+    cout << redundantBuffer << endl;
+    cout << "Order Accepted" << endl;
+    cout << redundantBuffer << endl;
+}
+
 void orderMenu(Customer* customer)
 {
     string orderOption;
-    string menuArray[2] = { "1) Go back\n2) Add Items", "1) Go back\n2) Remove Items\n3) Add Items\n4) Cancel Order\n5) Send Order" };
+    string menuArray[5] = { "1) Go back\n2) Add Items", "1) Go back\n2) Remove Items\n3) Add Items\n4) Clear Order\n5) Send Order", "1) Go back\n2) Cancel Order", "1) Go back\n2) Accept Order", "1) Go back\n2) Resolved"};
     while (true)
     {
         string orderStatus = getOrder(customer).orderStatus; // error here problem due to last person in list
@@ -633,7 +680,7 @@ void orderMenu(Customer* customer)
             else if (orderOption == "4")
             {
                 clearOrder(customer);
-                cout << "Order Cancelled" << endl;
+                cout << "Order Cleared" << endl;
                 return;
             }
             else if (orderOption == "5")
@@ -642,6 +689,55 @@ void orderMenu(Customer* customer)
                 printOrder(getOrder(customer));
             }
             return;
+        }
+        else if(orderStatus == "2")
+        {
+            cout << menuArray[2] << endl;
+            cin >> orderOption;
+            cinClear();
+            if (orderOption == "1")
+            {
+                return;
+            }
+            else if(orderOption == "2")
+            {
+                printOrder(getOrder(customer));
+                cancelOrder(customer);
+                printOrder(getOrder(customer));
+            }
+        }
+        else if (orderStatus == "3")
+        {
+            cout << menuArray[3] << endl;
+            cin >> orderOption;
+            cinClear();
+            if (orderOption == "1")
+            {
+                return;
+            }
+            else if (orderOption == "2")
+            {
+                printOrder(getOrder(customer));
+                acceptOrderMessage();
+                acceptOrder(customer);
+            }
+        }
+        else if (orderStatus == "4")
+        {
+            cout << menuArray[4];
+            cout << "Your order has been cancelled by the restaurant, go to [Location] to find out more" << endl;
+            cin >> orderOption;
+            cinClear();
+            if (orderOption == "1")
+            {
+                return;
+            }
+            else if(orderOption == "2")
+            {
+                clearOrder(customer);
+            }
+            printOrder(getOrder(customer));
+            
         }
     }
 }
