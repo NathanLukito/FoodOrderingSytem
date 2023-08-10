@@ -16,7 +16,7 @@ public:
 	~Order();
 	Order(int OrderID, string orderStatus, string customerName);
 	double getTotalPrice();
-	string getOrderStatus();
+	void modifyOrderStatus(string orderStatus);
 	int getUserID();
 	void printOrder();
 	void remove(string name);

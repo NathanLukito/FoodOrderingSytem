@@ -139,7 +139,7 @@ public:
 		}
 		else
 		{
-			return firstNode;
+			return temp;
 		}
 		temp = NULL;
 		delete temp;

@@ -140,7 +140,6 @@ void init_fooditems()
     File.close();
 }
 
-
 void init_Data()
 {
    /*
@@ -161,6 +160,7 @@ void init_Data()
     init_admins();
     init_fooditems();
 }
+
 string* splitString(string str)
 {
     string arr[2] = {};
@@ -228,7 +228,7 @@ void printOrder(Order order)
     bool check = false;
     double totalPrice;
     cout << redundantBuffer << endl;
-    if (firstNode != nullptr)
+    if (firstNode != nullptr && order.orderStatus != "0")
     {
         while (firstNode->next != nullptr)
         {
@@ -242,9 +242,21 @@ void printOrder(Order order)
             firstNode = firstNode->next;
         }
     }
-    if (check == false)
+    else
     {
-        cout << "There are no orderitems in your order" << endl;
+        cout << "\n Order is empty" << endl;
+    }
+    if (order.orderStatus == "2")
+    {
+        cout << "\nStatus: Order is being prepared" << endl;
+    }
+    else if (order.orderStatus == "3")
+    {
+        cout << "\nStatus: Order is waiting to be completed" << endl;
+    }
+    else if (order.orderStatus == "3")
+    {
+        cout << "\nStatus: Order has been failed" << endl;
     }
     else
     {
@@ -354,7 +366,7 @@ void createAccount()
     cin.clear();
     cin.ignore(10000, '\n');
     cout << "Enter a password: " << endl;
-    int Password;
+    string Password;
     cin >> Password;
     cout << "Enter your phone number: " << endl;
     string telPhoneNum;
@@ -362,8 +374,15 @@ void createAccount()
     cin.clear();
     cin.ignore(10000, '\n');
     //Assume 1 customer has only 1 order and can only do 1 order
-    Customers.insert(Name, Customer(Name, Password, telPhoneNum));
-    Orders.add(Order(Orders.size + 1, "0", Name));
+    string customer = "\n" + Name + "," + Password + "," + telPhoneNum;
+    ofstream customerFile("Customers.csv", ios::app);
+    customerFile << customer;
+    customerFile.close();
+    
+    string order = "\n" + to_string(Orders.size + 1) + ",0," + Name;
+    ofstream orderFile("Orders.csv", ios::app);
+    orderFile << order;
+    orderFile.close();
 }
 
 void removeItemMenu(Customer* customer)
@@ -548,13 +567,32 @@ void searchItemMenu(Customer* customer)
     }
 }
 
+void sendOrder(Customer* customer)
+{
+    List<Order>::Node<Order>* firstNode = Orders.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.customerName == customer->name)
+            {
+                firstNode->item.orderStatus = "2";
+            }
+            firstNode = firstNode->next;
+        }
+    }
+    cout << redundantBuffer << endl;
+    cout << "Order sent, currently preparing order... ... " << endl;
+    cout << redundantBuffer << endl;
+}
+
 void orderMenu(Customer* customer)
 {
     string orderOption;
     string menuArray[2] = { "1) Go back\n2) Add Items", "1) Go back\n2) Remove Items\n3) Add Items\n4) Cancel Order\n5) Send Order" };
     while (true)
     {
-        string orderStatus = getOrder(customer).orderStatus; // error here///////////////////////////////////////////////////////////////////
+        string orderStatus = getOrder(customer).orderStatus; // error here problem due to last person in list
         if (orderStatus == "0")
         {
             cout << menuArray[0] << endl;
@@ -600,7 +638,8 @@ void orderMenu(Customer* customer)
             }
             else if (orderOption == "5")
             {
-                //send order function
+                sendOrder(customer);
+                printOrder(getOrder(customer));
             }
             return;
         }
@@ -637,7 +676,6 @@ void customerMenu(Customer* customer)
     return;
 }
 
-
 void main()
 {
     init_Data();
@@ -669,6 +707,7 @@ void main()
         else if (option == "2")
         {
             createAccount();
+            init_Data();
         }
         else if (option == "3")
         {
