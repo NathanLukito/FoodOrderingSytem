@@ -131,16 +131,14 @@ void Dictionary::UpdateCustomer()
                 {
                     string customer = "\n" + firstNode->item.name + "," + to_string(firstNode->item.password) + "," + firstNode->item.telPhoneNumber;
                     File << customer;
-                    firstNode = firstNode->next;
                 }
                 else
                 {
                     string customer = firstNode->item.name + "," + to_string(firstNode->item.password) + "," + firstNode->item.telPhoneNumber;
                     File << customer;
-                    firstNode = firstNode->next;
                     check = true;
                 }
-                
+                firstNode = firstNode->next;
             }
             
         }

@@ -168,27 +168,115 @@ void update_customers()
 
 void update_orders()
 {
-
+    ofstream clearFile("Orders.csv", ios::trunc);
+    clearFile.close();
+    bool check = false;
+    ofstream File("Orders.csv", ios::app);
+    List<Order>::Node<Order>* firstNode = Orders.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (check)
+            {
+                string Order = "\n" + to_string(firstNode->item.OrderID) + "\n" + firstNode->item.orderStatus + "\n" + firstNode->item.customerName;
+                File << Order;
+            }
+            else
+            {
+                string Order = to_string(firstNode->item.OrderID) + "\n" + firstNode->item.orderStatus + "\n" + firstNode->item.customerName;
+                File << Order;
+            }
+            firstNode = firstNode->next;
+        }
+    }
 }
 
 void update_orderItems()
 {
-
+    ofstream clearFile("OrderItems.csv", ios::trunc);
+    clearFile.close();
+    bool check = false;
+    ofstream File("OrderItems.csv", ios::app);
+    List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (check)
+            {
+                string orderItem = "\n" + firstNode->item.name + "\n" + to_string(firstNode->item.OrderID) + "\n" + to_string(firstNode->item.quantity);
+                File << orderItem;
+            }
+            else
+            {
+                string orderItem = firstNode->item.name + "\n" + to_string(firstNode->item.OrderID) + "\n" + to_string(firstNode->item.quantity);
+                File << orderItem;
+            }
+            firstNode = firstNode->next;
+        }
+    }
 }
 
 void update_admins()
 {
-
+    ofstream clearFile("Admins.csv", ios::trunc);
+    clearFile.close();
+    bool check = false;
+    ofstream File("Admins.csv", ios::app);
+    List<Admin>::Node<Admin>* firstNode = Admins.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (check)
+            {
+                string admin = "\n" + firstNode->item.name + "\n" + firstNode->item.password + "\n" + firstNode->item.description;
+                File << admin;
+            }
+            else
+            {
+                string admin = firstNode->item.name + "\n" + firstNode->item.password + "\n" + firstNode->item.description;
+                File << admin;
+            }
+            firstNode = firstNode->next;
+        }
+    }
 }
 
 void update_fooditems()
 {
-
+    ofstream clearFile("FoodItems.csv", ios::trunc);
+    clearFile.close();
+    bool check = false;
+    ofstream File("FoodItems.csv", ios::app);
+    List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (check)
+            {
+                string foodItem = "\n" + firstNode->item.foodItemName + "\n" + firstNode->item.description + "\n" + firstNode->item.category + "\n" + to_string(firstNode->item.price) + "\n" + firstNode->item.adminName;
+                File << foodItem;
+            }
+            else
+            {
+                string foodItem = firstNode->item.foodItemName + "\n" + firstNode->item.description + "\n" + firstNode->item.category + "\n" + to_string(firstNode->item.price) + "\n" + firstNode->item.adminName;
+                File << foodItem;
+            }
+            firstNode = firstNode->next;
+        }
+    }
 }
 
 void update_Data()
 {
     update_customers();
+    update_orders();
+    update_orderItems();
+    update_fooditems();
+    update_admins();
 }
 
 string* splitString(string str)
