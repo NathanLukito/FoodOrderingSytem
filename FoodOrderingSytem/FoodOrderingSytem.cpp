@@ -179,12 +179,12 @@ void update_orders()
         {
             if (check)
             {
-                string Order = "\n" + to_string(firstNode->item.OrderID) + "\n" + firstNode->item.orderStatus + "\n" + firstNode->item.customerName;
+                string Order = "\n" + to_string(firstNode->item.OrderID) + "," + firstNode->item.orderStatus + "," + firstNode->item.customerName;
                 File << Order;
             }
             else
             {
-                string Order = to_string(firstNode->item.OrderID) + "\n" + firstNode->item.orderStatus + "\n" + firstNode->item.customerName;
+                string Order = to_string(firstNode->item.OrderID) + "," + firstNode->item.orderStatus + "," + firstNode->item.customerName;
                 File << Order;
             }
             firstNode = firstNode->next;
@@ -205,12 +205,12 @@ void update_orderItems()
         {
             if (check)
             {
-                string orderItem = "\n" + firstNode->item.name + "\n" + to_string(firstNode->item.OrderID) + "\n" + to_string(firstNode->item.quantity);
+                string orderItem = "\n" + firstNode->item.name + "," + to_string(firstNode->item.OrderID) + "," + to_string(firstNode->item.quantity);
                 File << orderItem;
             }
             else
             {
-                string orderItem = firstNode->item.name + "\n" + to_string(firstNode->item.OrderID) + "\n" + to_string(firstNode->item.quantity);
+                string orderItem = firstNode->item.name + "," + to_string(firstNode->item.OrderID) + "," + to_string(firstNode->item.quantity);
                 File << orderItem;
             }
             firstNode = firstNode->next;
@@ -231,12 +231,12 @@ void update_admins()
         {
             if (check)
             {
-                string admin = "\n" + firstNode->item.name + "\n" + firstNode->item.password + "\n" + firstNode->item.description;
+                string admin = "\n" + firstNode->item.name + "," + firstNode->item.password + "," + firstNode->item.description;
                 File << admin;
             }
             else
             {
-                string admin = firstNode->item.name + "\n" + firstNode->item.password + "\n" + firstNode->item.description;
+                string admin = firstNode->item.name + "," + firstNode->item.password + "," + firstNode->item.description;
                 File << admin;
             }
             firstNode = firstNode->next;
@@ -257,12 +257,12 @@ void update_fooditems()
         {
             if (check)
             {
-                string foodItem = "\n" + firstNode->item.foodItemName + "\n" + firstNode->item.description + "\n" + firstNode->item.category + "\n" + to_string(firstNode->item.price) + "\n" + firstNode->item.adminName;
+                string foodItem = "\n" + firstNode->item.foodItemName + "," + firstNode->item.description + "," + firstNode->item.category + "," + to_string(firstNode->item.price) + "," + firstNode->item.adminName;
                 File << foodItem;
             }
             else
             {
-                string foodItem = firstNode->item.foodItemName + "\n" + firstNode->item.description + "\n" + firstNode->item.category + "\n" + to_string(firstNode->item.price) + "\n" + firstNode->item.adminName;
+                string foodItem = firstNode->item.foodItemName + "," + firstNode->item.description + "," + firstNode->item.category + "," + to_string(firstNode->item.price) + "," + firstNode->item.adminName;
                 File << foodItem;
             }
             firstNode = firstNode->next;
