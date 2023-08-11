@@ -142,18 +142,6 @@ void init_fooditems()
 
 void init_Data()
 {
-   /*
-    for (int store = 0; store < Admins.getLength(); store++)
-    {
-        List<Admin>::Node<Admin>* storeNode = Admins.get(store);
-        for (int fooditem = 0; fooditem < FoodItems.getLength(); fooditem++) {
-            List<FoodItem>::Node<FoodItem>* foodItemNode = FoodItems.get(fooditem);
-            if (storeNode->item.name == foodItemNode->item.foodItemName) {
-                storeNode->item.addFoodItem(foodItemNode->item);
-            }
-        }
-    }*/
-
     init_customers();
     init_orders();
     init_orderItems();
@@ -482,24 +470,6 @@ Customer* loginAccount()
     cin.clear();
     cin.ignore(10000, '\n');
     return Customers.findCustomer(Name, Password);
-}
-
-Admin* findAdmin(string name, int password) {
-
-}
-
-Admin* adminLogin() {
-    cout << "Enter your name: " << endl;
-    string Name;
-    cin >> Name;
-    cin.clear();
-    cin.ignore(10000, '\n');
-    cout << "Enter your password: " << endl;
-    int Password;
-    cin >> Password;
-    cin.clear(10000, '\n');
-    
-
 }
 
 void createAccount()
@@ -910,6 +880,11 @@ void customerMenu(Customer* customer)
     return;
 }
 
+void printAdminOrders(Admin admin) {
+    Queue adminOrders = admin.foodOrderList;
+    adminOrders.displayItems();
+}
+
 string AccountType() {
     cout << "1) Customer\n2) Admin\n3) Exit" << endl;
     string accountType;
@@ -920,8 +895,70 @@ string AccountType() {
 }
 
 string AdminMenu() {
-    cout << "";
+    cout << "1) Update status\n2) View order information" << endl;
+    string adminOption;
+    cin >> adminOption;
+    cin.clear();
+    cin.ignore(10000, '\n');
+    return adminOption;
 }
+
+Admin findAdmin(string name, string password) {
+    /*List<Admin>::Node<Admin>* leftNode = Admins.get(0);
+    List<Admin>::Node<Admin>* rightNode = nullptr;
+
+    int length = 0;
+    List<Admin>::Node<Admin>* temp = Admins.get(0);
+    while (temp != nullptr) {
+        length++;
+        temp = temp->next;
+    }
+
+    while (leftNode != rightNode) {
+        int middleIndex = (length - 1) / 2;
+        int count = 0;
+        List<Admin>::Node<Admin>* middleNode = leftNode;
+        while (count < middleIndex) {
+            middleNode = middleNode->next;
+            count++;
+        }
+
+        if (middleNode->item.name == name && middleNode->item.password == password) {
+            return true;
+        }
+        else if ()
+    }*/
+
+    for (int store = 0; store < Admins.getLength(); store++) {
+        List<Admin>::Node<Admin>* storeNode = Admins.get(store);
+        Admin restaurant = storeNode->item;
+        if (restaurant.name == name && restaurant.password == password) {
+            Admin admin = storeNode->item;
+            return admin;
+        }
+        else {
+            storeNode = storeNode->next;
+        }
+    }
+}
+
+Admin adminLogin() {
+    cout << "Enter your name: " << endl;
+    string Name;
+    cin >> Name;
+    cin.clear();
+    cin.ignore(10000, '\n');
+    cout << "Enter your password: " << endl;
+    string Password;
+    cin >> Password;
+    cin.clear();
+    cin.ignore(10000, '\n');
+
+    Admin admin = findAdmin(Name, Password);
+    return admin;
+}
+
+
 
 void main()
 {
@@ -937,33 +974,69 @@ void main()
             cin >> option;
             cinClear();
 
-        if (option == "1")
-        {
-            Customer* customer = loginAccount();
-            if (customer->name == "")
+            if (option == "1")
             {
-                cout << "User cannot be found" << endl;
+                Customer* customer = loginAccount();
+                if (customer->name == "")
+                {
+                    cout << "User cannot be found" << endl;
+                }
+                else
+                {
+                    customerMenu(customer);
+                }
+
+            }
+            else if (option == "2")
+            {
+                createAccount();
+                init_Data();
+            }
+            else if (option == "3")
+            {
+                cout << "Exiting Program" << endl;
+                update_Data();
+                exit(0);
             }
             else
             {
-                customerMenu(customer);
+                cout << "Enter a valid option" << endl;
             }
-            
+
         }
-        else if (option == "2")
-        {
-            createAccount();
-            init_Data();
-        }
-        else if (option == "3")
-        {
-            cout << "Exiting Program" << endl;
-            update_Data();
-            exit(0);
-        }
-        else
-        {
-            cout << "Enter a valid option" << endl;
+
+        else if (Account == "2") {
+
+            Admin admin = adminLogin();
+
+            if (admin.name == "") {
+                cout << "Admin cannot be found" << endl;
+            }
+            else {
+                while (true) {
+                    cout << "1) View Orders\n2) Logout" << endl;
+                    string option;
+                    cin >> option;
+                    cinClear();
+
+                    if (option == "1") {
+                        printAdminOrders(admin);
+                        string adminOption = AdminMenu();
+                        
+                        if (adminOption == "1") {
+                            
+                        }
+                    }
+                    else if (option == "2") {
+                        cout << "Logged Out" << endl;
+                        break;
+                    }
+                    else {
+                        cout << "Enter a valid option" << endl;
+                    }
+                }
+            }
+
         }
     }
 }
