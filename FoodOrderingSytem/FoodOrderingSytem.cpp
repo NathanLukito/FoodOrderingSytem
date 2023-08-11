@@ -193,11 +193,11 @@ void update_orderItems()
     {
         while (firstNode->next != nullptr)
         {
-            string orderItem = firstNode->item.name + "," + to_string(firstNode->item.OrderID) + "," + to_string(firstNode->item.quantity);
+            string orderItem = firstNode->item.name + "," + to_string(firstNode->item.quantity) + "," + to_string(firstNode->item.OrderID);
             File << orderItem << endl;
             firstNode = firstNode->next;
         }
-        string orderItem = firstNode->item.name + "," + to_string(firstNode->item.OrderID) + "," + to_string(firstNode->item.quantity);
+        string orderItem = firstNode->item.name + "," + to_string(firstNode->item.quantity) + "," + to_string(firstNode->item.OrderID);
         File << orderItem << endl;
     }
     File.close();
@@ -284,6 +284,10 @@ Order getOrder(Customer* customer)
             }
             firstNode = firstNode->next;
         }
+        if (firstNode->item.customerName == customer->name)
+        {
+            return firstNode->item;
+        }
     }
     else
     {
@@ -305,6 +309,10 @@ int getOrderItemPrice(OrderItem orderItem)
             }
             firstNode = firstNode->next;
         }
+        if (firstNode->item.foodItemName == orderItem.name)
+        {
+            totalPrice += firstNode->item.price;
+        }
         totalPrice += firstNode->item.price;
     }
     return totalPrice*orderItem.quantity;
@@ -314,7 +322,7 @@ void printOrder(Order order)
 {
     List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
     bool check = false;
-    double totalPrice;
+    double totalPrice = 0;
     cout << redundantBuffer << endl;
     if (firstNode != nullptr && order.orderStatus != "0")
     {
@@ -324,10 +332,17 @@ void printOrder(Order order)
             {
                 check = true;
                 double orderItemPrice = getOrderItemPrice(firstNode->item);
-                totalPrice = orderItemPrice;
+                totalPrice += orderItemPrice;
                 cout << firstNode->item.name << " | x" << firstNode->item.quantity << " | Price: $" << orderItemPrice << endl;
             }
             firstNode = firstNode->next;
+        }
+        if (firstNode->item.OrderID == order.OrderID)
+        {
+            check = true;
+            double orderItemPrice = getOrderItemPrice(firstNode->item);
+            totalPrice += orderItemPrice;
+            cout << firstNode->item.name << " | x" << firstNode->item.quantity << " | Price: $" << orderItemPrice << endl;
         }
     }
     else
@@ -360,10 +375,14 @@ void printStore(Admin store) {
     {
         while (firstNode->next != nullptr)
         {
-            if (firstNode->item.adminName == store.name) {
+            if (firstNode->item.adminName == store.name) 
+            {
                 cout << firstNode->item.foodItemName << " " << firstNode->item.price << endl;
             }
             firstNode = firstNode->next;
+        }
+        if (firstNode->item.adminName == store.name) {
+            cout << firstNode->item.foodItemName << " " << firstNode->item.price << endl;
         }
     }
 }
@@ -393,6 +412,19 @@ void removeOrderItem(string name, Customer* customer)
             index++;
             firstNode = firstNode->next;
         }
+        if (firstNode->item.name == name && firstNode->item.OrderID == order.OrderID)
+        {
+            if (firstNode->item.quantity != 1)
+            {
+                firstNode->item.quantity -= 1;
+                return;
+            }
+            else
+            {
+                OrderItems.remove(index);
+                return;
+            }
+        }
     }
 }
 
@@ -411,6 +443,11 @@ void clearOrder(Customer* customer)
             }
             temp = temp->next;
         }
+        if (temp->item.customerName == customer->name)
+        {
+            temp->item.orderStatus = "0";
+            tempOrder = &temp->item;
+        }
     }
     else
     {
@@ -427,6 +464,10 @@ void clearOrder(Customer* customer)
                 OrderItems.remove(index);      
             }
             firstNode = firstNode->next;
+        }
+        if (firstNode->item.OrderID == tempOrder->OrderID)
+        {
+            OrderItems.remove(index);
         }
     }
 }
@@ -516,6 +557,7 @@ void printFoodItems()
             firstNode->item.print();
             firstNode = firstNode->next;
         }
+        firstNode->item.print();
     }
 }
 
@@ -556,6 +598,11 @@ List<string>* printCategories()
             }
             firstNode = firstNode->next;
         }
+        if (!isDuplicate(Categories, firstNode->item.category))
+        {
+            cout << "[ " << firstNode->item.category << " ]" << endl;
+            Categories.add(firstNode->item.category);
+        }
     }
     return &Categories;
 }
@@ -574,20 +621,30 @@ void printFoodfromCat(string category)
             }
             firstNode = firstNode->next;
         }
+        if (firstNode->item.category == category)
+        {
+            firstNode->item.print();
+        }
         cout << redundantBuffer << endl;
     }
 }
 
-bool addOrderItemDuplicate(string foodName)
+bool addOrderItemDuplicate(string foodName, int OrderID)
 {
     List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
     while (firstNode->next != nullptr)
     {
-        if (firstNode->item.name == foodName)
+        if (firstNode->item.name == foodName && firstNode->item.OrderID == OrderID)
         {
             firstNode->item.quantity++;
             return true;
         }
+        firstNode = firstNode->next;
+    }
+    if (firstNode->item.name == foodName && firstNode->item.OrderID == OrderID)
+    {
+        firstNode->item.quantity++;
+        return true;
     }
     return false;
 }
@@ -598,6 +655,8 @@ void addItemMenu(Customer* customer, string categoryOption)
     {
         bool check = false;
         printFoodfromCat(categoryOption);
+        Order order = getOrder(customer);
+        printOrder(order);
         cout << "Type the name of the food you want or type 'exit' to exit" << endl;
         string foodChoice;
         cin >> foodChoice;
@@ -609,17 +668,26 @@ void addItemMenu(Customer* customer, string categoryOption)
         else
         {
             List <FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
+            
             while (firstNode->next != nullptr)
             {
                 if (firstNode->item.foodItemName == foodChoice)
                 {
                     check = true;
-                    if (!addOrderItemDuplicate(foodChoice))
+                    if (!addOrderItemDuplicate(foodChoice, order.OrderID))
                     {
-                        OrderItems.add(OrderItem(foodChoice, 1, getOrder(customer).OrderID));
+                        OrderItems.add(OrderItem(foodChoice, 1, order.OrderID));
                     }
                 }
                 firstNode = firstNode->next;
+            }
+            if (firstNode->item.foodItemName == foodChoice)
+            {
+                check = true;
+                if (!addOrderItemDuplicate(foodChoice, order.OrderID))
+                {
+                    OrderItems.add(OrderItem(foodChoice, 1, order.OrderID));
+                }
             }
             if (!check)
             {
@@ -681,6 +749,10 @@ void sendOrder(Customer* customer)
             }
             firstNode = firstNode->next;
         }
+        if (firstNode->item.customerName == customer->name)
+        {
+            firstNode->item.orderStatus = "2";
+        }
     }
     cout << redundantBuffer << endl;
     cout << "Order sent, currently preparing order... ... " << endl;
@@ -699,6 +771,10 @@ void cancelOrder(Customer* customer)
                 firstNode->item.orderStatus = "1";
             }
             firstNode = firstNode->next;
+        }
+        if (firstNode->item.customerName == customer->name)
+        {
+            firstNode->item.orderStatus = "1";
         }
     }
     cout << redundantBuffer << endl;
@@ -726,6 +802,10 @@ void acceptOrder(Customer* customer)
                 firstNode->item.orderStatus = "0";
             }
             firstNode = firstNode->next;
+        }
+        if (firstNode->item.customerName == customer->name)
+        {
+            firstNode->item.orderStatus = "0";
         }
     }
     clearOrder(customer);
@@ -897,7 +977,7 @@ void main()
 
         if (Account == "1") {
 
-            cout << "1) Login\n2) Register\n3) Exit" << endl;
+            cout << "1) Login\n2) Register\n3) Go back" << endl;
             string option;
             cin >> option;
             cinClear();
@@ -921,14 +1001,18 @@ void main()
             }
             else if (option == "3")
             {
-                cout << "Exiting Program" << endl;
-                update_Data();
-                exit(0);
+                
             }
             else
             {
                 cout << "Enter a valid option" << endl;
             }
+        }
+        else if(Account == "3")
+        {
+            cout << "Exiting Program" << endl;
+            update_Data();
+            exit(0);
         }
     }
 }
