@@ -446,10 +446,12 @@ Customer* loginAccount()
     return Customers.findCustomer(Name, Password);
 }
 
+/*
 Admin* findAdmin(string name, int password) {
 
-}
+}*/
 
+/*
 Admin* adminLogin() {
     cout << "Enter your name: " << endl;
     string Name;
@@ -462,7 +464,7 @@ Admin* adminLogin() {
     cin.clear(10000, '\n');
     
 
-}
+}*/
 
 void createAccount()
 {
@@ -871,7 +873,8 @@ void customerMenu(Customer* customer)
     return;
 }
 
-string AccountType() {
+string AccountType() 
+{
     cout << "1) Customer\n2) Admin\n3) Exit" << endl;
     string accountType;
     cin >> accountType;
@@ -880,9 +883,10 @@ string AccountType() {
     return accountType;
 }
 
+/*
 string AdminMenu() {
     cout << "";
-}
+}*/
 
 void main()
 {
@@ -898,32 +902,33 @@ void main()
             cin >> option;
             cinClear();
 
-        if (option == "1")
-        {
-            Customer* customer = loginAccount();
-            if (customer->name == "")
+            if (option == "1")
             {
-                cout << "User cannot be found" << endl;
+                Customer* customer = loginAccount();
+                if (customer->name == "")
+                {
+                    cout << "User cannot be found" << endl;
+                }
+                else
+                {
+                    customerMenu(customer);
+                }
+
+            }
+            else if (option == "2")
+            {
+                createAccount();
+            }
+            else if (option == "3")
+            {
+                cout << "Exiting Program" << endl;
+                update_Data();
+                exit(0);
             }
             else
             {
-                customerMenu(customer);
+                cout << "Enter a valid option" << endl;
             }
-            
-        }
-        else if (option == "2")
-        {
-            createAccount();
-        }
-        else if (option == "3")
-        {
-            cout << "Exiting Program" << endl;
-            update_Data();
-            exit(0);
-        }
-        else
-        {
-            cout << "Enter a valid option" << endl;
         }
     }
 }
