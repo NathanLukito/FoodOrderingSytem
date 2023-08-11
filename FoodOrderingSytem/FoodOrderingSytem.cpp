@@ -446,6 +446,24 @@ Customer* loginAccount()
     return Customers.findCustomer(Name, Password);
 }
 
+Admin* findAdmin(string name, int password) {
+
+}
+
+Admin* adminLogin() {
+    cout << "Enter your name: " << endl;
+    string Name;
+    cin >> Name;
+    cin.clear();
+    cin.ignore(10000, '\n');
+    cout << "Enter your password: " << endl;
+    int Password;
+    cin >> Password;
+    cin.clear(10000, '\n');
+    
+
+}
+
 void createAccount()
 {
     cout << "Enter your name: " << endl;
@@ -853,20 +871,32 @@ void customerMenu(Customer* customer)
     return;
 }
 
+string AccountType() {
+    cout << "1) Customer\n2) Admin\n3) Exit" << endl;
+    string accountType;
+    cin >> accountType;
+    cin.clear();
+    cin.ignore(10000, '\n');
+    return accountType;
+}
+
+string AdminMenu() {
+    cout << "";
+}
+
 void main()
 {
     init_Data();
-    /*
-    for (int store = 0; store < Admins.getLength(); store++) {
-        List<Admin>::Node<Admin>* storeNode = Admins.get(store);
-        printStore(storeNode->item);
-    }*/
     while (true)
     {
-        cout << "1) Login\n2) Register\n3) Exit" << endl;
-        string option;
-        cin >> option;
-        cinClear();
+        string Account = AccountType();
+
+        if (Account == "1") {
+
+            cout << "1) Login\n2) Register\n3) Exit" << endl;
+            string option;
+            cin >> option;
+            cinClear();
 
         if (option == "1")
         {

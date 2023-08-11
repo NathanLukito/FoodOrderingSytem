@@ -33,7 +33,7 @@ void Admin::addFoodItem(FoodItem foodItem) {
 }
 
 void Admin::addOrder(Order order) {
-	List<Order>* orderList = &this->foodOrderList;
-	orderList->add(order);
+	Queue orderList = this->foodOrderList;
+	orderList.enqueue(order);
 	cout << "Order added to " + this->name << endl;
 }

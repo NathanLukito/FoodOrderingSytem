@@ -2,6 +2,7 @@
 #include "LinkedList.h"
 #include "FoodItem.h"
 #include "Order.h"
+#include "Queue.h"
 #include <string>
 #include <iostream>
 
@@ -9,11 +10,12 @@ using namespace std;
 
 class Admin {
 public:
-	string name;
+	string name; 
 	string password;
 	List<FoodItem> foodItemList;
 	string description;
-	List<Order> foodOrderList;
+	Queue foodOrderList;
+	string location;
 
 	Admin();
 	~Admin();
