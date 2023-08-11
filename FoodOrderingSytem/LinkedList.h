@@ -30,7 +30,6 @@ public:
 
 	bool add(T item)
 	{
-
 		struct Node<T>* temp = firstNode;
 		struct Node<T>* node1 = new Node<T>;
 		node1->item = item;
@@ -159,40 +158,18 @@ public:
 
 	int getLength() { return size; }
 
-	Node<T>* binarySearchLinkedList(Node<T>* head, const T& target) {
-		Node<T>* left = head;
-		Node<T>* right = nullptr;
-
-		// Find the length of the linked list
-		int length = 0;
-		Node<T>* temp = head;
-		while (temp != nullptr) {
-			length++;
-			temp = temp->next;
+	void clear()
+	{
+		struct Node<T>* temp = firstNode;
+		struct Node<T>* next = nullptr;
+		while (temp != nullptr)
+		{
+			next = temp->next;
+			delete temp;
+			temp = next;
 		}
-
-		// Binary search
-		while (left != right) {
-			int middleIndex = (length - 1) / 2;
-			int count = 0;
-			Node<T>* middle = left;
-			while (count < middleIndex) {
-				middle = middle->next;
-				count++;
-			}
-
-			if (middle->item == target) {
-				return middle;
-			}
-			else if (middle->item < target) {
-				left = middle->next;
-			}
-			else {
-				right = middle;
-			}
-		}
-
-		return nullptr; // Target not found
+		firstNode = nullptr;
 	}
+
 };
 

@@ -496,6 +496,29 @@ Customer* loginAccount()
     return Customers.findCustomer(Name, Password);
 }
 
+<<<<<<< HEAD
+=======
+/*
+Admin* findAdmin(string name, int password) {
+
+}*/
+
+/*
+Admin* adminLogin() {
+    cout << "Enter your name: " << endl;
+    string Name;
+    cin >> Name;
+    cin.clear();
+    cin.ignore(10000, '\n');
+    cout << "Enter your password: " << endl;
+    int Password;
+    cin >> Password;
+    cin.clear(10000, '\n');
+    
+
+}*/
+
+>>>>>>> 20b6f2d18583456f77a4b2620a3fe7e549cc5f24
 void createAccount()
 {
     cout << "Enter your name: " << endl;
@@ -946,12 +969,17 @@ void customerMenu(Customer* customer)
     return;
 }
 
+<<<<<<< HEAD
 void printAdminOrders(Admin admin) {
     Queue adminOrders = admin.foodOrderList;
     adminOrders.displayItems();
 }
 
 string AccountType() {
+=======
+string AccountType() 
+{
+>>>>>>> 20b6f2d18583456f77a4b2620a3fe7e549cc5f24
     cout << "1) Customer\n2) Admin\n3) Exit" << endl;
     string accountType;
     cin >> accountType;
@@ -960,7 +988,9 @@ string AccountType() {
     return accountType;
 }
 
+/*
 string AdminMenu() {
+<<<<<<< HEAD
     cout << "1) Update status\n2) View order information" << endl;
     string adminOption;
     cin >> adminOption;
@@ -968,6 +998,10 @@ string AdminMenu() {
     cin.ignore(10000, '\n');
     return adminOption;
 }
+=======
+    cout << "";
+}*/
+>>>>>>> 20b6f2d18583456f77a4b2620a3fe7e549cc5f24
 
 Admin findAdmin(string name, string password) {
     /*List<Admin>::Node<Admin>* leftNode = Admins.get(0);
@@ -1052,16 +1086,32 @@ void main()
                     customerMenu(customer);
                 }
 
+<<<<<<< HEAD
+            }
+            else if (option == "2")
+            {
+                createAccount();
+                init_Data();
+            }
+            else if (option == "3")
+            {
+                cout << "Exiting Program" << endl;
+                update_Data();
+                exit(0);
+=======
+>>>>>>> 20b6f2d18583456f77a4b2620a3fe7e549cc5f24
             }
             else if (option == "2")
             {
                 createAccount();
             }
-            else if (option == "3") {}
+            else if (option == "3"){}
             else
             {
                 cout << "Enter a valid option" << endl;
             }
+<<<<<<< HEAD
+
         }
 
         else if (Account == "2") {
@@ -1081,9 +1131,9 @@ void main()
                     if (option == "1") {
                         printAdminOrders(admin);
                         string adminOption = AdminMenu();
-
+                        
                         if (adminOption == "1") {
-
+                            
                         }
                     }
                     else if (option == "2") {
@@ -1096,14 +1146,14 @@ void main()
                 }
             }
 
+=======
         }
-
-        else if (Account == "3")
+        else if(Account == "3")
         {
             cout << "Exiting Program" << endl;
             update_Data();
             exit(0);
+>>>>>>> 20b6f2d18583456f77a4b2620a3fe7e549cc5f24
         }
     }
 }
-

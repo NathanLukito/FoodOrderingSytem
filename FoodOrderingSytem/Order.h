@@ -2,7 +2,6 @@
 #include<string>
 #include<iostream>
 #include "OrderItem.h"
-#include "LinkedList.h"
 using namespace std;
 
 class Order
