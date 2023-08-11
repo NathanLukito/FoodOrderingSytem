@@ -115,10 +115,7 @@ Customer* Dictionary::findCustomer(string key, int password)
 
 void Dictionary::UpdateCustomer()
 {
-    ofstream clearFile("Customers.csv", ios::trunc);
-    clearFile.close();
-    bool check = false;
-    ofstream File("Customers.csv", ios::app);
+    ofstream File("Customers.csv", ios::out | ios::trunc);
     for (int i = 0; i < SIZE; i++)
     {
         if (table[i] != NULL)
@@ -127,21 +124,15 @@ void Dictionary::UpdateCustomer()
             List<Customer>::Node<Customer>* firstNode = list->get(0);
             while (firstNode->next != nullptr)
             {
-                if (check)
-                {
-                    string customer = "\n" + firstNode->item.name + "," + to_string(firstNode->item.password) + "," + firstNode->item.telPhoneNumber;
-                    File << customer;
-                }
-                else
-                {
-                    string customer = firstNode->item.name + "," + to_string(firstNode->item.password) + "," + firstNode->item.telPhoneNumber;
-                    File << customer;
-                    check = true;
-                }
+                string customer = firstNode->item.name + "," + to_string(firstNode->item.password) + "," + firstNode->item.telPhoneNumber;
+                File << customer << endl;
                 firstNode = firstNode->next;
             }
-            
+            string customer = firstNode->item.name + "," + to_string(firstNode->item.password) + "," + firstNode->item.telPhoneNumber;
+            File << customer << endl; 
         }
     }
     File.close();
 }
+
+

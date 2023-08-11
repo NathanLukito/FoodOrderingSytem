@@ -30,7 +30,6 @@ public:
 
 	bool add(T item)
 	{
-
 		struct Node<T>* temp = firstNode;
 		struct Node<T>* node1 = new Node<T>;
 		node1->item = item;
@@ -158,6 +157,19 @@ public:
 	}
 
 	int getLength() { return size; }
+
+	void clear()
+	{
+		struct Node<T>* temp = firstNode;
+		struct Node<T>* next = nullptr;
+		while (temp != nullptr)
+		{
+			next = temp->next;
+			delete temp;
+			temp = next;
+		}
+		firstNode = nullptr;
+	}
 
 };
 

@@ -6,6 +6,7 @@
 #include "Restaurant.h"
 #include "FoodItem.h"
 #include "Admin.h"
+#include "Order.h"
 #include <iomanip>
 
 #include <fstream>
@@ -13,7 +14,7 @@
 #include <sstream>
 using namespace std;
 
-Dictionary Customers = Dictionary();
+Dictionary Customers;
 List<Order> Orders;
 List<OrderItem> OrderItems;
 List<FoodItem> FoodItems;
@@ -168,112 +169,73 @@ void update_customers()
 
 void update_orders()
 {
-    ofstream clearFile("Orders.csv", ios::trunc);
-    clearFile.close();
-    bool check = false;
-    ofstream File("Orders.csv", ios::app);
+    ofstream File("Orders.csv", ios::out | ios::trunc);
     List<Order>::Node<Order>* firstNode = Orders.get(0);
     if (firstNode != nullptr)
     {
         while (firstNode->next != nullptr)
         {
-            if (check)
-            {
-                string Order = "\n" + to_string(firstNode->item.OrderID) + "," + firstNode->item.orderStatus + "," + firstNode->item.customerName;
-                File << Order;
-            }
-            else
-            {
-                string Order = to_string(firstNode->item.OrderID) + "," + firstNode->item.orderStatus + "," + firstNode->item.customerName;
-                File << Order;
-                check = true;
-            }
+            string Order = to_string(firstNode->item.OrderID) + "," + firstNode->item.orderStatus + "," + firstNode->item.customerName;
+            File << Order << endl;
             firstNode = firstNode->next;
         }
+        string Order = to_string(firstNode->item.OrderID) + "," + firstNode->item.orderStatus + "," + firstNode->item.customerName;
+        File << Order << endl;
     }
     File.close();
 }
 
 void update_orderItems()
 {
-    ofstream clearFile("OrderItems.csv", ios::trunc);
-    clearFile.close();
-    bool check = false;
-    ofstream File("OrderItems.csv", ios::app);
+    ofstream File("OrderItems.csv", ios::out | ios::trunc);
     List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
     if (firstNode != nullptr)
     {
         while (firstNode->next != nullptr)
         {
-            if (check)
-            {
-                string orderItem = "\n" + firstNode->item.name + "," + to_string(firstNode->item.OrderID) + "," + to_string(firstNode->item.quantity);
-                File << orderItem;
-            }
-            else
-            {
-                string orderItem = firstNode->item.name + "," + to_string(firstNode->item.OrderID) + "," + to_string(firstNode->item.quantity);
-                File << orderItem;
-                check = true;
-            }
+            string orderItem = firstNode->item.name + "," + to_string(firstNode->item.OrderID) + "," + to_string(firstNode->item.quantity);
+            File << orderItem << endl;
             firstNode = firstNode->next;
         }
+        string orderItem = firstNode->item.name + "," + to_string(firstNode->item.OrderID) + "," + to_string(firstNode->item.quantity);
+        File << orderItem << endl;
     }
     File.close();
 }
 
 void update_admins()
 {
-    ofstream clearFile("Admins.csv", ios::trunc);
-    clearFile.close();
-    bool check = false;
-    ofstream File("Admins.csv", ios::app);
+    ofstream File("Admins.csv", ios::out | ios::trunc);
     List<Admin>::Node<Admin>* firstNode = Admins.get(0);
     if (firstNode != nullptr)
     {
         while (firstNode->next != nullptr)
         {
-            if (check)
-            {
-                string admin = "\n" + firstNode->item.name + "," + firstNode->item.password + "," + firstNode->item.description;
-                File << admin;
-            }
-            else
-            {
-                string admin = firstNode->item.name + "," + firstNode->item.password + "," + firstNode->item.description;
-                File << admin;
-                check = true;
-            }
+            string admin = firstNode->item.name + "," + firstNode->item.password + "," + firstNode->item.description;
+            File << admin << endl;
             firstNode = firstNode->next;
         }
+        string admin = firstNode->item.name + "," + firstNode->item.password + "," + firstNode->item.description;
+        File << admin << endl;
+        firstNode = firstNode->next;
     }
     File.close();
 }
 
 void update_fooditems()
 {
-    ofstream clearFile("FoodItems.csv", ios::trunc);
-    clearFile.close();
-    bool check = false;
-    ofstream File("FoodItems.csv", ios::app);
+    ofstream File("FoodItems.csv", ios::out | ios::trunc);
     List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
     if (firstNode != nullptr)
     {
         while (firstNode->next != nullptr)
         {
-            if (check)
-            {
-                string foodItem = "\n" + firstNode->item.foodItemName + "," + firstNode->item.description + "," + firstNode->item.category + "," + to_string(firstNode->item.price) + "," + firstNode->item.adminName;
-                File << foodItem;
-            }
-            else
-            {
-                string foodItem = firstNode->item.foodItemName + "," + firstNode->item.description + "," + firstNode->item.category + "," + to_string(firstNode->item.price) + "," + firstNode->item.adminName;
-                File << foodItem;
-                check = true;
-            }
+            string foodItem = firstNode->item.foodItemName + "," + firstNode->item.description + "," + firstNode->item.category + "," + to_string(firstNode->item.price) + "," + firstNode->item.adminName;
+            File << foodItem << endl;
             firstNode = firstNode->next;
         }
+        string foodItem = firstNode->item.foodItemName + "," + firstNode->item.description + "," + firstNode->item.category + "," + to_string(firstNode->item.price) + "," + firstNode->item.adminName;
+        File << foodItem << endl;
     }
     File.close();
 }
@@ -501,7 +463,6 @@ void createAccount()
     cin.ignore(10000, '\n');
     //Assume 1 customer has only 1 order and can only do 1 order
     Customers.insert(Name, Customer(Name, Password, telPhoneNum));
-    
     Orders.add(Order(Orders.size + 1, "0", Name));
 }
 
@@ -923,7 +884,6 @@ void main()
         else if (option == "2")
         {
             createAccount();
-            init_Data();
         }
         else if (option == "3")
         {
