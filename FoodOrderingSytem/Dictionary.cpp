@@ -66,6 +66,17 @@ void Dictionary::insert(string key, Customer value)
     }
     else
     {
+        List<Customer>* list = table[index]->value;
+        List<Customer>::Node<Customer>* firstNode = list->get(0);
+        while (firstNode != nullptr)
+        {
+            if (firstNode->item.password == value.password)
+            {
+                cout << "Password has been taken by another user" << endl;
+                return;
+            }
+            firstNode = firstNode->next;
+        }
         table[index]->value->add(value);
     }
 }
@@ -124,11 +135,11 @@ void Dictionary::UpdateCustomer()
             List<Customer>::Node<Customer>* firstNode = list->get(0);
             while (firstNode->next != nullptr)
             {
-                string customer = firstNode->item.name + "," + to_string(firstNode->item.password) + "," + firstNode->item.telPhoneNumber;
+                string customer = firstNode->item.name + "," + to_string(firstNode->item.password) + "," + firstNode->item.telPhoneNumber + "," + to_string(firstNode->item.orderID);
                 File << customer << endl;
                 firstNode = firstNode->next;
             }
-            string customer = firstNode->item.name + "," + to_string(firstNode->item.password) + "," + firstNode->item.telPhoneNumber;
+            string customer = firstNode->item.name + "," + to_string(firstNode->item.password) + "," + firstNode->item.telPhoneNumber + "," + to_string(firstNode->item.orderID);
             File << customer << endl; 
         }
     }

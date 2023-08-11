@@ -36,6 +36,7 @@ void init_customers()
         string name;
         string password;
         string telPhoneNumber;
+        string orderID;
         getline(ss, name, ',');
         if (name == "")
         {
@@ -43,7 +44,8 @@ void init_customers()
         }
         getline(ss, password, ',');
         getline(ss, telPhoneNumber, ',');
-        Customers.insert(name, Customer(name, stoi(password), telPhoneNumber));
+        getline(ss, orderID, ',');
+        Customers.insert(name, Customer(name, stoi(password), telPhoneNumber, stoi(orderID)));
     }
     File.close();
 }
@@ -297,13 +299,13 @@ Order getOrder(Customer* customer)
     {
         while (firstNode->next != nullptr)
         {
-            if (firstNode->item.customerName == customer->name)
+            if (firstNode->item.customerName == customer->name && firstNode->item.OrderID == customer->orderID)
             {
                 return firstNode->item;
             }
             firstNode = firstNode->next;
         }
-        if (firstNode->item.customerName == customer->name)
+        if (firstNode->item.customerName == customer->name && firstNode->item.OrderID == customer->orderID)
         {
             return firstNode->item;
         }
@@ -415,7 +417,7 @@ void removeOrderItem(string name, Customer* customer)
     {
         while (firstNode->next != nullptr)
         {
-            if (firstNode->item.name == name && firstNode->item.OrderID == order.OrderID)
+            if (firstNode->item.name == name && firstNode->item.OrderID == order.OrderID && firstNode->item.OrderID == customer->orderID)
             {
                 if (firstNode->item.quantity != 1)
                 {
@@ -431,7 +433,7 @@ void removeOrderItem(string name, Customer* customer)
             index++;
             firstNode = firstNode->next;
         }
-        if (firstNode->item.name == name && firstNode->item.OrderID == order.OrderID)
+        if (firstNode->item.name == name && firstNode->item.OrderID == order.OrderID && firstNode->item.OrderID == customer->orderID)
         {
             if (firstNode->item.quantity != 1)
             {
@@ -455,14 +457,14 @@ void clearOrder(Customer* customer)
     {
         while (temp->next != nullptr)
         {
-            if (temp->item.customerName == customer->name)
+            if (temp->item.customerName == customer->name && temp->item.OrderID == customer->orderID)
             {
                 temp->item.orderStatus = "0";
                 tempOrder = &temp->item;
             }
             temp = temp->next;
         }
-        if (temp->item.customerName == customer->name)
+        if (temp->item.customerName == customer->name && temp->item.OrderID == customer->orderID)
         {
             temp->item.orderStatus = "0";
             tempOrder = &temp->item;
@@ -542,7 +544,7 @@ void createAccount()
     cin.clear();
     cin.ignore(10000, '\n');
     //Assume 1 customer has only 1 order and can only do 1 order
-    Customers.insert(Name, Customer(Name, Password, telPhoneNum));
+    Customers.insert(Name, Customer(Name, Password, telPhoneNum, Orders.size + 1));
     Orders.add(Order(Orders.size + 1, "0", Name));
 }
 
@@ -766,13 +768,13 @@ void sendOrder(Customer* customer)
     {
         while (firstNode->next != nullptr)
         {
-            if (firstNode->item.customerName == customer->name)
+            if (firstNode->item.customerName == customer->name && firstNode->item.OrderID == customer->orderID)
             {
                 firstNode->item.orderStatus = "2";
             }
             firstNode = firstNode->next;
         }
-        if (firstNode->item.customerName == customer->name)
+        if (firstNode->item.customerName == customer->name && firstNode->item.OrderID == customer->orderID)
         {
             firstNode->item.orderStatus = "2";
         }
@@ -789,13 +791,13 @@ void cancelOrder(Customer* customer)
     {
         while (firstNode->next != nullptr)
         {
-            if (firstNode->item.customerName == customer->name)
+            if (firstNode->item.customerName == customer->name && firstNode->item.OrderID == customer->orderID)
             {
                 firstNode->item.orderStatus = "1";
             }
             firstNode = firstNode->next;
         }
-        if (firstNode->item.customerName == customer->name)
+        if (firstNode->item.customerName == customer->name && firstNode->item.OrderID == customer->orderID)
         {
             firstNode->item.orderStatus = "1";
         }
@@ -820,13 +822,13 @@ void acceptOrder(Customer* customer)
     {
         while (firstNode->next != nullptr)
         {
-            if (firstNode->item.customerName == customer->name)
+            if (firstNode->item.customerName == customer->name && firstNode->item.OrderID == customer->orderID)
             {
                 firstNode->item.orderStatus = "0";
             }
             firstNode = firstNode->next;
         }
-        if (firstNode->item.customerName == customer->name)
+        if (firstNode->item.customerName == customer->name && firstNode->item.OrderID == customer->orderID)
         {
             firstNode->item.orderStatus = "0";
         }

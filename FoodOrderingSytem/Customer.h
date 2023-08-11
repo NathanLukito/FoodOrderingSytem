@@ -10,7 +10,8 @@ public:
 	string name;
 	int password;
 	string telPhoneNumber;
+	int orderID;
 	Customer();
 	~Customer();
-	Customer(string name, int password, string telPhoneNumber);
+	Customer(string name, int password, string telPhoneNumber, int orderID);
 };
