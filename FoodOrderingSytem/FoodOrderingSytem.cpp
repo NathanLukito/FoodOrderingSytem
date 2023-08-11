@@ -8,7 +8,6 @@
 #include "Admin.h"
 #include "Order.h"
 #include <iomanip>
-
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -247,6 +246,26 @@ void update_Data()
     update_orderItems();
     update_fooditems();
     update_admins();
+}
+
+void modifyOrderStatus(int OrderID, string status)
+{
+    List<Order>::Node<Order>* firstNode = Orders.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.OrderID == OrderID)
+            {
+                firstNode->item.orderStatus = status;
+            }
+            firstNode = firstNode->next;
+        }
+        if (firstNode->item.OrderID == OrderID)
+        {
+            firstNode->item.orderStatus = status;
+        }
+    }
 }
 
 string* splitString(string str)
@@ -677,6 +696,10 @@ void addItemMenu(Customer* customer, string categoryOption)
                     if (!addOrderItemDuplicate(foodChoice, order.OrderID))
                     {
                         OrderItems.add(OrderItem(foodChoice, 1, order.OrderID));
+                        if (order.orderStatus == "0")
+                        {
+                            modifyOrderStatus(order.OrderID, "1");
+                        }
                     }
                 }
                 firstNode = firstNode->next;
@@ -999,10 +1022,7 @@ void main()
             {
                 createAccount();
             }
-            else if (option == "3")
-            {
-                
-            }
+            else if (option == "3"){}
             else
             {
                 cout << "Enter a valid option" << endl;
