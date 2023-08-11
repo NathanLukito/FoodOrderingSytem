@@ -6,7 +6,7 @@
 #define SIZE 100
 using namespace std;
 
-class Dictionary 
+class Dictionary
 {
 private:
 	struct KeyValuePair
@@ -27,4 +27,3 @@ public:
 	void UpdateCustomer();
 	KeyValuePair* getFirst();
 };
-

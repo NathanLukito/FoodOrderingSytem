@@ -26,55 +26,6 @@ void cinClear()
     cin.ignore(10000, '\n');
 }
 
-void swap(List<Order>::Node<Order>* node1, List<Order>::Node<Order>* node2)
-{
-    List<Order>::Node<Order>* temp = node1;
-    node1 = node2;
-    node2 = temp;
-    temp = nullptr;
-    delete temp;
-}
-
-List<Order>::Node<Order>* findLargest()
-{
-    List<Order>::Node<Order>* firstNode = Orders.get(0);
-    List<Order>::Node<Order>* largest = firstNode;
-    if (firstNode != nullptr)
-    {
-        while (firstNode->next != nullptr)
-        {
-            if (firstNode->item.OrderID > largest->item.OrderID)
-            {
-                largest = firstNode;
-            }
-            firstNode = firstNode->next;
-        }
-        if (firstNode->item.OrderID > largest->item.OrderID)
-        {
-            largest = firstNode;
-        }
-    }
-    return largest;
-}
-
-void selectionSort()
-{
-    List<Order>::Node<Order>* firstNode = Orders.get(0);
-    int largestID = 0;
-    if (firstNode != nullptr)
-    {
-        while (firstNode->next != nullptr)
-        {
-            List<Order>::Node<Order>* largest = findLargest();
-            swap(firstNode, largest);
-            firstNode = firstNode->next;
-        }
-        List<Order>::Node<Order>* largest = findLargest();
-        swap(firstNode, largest);
-    }
-    List<Order>::Node<Order>* test = Orders.get(0);
-}
-
 void init_customers()
 {
     ifstream File("Customers.csv");
@@ -207,7 +158,6 @@ void update_customers()
 
 void update_orders()
 {
-    selectionSort();
     ofstream File("Orders.csv", ios::out | ios::trunc);
     List<Order>::Node<Order>* firstNode = Orders.get(0);
     if (firstNode != nullptr)
@@ -546,6 +496,29 @@ Customer* loginAccount()
     return Customers.findCustomer(Name, Password);
 }
 
+<<<<<<< HEAD
+=======
+/*
+Admin* findAdmin(string name, int password) {
+
+}*/
+
+/*
+Admin* adminLogin() {
+    cout << "Enter your name: " << endl;
+    string Name;
+    cin >> Name;
+    cin.clear();
+    cin.ignore(10000, '\n');
+    cout << "Enter your password: " << endl;
+    int Password;
+    cin >> Password;
+    cin.clear(10000, '\n');
+    
+
+}*/
+
+>>>>>>> 20b6f2d18583456f77a4b2620a3fe7e549cc5f24
 void createAccount()
 {
     cout << "Enter your name: " << endl;
@@ -750,73 +723,18 @@ void chooseCategory(Customer* customer)
     addItemMenu(customer, categoryOption);
 }
 
-void printRestaurants()
-{
-    List<Admin>::Node<Admin>* firstNode = Admins.get(0);
-    if (firstNode != nullptr)
-    {
-        cout << redundantBuffer << endl;
-        while (firstNode->next != nullptr)
-        {
-            cout << "[ " << firstNode->item.name << " ]" << endl;
-            firstNode = firstNode->next;
-        }
-        cout << "[ " << firstNode->item.name << " ]" << endl;
-    }
-}
-
-string chooseRestaurant()
-{
-    while (true)
-    {
-        printRestaurants();
-        cout << "Type the name of the restaurant you want or 'exit' to exit" << endl;
-        string restaurantOption;
-        cin >> restaurantOption;
-        cinClear();
-        if (restaurantOption == "exit")
-        {
-            return "exit";
-        }
-        List<Admin>::Node<Admin>* firstNode = Admins.get(0);
-        if (firstNode != nullptr)
-        {
-            while (firstNode->next != nullptr)
-            {
-                if (firstNode->item.name == restaurantOption)
-                {
-                    return restaurantOption;
-                }
-            }
-            if (firstNode->item.name == restaurantOption)
-            {
-                return restaurantOption;
-            }
-        }
-        cout << "Restaurant not found" << endl;
-    }
-}
-
 void searchItemMenu(Customer* customer)
 {
     while (true)
     {
         string searchOption;
-        string restaurantOption = chooseRestaurant();
-        if (restaurantOption == "exit")
-        {
-            return;
-        }
+        cout << "display restaurant" << endl;
         cout << "1) Search restaurant\n2) Search food name\n3) Search Category\n4) Cancel" << endl;
         cin >> searchOption;
         cinClear();
         if (searchOption == "1")
         {
-            restaurantOption = chooseRestaurant();
-            if (restaurantOption == "exit")
-            {
-                return;
-            }
+            //Restaurant search
         }
         else if (searchOption == "2")
         {
@@ -1051,12 +969,17 @@ void customerMenu(Customer* customer)
     return;
 }
 
+<<<<<<< HEAD
 void printAdminOrders(Admin admin) {
     Queue adminOrders = admin.foodOrderList;
     adminOrders.displayItems();
 }
 
 string AccountType() {
+=======
+string AccountType() 
+{
+>>>>>>> 20b6f2d18583456f77a4b2620a3fe7e549cc5f24
     cout << "1) Customer\n2) Admin\n3) Exit" << endl;
     string accountType;
     cin >> accountType;
@@ -1065,7 +988,9 @@ string AccountType() {
     return accountType;
 }
 
+/*
 string AdminMenu() {
+<<<<<<< HEAD
     cout << "1) Update status\n2) View order information" << endl;
     string adminOption;
     cin >> adminOption;
@@ -1073,6 +998,10 @@ string AdminMenu() {
     cin.ignore(10000, '\n');
     return adminOption;
 }
+=======
+    cout << "";
+}*/
+>>>>>>> 20b6f2d18583456f77a4b2620a3fe7e549cc5f24
 
 Admin findAdmin(string name, string password) {
     /*List<Admin>::Node<Admin>* leftNode = Admins.get(0);
@@ -1157,16 +1086,32 @@ void main()
                     customerMenu(customer);
                 }
 
+<<<<<<< HEAD
+            }
+            else if (option == "2")
+            {
+                createAccount();
+                init_Data();
+            }
+            else if (option == "3")
+            {
+                cout << "Exiting Program" << endl;
+                update_Data();
+                exit(0);
+=======
+>>>>>>> 20b6f2d18583456f77a4b2620a3fe7e549cc5f24
             }
             else if (option == "2")
             {
                 createAccount();
             }
-            else if (option == "3") {}
+            else if (option == "3"){}
             else
             {
                 cout << "Enter a valid option" << endl;
             }
+<<<<<<< HEAD
+
         }
 
         else if (Account == "2") {
@@ -1186,9 +1131,9 @@ void main()
                     if (option == "1") {
                         printAdminOrders(admin);
                         string adminOption = AdminMenu();
-
+                        
                         if (adminOption == "1") {
-
+                            
                         }
                     }
                     else if (option == "2") {
@@ -1201,14 +1146,14 @@ void main()
                 }
             }
 
+=======
         }
-
-        else if (Account == "3")
+        else if(Account == "3")
         {
             cout << "Exiting Program" << endl;
             update_Data();
             exit(0);
+>>>>>>> 20b6f2d18583456f77a4b2620a3fe7e549cc5f24
         }
     }
 }
-
