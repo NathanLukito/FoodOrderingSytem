@@ -1,3 +1,7 @@
+//Name: Nathan Farrel Lukito
+//StudentID: S10244400
+//Group: 1
+
 #pragma once
 #include<string>
 #include<iostream>
@@ -16,19 +20,23 @@ public:
 	Node<T>* firstNode = nullptr;	
 	int  size;		
 
+	//Constructor
 	List()
 	{
 		size = 0;
 		firstNode = nullptr;
 	}
 
+	//Destructor
 	~List()
 	{
 		size = 0;
 		firstNode = nullptr;
 	}
 
-	bool add(T item)
+	//Adds item to next node in list
+	//Arguments: Object
+	void add(T item)
 	{
 		struct Node<T>* temp = firstNode;
 		struct Node<T>* node1 = new Node<T>;
@@ -55,7 +63,9 @@ public:
 		delete temp;
 	}
 
-	bool add(int index, T item)
+	//Adds item to next Node of index in list
+	//Arguments: index to insert next to, object
+	void add(int index, T item)
 	{
 		struct Node<T>* temp = firstNode;
 		struct Node<T>* node1 = new Node<T>;
@@ -63,7 +73,6 @@ public:
 		if (index > size)
 		{
 			cout << "index out of range" << endl;
-			return false;
 		}
 		else if (index != 0)
 		{
@@ -77,19 +86,19 @@ public:
 			node1->item = item;
 			node1->next = temp->next;
 			size++;
-			return true;
 		}
 		else
 		{
 			node1->item = item;
 			node1->next = temp;
 			firstNode = node1;
-			return true;
 		}
 		temp = NULL;
 		delete temp;
 	}
 
+	//Remove item on index in list
+	//Arguments: Index to remove from list
 	void remove(int index)
 	{
 		struct Node<T>* temp = firstNode;
@@ -118,6 +127,8 @@ public:
 		delete temp;
 	}
 
+	//Get the Node of the index in the list
+	//Arguments: Index of the Node to return in the list
 	Node<T>* get(int index)
 	{
 		struct Node<T>* temp = firstNode;
@@ -144,6 +155,8 @@ public:
 		delete temp;
 	}
 
+	//Check if list is empty
+	//Returns: bool
 	bool isEmpty()
 	{
 		if (size == 0)
@@ -156,19 +169,7 @@ public:
 		}
 	}
 
+	//Return: size of list
 	int getLength() { return size; }
-
-	void clear()
-	{
-		struct Node<T>* temp = firstNode;
-		struct Node<T>* next = nullptr;
-		while (temp != nullptr)
-		{
-			next = temp->next;
-			delete temp;
-			temp = next;
-		}
-		firstNode = nullptr;
-	}
 };
 
