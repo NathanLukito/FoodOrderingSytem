@@ -26,55 +26,6 @@ void cinClear()
     cin.ignore(10000, '\n');
 }
 
-void swap(List<Order>::Node<Order>* node1, List<Order>::Node<Order>* node2)
-{
-    List<Order>::Node<Order>* temp = node1;
-    node1 = node2;
-    node2 = temp;
-    temp = nullptr;
-    delete temp;
-}
-
-List<Order>::Node<Order>* findLargest()
-{
-    List<Order>::Node<Order>* firstNode = Orders.get(0);
-    List<Order>::Node<Order>* largest = firstNode;
-    if (firstNode != nullptr)
-    {
-        while (firstNode->next != nullptr)
-        {
-            if (firstNode->item.OrderID > largest->item.OrderID)
-            {
-                largest = firstNode;
-            }
-            firstNode = firstNode->next;
-        }
-        if (firstNode->item.OrderID > largest->item.OrderID)
-        {
-            largest = firstNode;
-        }
-    }
-    return largest;
-}
-
-void selectionSort()
-{
-    List<Order>::Node<Order>* firstNode = Orders.get(0);
-    int largestID = 0;
-    if (firstNode != nullptr)
-    {
-        while (firstNode->next != nullptr)
-        {
-            List<Order>::Node<Order>* largest = findLargest();
-            swap(firstNode, largest);
-            firstNode = firstNode->next;
-        }
-        List<Order>::Node<Order>* largest = findLargest();
-        swap(firstNode, largest);
-    }
-    List<Order>::Node<Order>* test = Orders.get(0);
-}
-
 void init_customers()
 {
     ifstream File("Customers.csv");
@@ -109,6 +60,7 @@ void init_orders()
         string OrderID;
         string orderStatus;
         string customerName;
+        string adminName;
         getline(ss, OrderID, ',');
         if (OrderID == "")
         {
@@ -116,7 +68,8 @@ void init_orders()
         }
         getline(ss, orderStatus, ',');
         getline(ss, customerName, ',');
-        Orders.add(Order(stoi(OrderID), orderStatus, customerName));
+        getline(ss, adminName, ',');
+        Orders.add(Order(stoi(OrderID), orderStatus, customerName, adminName));
     }
     File.close();
 }
@@ -204,21 +157,76 @@ void update_customers()
 {
     Customers.UpdateCustomer();
 }
+/*
+void swap(List<Order>::Node<Order>* node1, List<Order>::Node<Order>* node2)
+{
+    List<Order>::Node<Order>* temp = node1;
+    node1->item = node2->item;
+    List<Order>::Node<Order>* firstNode = 
+    node2->item = temp->item;
+    temp = nullptr;
+    delete temp;
+}*/
+
+/*
+List<Order>::Node<Order>* findSmallest()
+{
+    List<Order>::Node<Order>* firstNode = Orders.get(0);
+    List<Order>::Node<Order>* smaller = firstNode;
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.OrderID > largest->item.OrderID)
+            {
+                largest = firstNode;
+            }
+            firstNode = firstNode->next;
+        }
+        if (firstNode->item.OrderID > largest->item.OrderID)
+        {
+            largest = firstNode;
+        }
+    }
+    return largest;
+}*/
+/*
+void selectionSort()
+{
+    List<Order>::Node<Order>* firstNode = Orders.get(0);
+    List<Order>::Node<Order>* temp = new List<Order>::Node<Order>;
+    if (firstNode != nullptr)
+    {
+        while (firstNode != nullptr)
+        {
+            temp = firstNode->next;
+            while (temp != nullptr)
+            {
+                if (firstNode->item.OrderID > temp->item.OrderID)
+                {
+                    swap(firstNode, temp);
+                }
+                temp = temp->next;
+            }
+            firstNode = firstNode->next;
+        }
+    }
+    List<Order>::Node<Order>* test = Orders.get(0);
+}*/
 
 void update_orders()
 {
-    selectionSort();
     ofstream File("Orders.csv", ios::out | ios::trunc);
     List<Order>::Node<Order>* firstNode = Orders.get(0);
     if (firstNode != nullptr)
     {
         while (firstNode->next != nullptr)
         {
-            string Order = to_string(firstNode->item.OrderID) + "," + firstNode->item.orderStatus + "," + firstNode->item.customerName;
+            string Order = to_string(firstNode->item.OrderID) + "," + firstNode->item.orderStatus + "," + firstNode->item.customerName + "," + firstNode->item.adminName;
             File << Order << endl;
             firstNode = firstNode->next;
         }
-        string Order = to_string(firstNode->item.OrderID) + "," + firstNode->item.orderStatus + "," + firstNode->item.customerName;
+        string Order = to_string(firstNode->item.OrderID) + "," + firstNode->item.orderStatus + "," + firstNode->item.customerName + "," + firstNode->item.adminName;
         File << Order << endl;
     }
     File.close();
@@ -308,6 +316,26 @@ void modifyOrderStatus(int OrderID, string status)
     }
 }
 
+void modifyOrderRestaurant(int OrderID, string restaurant)
+{
+    List<Order>::Node<Order>* firstNode = Orders.get(0);
+    if (firstNode != nullptr)
+    {
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.OrderID == OrderID)
+            {
+                firstNode->item.adminName = restaurant;
+            }
+            firstNode = firstNode->next;
+        }
+        if (firstNode->item.OrderID == OrderID)
+        {
+            firstNode->item.adminName = restaurant;
+        }
+    }
+}
+
 string* splitString(string str)
 {
     string arr[2] = {};
@@ -330,9 +358,28 @@ string* splitString(string str)
     return arr;
 }
 
+Order recursiveGetOrder(Customer* customer, List<Order>::Node<Order>*firstNode)
+{
+    if (firstNode->next != nullptr)
+    {
+        if (firstNode->item.customerName == customer->name && firstNode->item.OrderID == customer->orderID)
+        {
+            return firstNode->item;
+        }
+        return recursiveGetOrder(customer, firstNode->next);
+    }
+    if (firstNode->item.customerName == customer->name && firstNode->item.OrderID == customer->orderID)
+    {
+        return firstNode->item;
+    }
+    cout << "Order could not be found" << endl;
+}
+
 Order getOrder(Customer* customer)
 {
     List<Order>::Node<Order>* firstNode = Orders.get(0);
+    return recursiveGetOrder(customer,firstNode);
+    /*
     if (firstNode != nullptr)
     {
         while (firstNode->next != nullptr)
@@ -351,7 +398,7 @@ Order getOrder(Customer* customer)
     else
     {
         cout << "There are no Orders" << endl;
-    }
+    }*/
 }
 
 int getOrderItemPrice(OrderItem orderItem)
@@ -505,6 +552,7 @@ void clearOrder(Customer* customer)
         if (temp->item.customerName == customer->name && temp->item.OrderID == customer->orderID)
         {
             temp->item.orderStatus = "0";
+            temp->item.adminName = "";
             tempOrder = &temp->item;
         }
     }
@@ -563,7 +611,7 @@ void createAccount()
     cin.ignore(10000, '\n');
     //Assume 1 customer has only 1 order and can only do 1 order
     Customers.insert(Name, Customer(Name, Password, telPhoneNum, Orders.size + 1));
-    Orders.add(Order(Orders.size + 1, "0", Name));
+    Orders.add(Order(Orders.size + 1, "0", Name, ""));
 }
 
 void removeItemMenu(Customer* customer)
@@ -621,7 +669,7 @@ bool isDuplicate(List<string>Categories, string category)
     return false;
 }
 
-List<string>* printCategories()
+List<string>* printCategories(string adminName)
 {
     List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
     List<string> Categories;
@@ -630,23 +678,29 @@ List<string>* printCategories()
         cout << redundantBuffer << "Categories" << redundantBuffer<< endl;
         while (firstNode->next != nullptr)
         {
+            if (firstNode->item.adminName == adminName)
+            {
+                if (!isDuplicate(Categories, firstNode->item.category))
+                {
+                    cout << "[ " << firstNode->item.category << " ]" << endl;
+                    Categories.add(firstNode->item.category);
+                }
+            }
+            firstNode = firstNode->next;
+        }
+        if (firstNode->item.adminName == adminName)
+        {
             if (!isDuplicate(Categories, firstNode->item.category))
             {
                 cout << "[ " << firstNode->item.category << " ]" << endl;
                 Categories.add(firstNode->item.category);
             }
-            firstNode = firstNode->next;
-        }
-        if (!isDuplicate(Categories, firstNode->item.category))
-        {
-            cout << "[ " << firstNode->item.category << " ]" << endl;
-            Categories.add(firstNode->item.category);
         }
     }
     return &Categories;
 }
 
-void printFoodfromCat(string category)
+void printFoodfromCat(string category, string restaurant)
 {
     List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
     if (firstNode != nullptr)
@@ -654,13 +708,13 @@ void printFoodfromCat(string category)
         cout << redundantBuffer << endl;
         while (firstNode->next != nullptr)
         {
-            if (firstNode->item.category == category)
+            if (firstNode->item.category == category && firstNode->item.adminName == restaurant)
             {
                 firstNode->item.print();
             }
             firstNode = firstNode->next;
         }
-        if (firstNode->item.category == category)
+        if (firstNode->item.category == category && firstNode->item.adminName == restaurant)
         {
             firstNode->item.print();
         }
@@ -688,12 +742,12 @@ bool addOrderItemDuplicate(string foodName, int OrderID)
     return false;
 }
 
-void addItemMenu(Customer* customer, string categoryOption)
+void addItemMenu(Customer* customer, string categoryOption, string restaurant)
 {
     while (true)
     {
         bool check = false;
-        printFoodfromCat(categoryOption);
+        printFoodfromCat(categoryOption, restaurant);
         Order order = getOrder(customer);
         printOrder(order);
         cout << "Type the name of the food you want or type 'exit' to exit" << endl;
@@ -710,7 +764,7 @@ void addItemMenu(Customer* customer, string categoryOption)
             
             while (firstNode->next != nullptr)
             {
-                if (firstNode->item.foodItemName == foodChoice)
+                if (firstNode->item.foodItemName == foodChoice && firstNode->item.adminName == restaurant)
                 {
                     check = true;
                     if (!addOrderItemDuplicate(foodChoice, order.OrderID))
@@ -724,7 +778,7 @@ void addItemMenu(Customer* customer, string categoryOption)
                 }
                 firstNode = firstNode->next;
             }
-            if (firstNode->item.foodItemName == foodChoice)
+            if (firstNode->item.foodItemName == foodChoice && firstNode->item.adminName == restaurant)
             {
                 check = true;
                 if (!addOrderItemDuplicate(foodChoice, order.OrderID))
@@ -742,12 +796,13 @@ void addItemMenu(Customer* customer, string categoryOption)
 
 void chooseCategory(Customer* customer)
 {
-    printCategories();
+    string restaurant = getOrder(customer).adminName;
+    printCategories(restaurant);
     cout << redundantBuffer << "Type the name of the category you want to choose" << redundantBuffer << endl;
     string categoryOption;
     cin >> categoryOption;
     cinClear();
-    addItemMenu(customer, categoryOption);
+    addItemMenu(customer, categoryOption, restaurant);
 }
 
 void printRestaurants()
@@ -765,7 +820,7 @@ void printRestaurants()
     }
 }
 
-string chooseRestaurant()
+string chooseRestaurant(Order order)
 {
     while (true)
     {
@@ -785,11 +840,13 @@ string chooseRestaurant()
             {
                 if (firstNode->item.name == restaurantOption)
                 {
+                    modifyOrderRestaurant(order.OrderID, restaurantOption);
                     return restaurantOption;
                 }
             }
             if (firstNode->item.name == restaurantOption)
             {
+                modifyOrderRestaurant(order.OrderID, restaurantOption);
                 return restaurantOption;
             }
         }
@@ -799,20 +856,31 @@ string chooseRestaurant()
 
 void searchItemMenu(Customer* customer)
 {
+    Order order = getOrder(customer);
+    string restaurantOption = "";
     while (true)
     {
-        string searchOption;
-        string restaurantOption = chooseRestaurant();
-        if (restaurantOption == "exit")
+        if (order.adminName == "")
         {
-            return;
+            if (getOrder(customer).adminName == "")
+            {
+                restaurantOption = chooseRestaurant(order);
+            }
+
+            if (restaurantOption == "exit")
+            {
+                return;
+            }
         }
-        cout << "1) Search restaurant\n2) Search food name\n3) Search Category\n4) Cancel" << endl;
+        
+        cout << "1) Search restaurant (Will clear Order)\n2) Search food name\n3) Search Category\n4) Cancel" << endl;
+        string searchOption;
         cin >> searchOption;
         cinClear();
         if (searchOption == "1")
         {
-            restaurantOption = chooseRestaurant();
+            clearOrder(customer);
+            restaurantOption = chooseRestaurant(order);
             if (restaurantOption == "exit")
             {
                 return;
@@ -918,7 +986,7 @@ void orderMenu(Customer* customer)
     string menuArray[5] = { "1) Go back\n2) Add Items", "1) Go back\n2) Remove Items\n3) Add Items\n4) Clear Order\n5) Send Order", "1) Go back\n2) Cancel Order", "1) Go back\n2) Accept Order", "1) Go back\n2) Resolved"};
     while (true)
     {
-        string orderStatus = getOrder(customer).orderStatus; // error here problem due to last person in list
+        string orderStatus = getOrder(customer).orderStatus;
         if (orderStatus == "0")
         {
             cout << menuArray[0] << endl;
