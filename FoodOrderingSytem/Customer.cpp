@@ -24,7 +24,7 @@ void Customer::print()
 {
 	string name = "Name: " + this->name;
 	string telPhoneNumber = "Contact: " + this->telPhoneNumber;
-	cout << left << setw(20) << name << left << setw(20) << telPhoneNumber << endl;
+	cout << left << setw(20) << name << "\n" << left << setw(20) << telPhoneNumber << endl;
 }
 
 
