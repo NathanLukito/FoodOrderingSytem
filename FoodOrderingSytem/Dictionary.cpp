@@ -165,4 +165,23 @@ void Dictionary::UpdateCustomer()
     File.close();
 }
 
+Customer* Dictionary::getCustomerWithName(string username) {
+    if (checkUnique(username) == false)
+    {
+        List<Customer>* list = table[hashFunction(username)]->value;
+        List<Customer>::Node<Customer>* firstNode = list->get(0);
+        while (firstNode->next != nullptr)
+        {
+            if (firstNode->item.name == username) {
+                return &firstNode->item;
+            }
+            firstNode = firstNode->next;
+        }
+        if (firstNode->item.name == username) {
+            return &firstNode->item;
+        }
+    }
+    Customer* customer = new Customer();
+    return customer;
+}
 

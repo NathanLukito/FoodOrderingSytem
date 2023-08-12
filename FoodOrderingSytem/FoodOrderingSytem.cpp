@@ -1198,6 +1198,7 @@ void initialiseQueues(Admin admin) {
 }
 
 void printAdminOrders(Admin admin) {
+    cout << "Order ID - Name - Status" << endl;
     if (admin.name == "McDonalds") {
         if (McDonalds.getLength() == 0) {
             cout << "No orders" << endl;
@@ -1298,6 +1299,27 @@ void adminUpdateStatus(Admin admin) {
     }
 }
 
+void ViewCustomerInformation(Admin admin) {
+    if (admin.name == "McDonalds") {
+        string customername = McDonalds.getFront().customerName;
+        Customer* customer = Customers.getCustomerWithName(customername);
+        cout << "Name - Phone Number " << endl;
+        customer->print();
+    }
+    else if (admin.name == "Saizeriya") {
+        string customername = Saizeriya.getFront().customerName;
+        Customer* customer = Customers.getCustomerWithName(customername);
+        cout << "Name - Phone Number " << endl;
+        customer->print();
+    }
+    else if (admin.name == "XiMenJie") {
+        string customername = XiMenJie.getFront().customerName;
+        Customer* customer = Customers.getCustomerWithName(customername);
+        cout << "Name - Phone Number " << endl;
+        customer->print();
+    }
+}
+
 void main()
 {
     init_Data();
@@ -1368,7 +1390,7 @@ void main()
                         }
 
                         else if (adminOption == "2") {
-
+                            ViewCustomerInformation(admin);
                         }
                     }
                     else if (option == "2") {
