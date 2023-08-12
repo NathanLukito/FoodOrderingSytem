@@ -17,4 +17,5 @@ public:
 	Customer();
 	~Customer();
 	Customer(string name, int password, string telPhoneNumber, int orderID);
+	void print();
 };
