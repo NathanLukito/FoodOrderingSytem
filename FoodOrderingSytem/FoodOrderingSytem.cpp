@@ -946,10 +946,10 @@ void customerMenu(Customer* customer)
     return;
 }
 
-void printAdminOrders(Admin admin) {
+/*void printAdminOrders(Admin admin) {
     Queue adminOrders = admin.foodOrderList;
     adminOrders.displayItems();
-}
+}*/
 
 string AccountType() {
     cout << "1) Customer\n2) Admin\n3) Exit" << endl;
@@ -1024,8 +1024,6 @@ Admin adminLogin() {
     return admin;
 }
 
-
-
 void main()
 {
     init_Data();
@@ -1063,7 +1061,6 @@ void main()
                 cout << "Enter a valid option" << endl;
             }
         }
-
         else if (Account == "2") {
 
             Admin admin = adminLogin();
@@ -1079,7 +1076,7 @@ void main()
                     cinClear();
 
                     if (option == "1") {
-                        printAdminOrders(admin);
+                        //printAdminOrders(admin);
                         string adminOption = AdminMenu();
 
                         if (adminOption == "1") {
@@ -1097,7 +1094,6 @@ void main()
             }
 
         }
-
         else if (Account == "3")
         {
             cout << "Exiting Program" << endl;
@@ -1106,4 +1102,5 @@ void main()
         }
     }
 }
+
 
