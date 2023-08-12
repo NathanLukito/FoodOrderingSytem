@@ -450,6 +450,7 @@ void printOrder(Order order)
             totalPrice += orderItemPrice;
             cout << firstNode->item.name << " | x" << firstNode->item.quantity << " | Price: $" << orderItemPrice << endl;
         }
+        cout << "Restaurant: " << order.adminName << endl;
     }
     else
     {
