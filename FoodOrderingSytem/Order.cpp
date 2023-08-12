@@ -7,11 +7,12 @@ using namespace std;
 Order::Order() {};
 Order::~Order() {};
 
-Order::Order(int OrderID, string orderStatus, string customerName)
+Order::Order(int OrderID, string orderStatus, string customerName, string adminName)
 {
 	this->OrderID = OrderID;
 	this->orderStatus = orderStatus;
 	this->customerName = customerName;
+	this->adminName = adminName;
 }
 
 void Order::modifyOrderStatus(string orderStatus)

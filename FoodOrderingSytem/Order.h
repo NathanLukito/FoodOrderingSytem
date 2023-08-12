@@ -10,10 +10,11 @@ public:
 	int OrderID;
 	string orderStatus;
 	string customerName;
+	string adminName;
 
 	Order();
 	~Order();
-	Order(int OrderID, string orderStatus, string customerName);
+	Order(int OrderID, string orderStatus, string customerName, string adminName);
 	double getTotalPrice();
 	void modifyOrderStatus(string orderStatus);
 	int getUserID();
