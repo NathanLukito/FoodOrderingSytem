@@ -18,6 +18,9 @@ List<Order> Orders;
 List<OrderItem> OrderItems;
 List<FoodItem> FoodItems;
 List<Admin> Admins;
+Queue McDonalds;
+Queue Saizeriya;
+Queue XiMenJie;
 
 string redundantBuffer = "\n_______________________________________________________________________________________________\n";
 
@@ -1174,9 +1177,38 @@ void customerMenu(Customer* customer)
     return;
 }
 
+void initialiseQueues(Admin admin) {
+    List<Order>::Node<Order>* firstNode = Orders.get(0);
+    if (firstNode != nullptr) {
+        while (firstNode->next != nullptr) {
+            if (firstNode->item.adminName == admin.name && firstNode->item.orderStatus != "1" && firstNode->item.orderStatus != "0")
+            {
+                if (firstNode->item.adminName == "McDonalds") {
+                    McDonalds.enqueue(firstNode->item);
+                }
+                else if (firstNode->item.adminName == "Saizeriya") {
+                    Saizeriya.enqueue(firstNode->item);
+                }
+                else if (firstNode->item.adminName == "XiMenJie") {
+                    XiMenJie.enqueue(firstNode->item);
+                }
+            }
+            firstNode = firstNode->next;
+        }
+    }
+}
+
 void printAdminOrders(Admin admin) {
-    Queue adminOrders = admin.foodOrderList;
-    adminOrders.displayItems();
+    if (admin.name == "McDonalds") {
+        McDonalds.displayItems();
+    }
+    else if (admin.name == "Saizeriya") {
+        Saizeriya.displayItems();
+    }
+    else if (admin.name == "XiMenJie") {
+        XiMenJie.displayItems();
+    }
+    cout << redundantBuffer << endl;
 }
 
 string AccountType() {
@@ -1256,7 +1288,27 @@ Admin adminLogin() {
     return admin;
 }
 
-//Initializes data, allow user to select a usertype and login or register, if user exits, data is saved
+void adminUpdateStatus(Admin admin) {
+    cout << "Enter order status to update" << endl;
+    string orderstatus;
+    cin >> orderstatus;
+    cin.clear();
+    cin.ignore(10000, '\n');
+
+    if (admin.name == "McDonalds") {
+        McDonalds.getFront().modifyOrderStatus(orderstatus);
+        McDonalds.dequeue();
+    }
+    else if (admin.name == "Saizeriya") {
+        Saizeriya.getFront().modifyOrderStatus(orderstatus);
+        Saizeriya.dequeue();
+    }
+    else if (admin.name == "XiMenJie") {
+        XiMenJie.getFront().modifyOrderStatus(orderstatus);
+        XiMenJie.dequeue();
+    }
+}
+
 void main()
 {
     init_Data();
@@ -1299,7 +1351,6 @@ void main()
                 cout << redundantBuffer << endl;
             }
         }
-
         else if (Account == "2") {
 
             Admin admin = adminLogin();
@@ -1310,6 +1361,7 @@ void main()
                 cout << redundantBuffer << endl;
             }
             else {
+                initialiseQueues(admin);
                 while (true) {
                     cout << redundantBuffer << endl;
                     cout << "1) View Orders\n2) Logout" << endl;
@@ -1323,6 +1375,10 @@ void main()
                         string adminOption = AdminMenu();
 
                         if (adminOption == "1") {
+                            adminUpdateStatus(admin);
+                        }
+
+                        else if (adminOption == "2") {
 
                         }
                     }
@@ -1341,7 +1397,6 @@ void main()
             }
 
         }
-
         else if (Account == "3")
         {
             cout << "Exiting Program" << endl;
@@ -1350,4 +1405,5 @@ void main()
         }
     }
 }
+
 
