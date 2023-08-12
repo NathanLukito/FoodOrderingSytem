@@ -21,12 +21,16 @@ List<Admin> Admins;
 
 string redundantBuffer = "\n_______________________________________________________________________________________________\n";
 
+//Name: Nathan
+//Clear cin to avoid inputs being skipped due to invalid input
 void cinClear()
 {
     cin.clear();
     cin.ignore(10000, '\n');
 }
 
+//Name: Nathan
+//Adds customers to Customers dictionary from Customers csv file
 void init_customers()
 {
     ifstream File("Customers.csv");
@@ -51,6 +55,8 @@ void init_customers()
     File.close();
 }
 
+//Name: Nathan
+//Adds orders to Orders list from Orders csv file
 void init_orders()
 {
     ifstream File("Orders.csv");
@@ -75,6 +81,8 @@ void init_orders()
     File.close();
 }
 
+//Name: Nathan
+//Adds orderItems to OrderItems list from OrderItems csv file
 void init_orderItems()
 {
     ifstream File("OrderItems.csv");
@@ -97,6 +105,8 @@ void init_orderItems()
     File.close();
 }
 
+//Name: Nathan
+//Adds admins to Admins list from Admins csv file
 void init_admins()
 {
     ifstream File("Admins.csv");
@@ -119,6 +129,8 @@ void init_admins()
     File.close();
 }
 
+//Name: Nathan
+//Adds foodItems to FoodItems list from FoodItems csv file
 void init_fooditems()
 {
     ifstream File("FoodItems.csv");
@@ -145,6 +157,8 @@ void init_fooditems()
     File.close();
 }
 
+//Name: Nathan
+//Calls all initializer functions
 void init_Data()
 {
     init_customers();
@@ -154,11 +168,15 @@ void init_Data()
     init_fooditems();
 }
 
+//Name: Nathan
+//Calls update_customers function from Customers dictionary
 void update_customers()
 {
     Customers.UpdateCustomer();
 }
 
+//Name: Nathan
+//Clears Orders csv file and updates it with current data
 void update_orders()
 {
     ofstream File("Orders.csv", ios::out | ios::trunc);
@@ -177,6 +195,8 @@ void update_orders()
     File.close();
 }
 
+//Name: Nathan
+//Clears OrderItems csv file and updates it with current data
 void update_orderItems()
 {
     ofstream File("OrderItems.csv", ios::out | ios::trunc);
@@ -195,6 +215,8 @@ void update_orderItems()
     File.close();
 }
 
+//Name: Nathan
+//Clears Admins csv file and updates it with current data
 void update_admins()
 {
     ofstream File("Admins.csv", ios::out | ios::trunc);
@@ -214,6 +236,8 @@ void update_admins()
     File.close();
 }
 
+//Name: Nathan
+//Clears FoodItems csv file and updates it with current data
 void update_fooditems()
 {
     ofstream File("FoodItems.csv", ios::out | ios::trunc);
@@ -232,6 +256,8 @@ void update_fooditems()
     File.close();
 }
 
+//Name:Nathan
+//Calls all update functions
 void update_Data()
 {
     update_customers();
@@ -241,6 +267,9 @@ void update_Data()
     update_admins();
 }
 
+//Name:Nathan
+//Changes order status
+//Arguments: OrderID, status
 void modifyOrderStatus(int OrderID, string status)
 {
     List<Order>::Node<Order>* firstNode = Orders.get(0);
@@ -261,6 +290,9 @@ void modifyOrderStatus(int OrderID, string status)
     }
 }
 
+//Name: Nathan
+//Changes order adminName
+//Arguments: OrderID, restaurant name
 void modifyOrderRestaurant(int OrderID, string restaurant)
 {
     List<Order>::Node<Order>* firstNode = Orders.get(0);
@@ -281,6 +313,10 @@ void modifyOrderRestaurant(int OrderID, string restaurant)
     }
 }
 
+//Name: Nathan
+//Uses selection sort to recursively loop through orders list to find customer order
+//Arguments: customer, firstNode of Orders list
+//Return: Order
 Order recursiveGetOrder(Customer* customer, List<Order>::Node<Order>*firstNode)
 {
     if (firstNode->next != nullptr)
@@ -300,12 +336,20 @@ Order recursiveGetOrder(Customer* customer, List<Order>::Node<Order>*firstNode)
     cout << redundantBuffer << endl;
 }
 
+//Name: Nathan
+//Calls recursiveGetOrder
+//Arguments: customer
+//Return: Order
 Order getOrder(Customer* customer)
 {
     List<Order>::Node<Order>* firstNode = Orders.get(0);
     return recursiveGetOrder(customer,firstNode);
 }
 
+//Name: Nathan
+//Finds the price of the foodItem and multiplies it by the quantity of the orderItem
+//Arguments: orderItem
+//Return: price of orderItem
 int getOrderItemPrice(OrderItem orderItem)
 {
     List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
@@ -329,6 +373,9 @@ int getOrderItemPrice(OrderItem orderItem)
     return totalPrice*orderItem.quantity;
 }
 
+//Name: Nathan
+//Display orderItems in the order
+//Arguments: order
 void printOrder(Order order)
 {
     List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
@@ -401,6 +448,9 @@ void printStore(Admin store) {
     cout << redundantBuffer << endl;
 }
 
+//Name: Nathan
+//Removes the orderItem from OrderItems list;
+//Arguments: name of OrderItem, customer
 void removeOrderItem(string name, Customer* customer)
 {
     Order order = getOrder(customer);
@@ -442,6 +492,9 @@ void removeOrderItem(string name, Customer* customer)
     }
 }
 
+//Name: Nathan
+//Clears all orderItems linked to the customer
+//Arguments: customer
 void clearOrder(Customer* customer)
 {
     List<Order>::Node<Order>* temp = Orders.get(0);
@@ -487,6 +540,9 @@ void clearOrder(Customer* customer)
     }
 }
 
+//Name: Nathan
+//User inputs name and password
+//Return: customer
 Customer* loginAccount()
 {
     cout << "Enter your name: " << endl;
@@ -502,6 +558,8 @@ Customer* loginAccount()
     return Customers.findCustomer(Name, Password);
 }
 
+//Name: Nathan
+//User inputs user details, new customer is added to customers list, new order is added to orders list
 void createAccount()
 {
     cout << "Enter your name: " << endl;
@@ -522,6 +580,9 @@ void createAccount()
     Orders.add(Order(Orders.size + 1, "0", Name, ""));
 }
 
+//Name: Nathan
+//User inputs name of orderItem, calls remove orderItem
+//Arguments: customer
 void removeItemMenu(Customer* customer)
 {
     while (true)
@@ -542,6 +603,9 @@ void removeItemMenu(Customer* customer)
     }
 }
 
+//Name: Nathan
+//Display foodItems from the restaurant chosen
+//Arguments: restaurant name
 void printFoodItems(string restaurant)
 {
     cout << redundantBuffer << endl;
@@ -564,6 +628,10 @@ void printFoodItems(string restaurant)
     cout << redundantBuffer << endl;
 }
 
+//Name: Nathan
+//Finds if the category has been duplicated in Categories list
+//Arguments: Categories list, category
+//Return: bool
 bool isDuplicate(List<string>Categories, string category)
 {
     List<string>::Node<string>* firstNode = Categories.get(0);
@@ -585,7 +653,11 @@ bool isDuplicate(List<string>Categories, string category)
     return false;
 }
 
-List<string>* printCategories(string adminName)
+//Name: Nathan
+//Prints all categories from a restaurant
+//Arguments: restaurant name
+//Return: List of categories
+List<string>* printCategories(string restaurant)
 {
     List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
     List<string> Categories;
@@ -594,7 +666,7 @@ List<string>* printCategories(string adminName)
         cout << redundantBuffer << "Categories" << redundantBuffer<< endl;
         while (firstNode->next != nullptr)
         {
-            if (firstNode->item.adminName == adminName)
+            if (firstNode->item.adminName == restaurant)
             {
                 if (!isDuplicate(Categories, firstNode->item.category))
                 {
@@ -604,7 +676,7 @@ List<string>* printCategories(string adminName)
             }
             firstNode = firstNode->next;
         }
-        if (firstNode->item.adminName == adminName)
+        if (firstNode->item.adminName == restaurant)
         {
             if (!isDuplicate(Categories, firstNode->item.category))
             {
@@ -616,6 +688,9 @@ List<string>* printCategories(string adminName)
     return &Categories;
 }
 
+//Name: Nathan
+//Prints all categories from a restaurant
+//Arguments: category, restaurant name
 void printFoodfromCat(string category, string restaurant)
 {
     List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
@@ -638,6 +713,10 @@ void printFoodfromCat(string category, string restaurant)
     }
 }
 
+//Name: Nathan
+//If there is orderItem in order, add 1 to the quantity, else add new orderItem to OrderItems list
+//Arguments: foodname, OrderID
+//Return: bool
 bool addOrderItemDuplicate(string foodName, int OrderID)
 {
     List<OrderItem>::Node<OrderItem>* firstNode = OrderItems.get(0);
@@ -658,6 +737,9 @@ bool addOrderItemDuplicate(string foodName, int OrderID)
     return false;
 }
 
+//Name: Nathan
+//User inputs name of food, finds order and calls addOrderItemDuplicate
+//Arguments: customer, category, restaurant name
 void addItemMenu(Customer* customer, string categoryOption, string restaurant)
 {
     while (true)
@@ -714,6 +796,9 @@ void addItemMenu(Customer* customer, string categoryOption, string restaurant)
     }
 }
 
+//Name: Nathan
+//User inputs category, calls addItemMenu
+//Arguments custoemr
 void chooseCategory(Customer* customer)
 {
     string restaurant = getOrder(customer).adminName;
@@ -725,6 +810,9 @@ void chooseCategory(Customer* customer)
     addItemMenu(customer, categoryOption, restaurant);
 }
 
+
+//Name: Nathan
+//Displays all restaurants in Admins list
 void printRestaurants()
 {
     List<Admin>::Node<Admin>* firstNode = Admins.get(0);
@@ -740,6 +828,10 @@ void printRestaurants()
     }
 }
 
+//Name: Nathan
+//User inputs name of restaurant, calls modifyOrderRestaurant to set the restaurant
+//Arguments: order
+//Return: string
 string chooseRestaurant(Order order)
 {
     while (true)
@@ -778,6 +870,9 @@ string chooseRestaurant(Order order)
     }
 }
 
+//Name: Nathan
+//User chooses which search type to use
+//Arguments: customer
 void searchItemMenu(Customer* customer)
 {
     Order order = getOrder(customer);
@@ -827,6 +922,9 @@ void searchItemMenu(Customer* customer)
     }
 }
 
+//Name: Nathan
+//Changes orderstatus to 2
+//Arguments: customer
 void sendOrder(Customer* customer)
 {
     List<Order>::Node<Order>* firstNode = Orders.get(0);
@@ -850,6 +948,9 @@ void sendOrder(Customer* customer)
     cout << redundantBuffer << endl;
 }
 
+//Name: Nathan
+//Changes orderstatus to 1
+//Arguments: customer
 void cancelOrder(Customer* customer)
 {
     List<Order>::Node<Order>* firstNode = Orders.get(0);
@@ -873,6 +974,8 @@ void cancelOrder(Customer* customer)
     cout << redundantBuffer << endl;
 }
 
+//Name: Nathan
+//Display collect order message
 void acceptOrderMessage()
 {
     cout << redundantBuffer << endl;
@@ -881,6 +984,9 @@ void acceptOrderMessage()
     cout << redundantBuffer << endl;
 }
 
+//Name: Nathan
+//Changes orderstatus to 0, clear order
+//Arguments: customer
 void acceptOrder(Customer* customer)
 {
     List<Order>::Node<Order>* firstNode = Orders.get(0);
@@ -905,6 +1011,9 @@ void acceptOrder(Customer* customer)
     cout << redundantBuffer << endl;
 }
 
+//Name: Nathan
+//Menu displayed is changed based on orderstatus, allows user to modify order if applicable
+//Arguments: customer
 void orderMenu(Customer* customer)
 {
     string orderOption;
@@ -1018,6 +1127,7 @@ void orderMenu(Customer* customer)
             else if(orderOption == "2")
             {
                 clearOrder(customer);
+                cout << "Order has been cleared" << endl;
             }
             printOrder(order);
             
@@ -1025,6 +1135,9 @@ void orderMenu(Customer* customer)
     }
 }
 
+//Name: Nathan
+//Allow user to choose to go searchItemMenu or orderMenu
+//Arguments: customer
 void customerMenu(Customer* customer)
 {
     while (true)
@@ -1143,6 +1256,7 @@ Admin adminLogin() {
     return admin;
 }
 
+//Initializes data, allow user to select a usertype and login or register, if user exits, data is saved
 void main()
 {
     init_Data();
