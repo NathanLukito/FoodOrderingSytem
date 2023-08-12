@@ -71,7 +71,7 @@ void Queue::displayItems()
 	struct Node* temp = frontNode;
 	while (temp != backNode)
 	{
-		cout << temp->item.customerName << endl;
+		cout << temp->item.OrderID << temp->item.customerName << temp->item.orderStatus;
 		temp = temp->next;
 	}
 	cout << temp->item.customerName << endl;

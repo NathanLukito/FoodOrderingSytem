@@ -1,7 +1,6 @@
 #include <iostream>
 #include "Customer.h"
 #include "Dictionary.h"
-#include "List.h" 
 #include "LinkedList.h"
 #include "Restaurant.h"
 #include "FoodItem.h"
@@ -1200,13 +1199,28 @@ void initialiseQueues(Admin admin) {
 
 void printAdminOrders(Admin admin) {
     if (admin.name == "McDonalds") {
-        McDonalds.displayItems();
+        if (McDonalds.getLength() == 0) {
+            cout << "No orders" << endl;
+        }
+        else {
+            McDonalds.displayItems();
+        }
     }
     else if (admin.name == "Saizeriya") {
-        Saizeriya.displayItems();
+        if (Saizeriya.getLength() == 0) {
+            cout << "No orders" << endl;
+        }
+        else {
+            Saizeriya.displayItems();
+        }
     }
     else if (admin.name == "XiMenJie") {
-        XiMenJie.displayItems();
+        if (XiMenJie.getLength() == 0) {
+            cout << "No orders" << endl;
+        }
+        else {
+            XiMenJie.displayItems();
+        }
     }
     cout << redundantBuffer << endl;
 }
@@ -1234,31 +1248,6 @@ string AdminMenu() {
 }
 
 Admin findAdmin(string name, string password) {
-    /*List<Admin>::Node<Admin>* leftNode = Admins.get(0);
-    List<Admin>::Node<Admin>* rightNode = nullptr;
-
-    int length = 0;
-    List<Admin>::Node<Admin>* temp = Admins.get(0);
-    while (temp != nullptr) {
-        length++;
-        temp = temp->next;
-    }
-
-    while (leftNode != rightNode) {
-        int middleIndex = (length - 1) / 2;
-        int count = 0;
-        List<Admin>::Node<Admin>* middleNode = leftNode;
-        while (count < middleIndex) {
-            middleNode = middleNode->next;
-            count++;
-        }
-
-        if (middleNode->item.name == name && middleNode->item.password == password) {
-            return true;
-        }
-        else if ()
-    }*/
-
     for (int store = 0; store < Admins.getLength(); store++) {
         List<Admin>::Node<Admin>* storeNode = Admins.get(store);
         Admin restaurant = storeNode->item;

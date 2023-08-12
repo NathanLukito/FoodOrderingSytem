@@ -47,7 +47,7 @@ public:
 		{
 			firstNode = node1;
 			size++;
-			return false;
+			return;
 		}
 		else
 		{
@@ -57,7 +57,7 @@ public:
 			}
 			temp->next = node1;
 			size++;
-			return true;
+			return;
 		}
 		temp = NULL;
 		delete temp;
