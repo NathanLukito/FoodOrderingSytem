@@ -15,11 +15,5 @@ public:
 	Order();
 	~Order();
 	Order(int OrderID, string orderStatus, string customerName, string adminName);
-	double getTotalPrice();
 	void modifyOrderStatus(string orderStatus);
-	int getUserID();
-	void printOrder();
-	void remove(string name);
-	void add(FoodItem foodItem);
-	bool IsEmpty();
 };

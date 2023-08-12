@@ -25,5 +25,4 @@ public:
 	void print();
 	Customer* findCustomer(string key, int password);
 	void UpdateCustomer();
-	KeyValuePair* getFirst();
 };

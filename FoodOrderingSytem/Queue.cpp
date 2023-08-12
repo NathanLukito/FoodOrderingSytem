@@ -27,8 +27,8 @@ void Queue::dequeue()
 {
 	if (frontNode == backNode)
 	{
-		frontNode = NULL;
-		backNode = NULL;
+		frontNode = nullptr;
+		backNode = nullptr;
 	}
 	else
 	{
@@ -52,7 +52,7 @@ ItemType Queue::getFront()
 
 bool Queue::isEmpty()
 {
-	if (frontNode == NULL)
+	if (frontNode == nullptr)
 	{
 		return false;
 	}
@@ -71,7 +71,7 @@ void Queue::displayItems()
 		temp = temp->next;
 	}
 	cout << temp->item.customerName << endl;
-	temp = NULL;
+	temp = nullptr;
 	delete temp;
 }
 
@@ -85,7 +85,7 @@ int Queue::getLength()
 		temp = temp->next;
 	}
 	length++;
-	temp = NULL;
+	temp = nullptr;
 	delete temp;
 	return length;
 }

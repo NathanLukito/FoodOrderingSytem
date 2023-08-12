@@ -10,12 +10,12 @@ public:
 	template <typename T>
 	struct Node
 	{
-		T item;	// item
-		Node<T>* next;	// pointer pointing to next item
+		T item;
+		Node<T>* next;
 	};
-	Node<T>* firstNode = nullptr;	// point to the first item
-	int  size;		// number of items in the list
-	// constructor
+	Node<T>* firstNode = nullptr;	
+	int  size;		
+
 	List()
 	{
 		size = 0;

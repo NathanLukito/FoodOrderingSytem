@@ -13,9 +13,3 @@ OrderItem::OrderItem(string name, int quantity, int OrderID)
 	this->quantity = quantity;
 	this->OrderID = OrderID;
 }
-/*
-double OrderItem::getTotalPrice()
-{
-	return foodItem.price * quantity;
-}
-*/

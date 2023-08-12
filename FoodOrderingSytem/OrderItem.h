@@ -13,5 +13,4 @@ public:
 	OrderItem();
 	~OrderItem();
 	OrderItem(string name, int quantity, int OrderID);
-	double getTotalPrice();
 };

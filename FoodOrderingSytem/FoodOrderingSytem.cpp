@@ -20,6 +20,7 @@ List<FoodItem> FoodItems;
 List<Admin> Admins;
 
 string redundantBuffer = "\n_______________________________________________________________________________________________\n";
+
 void cinClear()
 {
     cin.clear();
@@ -157,62 +158,6 @@ void update_customers()
 {
     Customers.UpdateCustomer();
 }
-/*
-void swap(List<Order>::Node<Order>* node1, List<Order>::Node<Order>* node2)
-{
-    List<Order>::Node<Order>* temp = node1;
-    node1->item = node2->item;
-    List<Order>::Node<Order>* firstNode = 
-    node2->item = temp->item;
-    temp = nullptr;
-    delete temp;
-}*/
-
-/*
-List<Order>::Node<Order>* findSmallest()
-{
-    List<Order>::Node<Order>* firstNode = Orders.get(0);
-    List<Order>::Node<Order>* smaller = firstNode;
-    if (firstNode != nullptr)
-    {
-        while (firstNode->next != nullptr)
-        {
-            if (firstNode->item.OrderID > largest->item.OrderID)
-            {
-                largest = firstNode;
-            }
-            firstNode = firstNode->next;
-        }
-        if (firstNode->item.OrderID > largest->item.OrderID)
-        {
-            largest = firstNode;
-        }
-    }
-    return largest;
-}*/
-/*
-void selectionSort()
-{
-    List<Order>::Node<Order>* firstNode = Orders.get(0);
-    List<Order>::Node<Order>* temp = new List<Order>::Node<Order>;
-    if (firstNode != nullptr)
-    {
-        while (firstNode != nullptr)
-        {
-            temp = firstNode->next;
-            while (temp != nullptr)
-            {
-                if (firstNode->item.OrderID > temp->item.OrderID)
-                {
-                    swap(firstNode, temp);
-                }
-                temp = temp->next;
-            }
-            firstNode = firstNode->next;
-        }
-    }
-    List<Order>::Node<Order>* test = Orders.get(0);
-}*/
 
 void update_orders()
 {
