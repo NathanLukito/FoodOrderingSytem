@@ -1,3 +1,7 @@
+//Name: Nathan Farrel Lukito
+//StudentID: S10244400
+//Group: 1
+
 #include <iostream>
 #include "Queue.h"
 

@@ -1,3 +1,6 @@
+//Name: Nathan Farrel Lukito
+//StudentID: S10244400
+//Group: 1
 #pragma once
 #include <iostream>>
 #include <string>
@@ -20,7 +23,7 @@ public:
 	Dictionary();
 	~Dictionary();
 	int hashFunction(string key);
-	int checkUnique(string key);
+	bool checkUnique(string key);
 	void insert(string key, Customer value);
 	void print();
 	Customer* findCustomer(string key, int password);

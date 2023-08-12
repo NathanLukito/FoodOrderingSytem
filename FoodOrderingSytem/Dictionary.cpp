@@ -1,3 +1,9 @@
+//Name: Nathan Farrel Lukito
+//StudentID: S10244400
+//Group: 1
+//The insert function allows users with the same name and places them in the same linked list, same passwords will be rejected
+//I am assuming that it is more proabable that the user will have a same name than a same password
+
 #include "Dictionary.h"
 #include "Customer.h"
 #include "LinkedList.h"
@@ -5,6 +11,7 @@
 #include <fstream>
 using namespace std;
 
+//Constructor
 Dictionary::Dictionary()
 {
 	for (int i = 0; i < SIZE; i++)
@@ -13,6 +20,7 @@ Dictionary::Dictionary()
 	}
 }
 
+//Destructor
 Dictionary::~Dictionary()
 {
     for (int i = 0; i < SIZE; i++)
@@ -25,6 +33,9 @@ Dictionary::~Dictionary()
     }
 }
 
+//Hashes name into a key
+//Arguments: Name
+//Return: key
 int Dictionary::hashFunction(string key)
 {
     int hash = 0;
@@ -35,7 +46,10 @@ int Dictionary::hashFunction(string key)
     return hash%100;
 }
 
-int Dictionary::checkUnique(string key)
+//Checks if username is in dictionary
+//Arguments: name
+//Return: bool
+bool Dictionary::checkUnique(string key)
 {
     for (int i = 0; i < SIZE; i++)
     {
@@ -50,6 +64,8 @@ int Dictionary::checkUnique(string key)
     return true;
 }
 
+//Hashes name and uses it as the key, linkedlist of Customer objects is used as value, inserts the key and value as a keyvaluepair into pointer based dictionary
+//Arguments: name, customer
 void Dictionary::insert(string key, Customer value)
 {
     int index = hashFunction(key);
@@ -81,7 +97,7 @@ void Dictionary::insert(string key, Customer value)
     }
 }
 
-
+//Displays all customers is all linkedlists in all keyvaluepairs
 void Dictionary::print()
 {
     for (int i = 0; i < SIZE; i++)
@@ -100,7 +116,9 @@ void Dictionary::print()
     }
 }
 
-
+//Find customer based on name and password
+//Arguments: name, password
+//Return: Customer
 Customer* Dictionary::findCustomer(string key, int password)
 {
     if (checkUnique(key) == false)
@@ -124,6 +142,7 @@ Customer* Dictionary::findCustomer(string key, int password)
     return customer;
 }
 
+//Clears Customers csv file, updates file with current data
 void Dictionary::UpdateCustomer()
 {
     ofstream File("Customers.csv", ios::out | ios::trunc);
