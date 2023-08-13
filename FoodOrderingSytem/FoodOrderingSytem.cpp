@@ -363,6 +363,7 @@ int getOrderItemPrice(OrderItem orderItem)
             if (firstNode->item.foodItemName == orderItem.name)
             {
                 totalPrice += firstNode->item.price;
+                return totalPrice * orderItem.quantity;
             }
             firstNode = firstNode->next;
         }
@@ -393,7 +394,7 @@ void printOrder(Order order)
                 check = true;
                 double orderItemPrice = getOrderItemPrice(firstNode->item);
                 totalPrice += orderItemPrice;
-                cout << firstNode->item.name << " | x" << firstNode->item.quantity << " | Price: $" << orderItemPrice << endl;
+                cout << firstNode->item.name << " | x" << firstNode->item.quantity << " | Price: $" << fixed << setprecision(2) << orderItemPrice << endl;
             }
             firstNode = firstNode->next;
         }
@@ -402,7 +403,7 @@ void printOrder(Order order)
             check = true;
             double orderItemPrice = getOrderItemPrice(firstNode->item);
             totalPrice += orderItemPrice;
-            cout << firstNode->item.name << " | x" << firstNode->item.quantity << " | Price: $" << orderItemPrice << endl;
+            cout << firstNode->item.name << " | x" << firstNode->item.quantity << " | Price: $" << fixed << setprecision(2) << orderItemPrice << endl;
         }
         cout << "Restaurant: " << order.adminName << endl;
     }
@@ -424,7 +425,7 @@ void printOrder(Order order)
     }
     else
     {
-        cout << "\nTotal Price: $" << totalPrice << endl;
+        cout << "\nTotal Price: $" << fixed << setprecision(2) << totalPrice << endl;
     }
     cout << redundantBuffer << endl;
 }

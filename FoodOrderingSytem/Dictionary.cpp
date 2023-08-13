@@ -165,6 +165,7 @@ void Dictionary::UpdateCustomer()
     File.close();
 }
 
+//Done By Bi De
 Customer* Dictionary::getCustomerWithName(string username) {
     if (checkUnique(username) == false)
     {
