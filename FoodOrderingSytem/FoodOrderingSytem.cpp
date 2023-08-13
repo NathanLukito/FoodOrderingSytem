@@ -1319,7 +1319,7 @@ string AccountType() {
 //prints from admin menu
 string AdminMenu() {
     cout << redundantBuffer << endl;
-    cout << "1) Update status\n2) View order information" << endl;
+    cout << "1) Update status\n2) View customer information" << endl;
     cout << redundantBuffer << endl;
     string adminOption;
     cin >> adminOption;

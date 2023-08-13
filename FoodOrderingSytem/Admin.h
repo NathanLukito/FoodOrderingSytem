@@ -5,6 +5,9 @@
 #include "Queue.h"
 #include <string>
 #include <iostream>
+//Name: Bi De
+//S10239969D
+//Group 1
 
 using namespace std;
 

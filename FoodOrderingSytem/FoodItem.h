@@ -1,6 +1,6 @@
-//Name: Nathan Farrel Lukito
-//StudentID: S10244400
-//Group: 1
+//Name: Bi De
+//S10239969D
+//Group 1
 
 #pragma once
 #include<string>
