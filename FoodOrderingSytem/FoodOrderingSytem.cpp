@@ -10,6 +10,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+
 using namespace std;
 
 Dictionary Customers;
@@ -352,7 +353,7 @@ Order getOrder(Customer* customer)
 //Finds the price of the foodItem and multiplies it by the quantity of the orderItem
 //Arguments: orderItem
 //Return: price of orderItem
-int getOrderItemPrice(OrderItem orderItem)
+double getOrderItemPrice(OrderItem orderItem)
 {
     List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
     double totalPrice = 0;
@@ -409,7 +410,7 @@ void printOrder(Order order)
     }
     else
     {
-        cout << "\n Order is empty" << endl;
+        cout << "\nOrder is empty" << endl;
     }
     if (order.orderStatus == "2")
     {
@@ -535,12 +536,15 @@ void clearOrder(Customer* customer)
                 OrderItems.remove(index);      
             }
             firstNode = firstNode->next;
+            index++;
         }
         if (firstNode->item.OrderID == tempOrder->OrderID)
         {
             OrderItems.remove(index);
         }
     }
+    tempOrder = NULL;
+    delete tempOrder;
 }
 
 //Name: Nathan
@@ -592,8 +596,8 @@ void removeItemMenu(Customer* customer)
     {
         cout << "Type the name of the item you want removed or 'exit' to exit this menu" << endl;
         string name;
-        cin >> name;
-        cinClear();
+        getline(cin, name);
+        cin.clear();
         if (name == "exit")
         {
             return;
@@ -664,9 +668,9 @@ List<string>* printCategories(string restaurant)
 {
     List<FoodItem>::Node<FoodItem>* firstNode = FoodItems.get(0);
     List<string> Categories;
+    cout << redundantBuffer << endl;
     if (firstNode != nullptr)
     {
-        cout << redundantBuffer << "Categories" << redundantBuffer<< endl;
         while (firstNode->next != nullptr)
         {
             if (firstNode->item.adminName == restaurant)
@@ -688,6 +692,7 @@ List<string>* printCategories(string restaurant)
             }
         }
     }
+    cout << redundantBuffer << endl;
     return &Categories;
 }
 
@@ -743,20 +748,27 @@ bool addOrderItemDuplicate(string foodName, int OrderID)
 //Name: Nathan
 //User inputs name of food, finds order and calls addOrderItemDuplicate
 //Arguments: customer, category, restaurant name
-void addItemMenu(Customer* customer, string categoryOption, string restaurant)
+void addItemMenu(Customer* customer, string searchType,string restaurant)
 {
     while (true)
     {
         bool check = false;
-        printFoodfromCat(categoryOption, restaurant);
+        if (searchType == "name")
+        {
+            printFoodItems(restaurant);
+        }
+        else
+        {
+            printFoodfromCat(searchType, restaurant);
+        }
         Order order = getOrder(customer);
         printOrder(order);
         cout << redundantBuffer << endl;
-        cout << "Type the name of the food you want or type 'exit' to exit" << endl;
+        cout << "\nType the name of the food you want or type 'exit' to exit" << endl;
         cout << redundantBuffer << endl;
         string foodChoice;
-        cin >> foodChoice;
-        cinClear();
+        getline(cin, foodChoice);
+        cin.clear();
         if (foodChoice == "exit")
         {
             return;
@@ -810,9 +822,9 @@ void chooseCategory(Customer* customer)
     string categoryOption;
     cin >> categoryOption;
     cinClear();
-    addItemMenu(customer, categoryOption, restaurant);
+    Order order = getOrder(customer);
+    addItemMenu(customer, categoryOption, order.adminName);
 }
-
 
 //Name: Nathan
 //Displays all restaurants in Admins list
@@ -860,6 +872,7 @@ string chooseRestaurant(Order order)
                     modifyOrderRestaurant(order.OrderID, restaurantOption);
                     return restaurantOption;
                 }
+                firstNode = firstNode->next;
             }
             if (firstNode->item.name == restaurantOption)
             {
@@ -878,15 +891,16 @@ string chooseRestaurant(Order order)
 //Arguments: customer
 void searchItemMenu(Customer* customer)
 {
-    Order order = getOrder(customer);
     string restaurantOption = "";
     while (true)
     {
+        Order order = getOrder(customer);
         if (order.adminName == "")
         {
             if (getOrder(customer).adminName == "")
             {
                 restaurantOption = chooseRestaurant(order);
+                order = getOrder(customer);
             }
 
             if (restaurantOption == "exit")
@@ -911,8 +925,7 @@ void searchItemMenu(Customer* customer)
         }
         else if (searchOption == "2")
         {
-            printFoodItems(order.adminName);
-            //searchFoodItemMenu();
+            addItemMenu(customer, "name", order.adminName);
         }
         else if (searchOption == "3")
         {
@@ -921,6 +934,10 @@ void searchItemMenu(Customer* customer)
         else if (searchOption == "4")
         {
             return;
+        }
+        else
+        {
+            cout << "Enter a valid option" << endl;
         }
     }
 }
@@ -1021,9 +1038,9 @@ void orderMenu(Customer* customer)
 {
     string orderOption;
     string menuArray[5] = { "1) Go back\n2) Add Items", "1) Go back\n2) Remove Items\n3) Add Items\n4) Clear Order\n5) Send Order", "1) Go back\n2) Cancel Order", "1) Go back\n2) Accept Order", "1) Go back\n2) Resolved"};
-    Order order = getOrder(customer);
     while (true)
     {
+        Order order = getOrder(customer);
         string orderStatus = order.orderStatus;
         if (orderStatus == "0")
         {
@@ -1040,7 +1057,6 @@ void orderMenu(Customer* customer)
             {
                 printOrder(order);
                 searchItemMenu(customer);
-                printOrder(order);
             }
         }
         else if (orderStatus == "1")
@@ -1151,13 +1167,23 @@ void customerMenu(Customer* customer)
         string accountOption;
         cin >> accountOption;
         cinClear();
+        Order order = getOrder(customer);
         if (accountOption == "1")
         {
-            searchItemMenu(customer);
+            if (order.orderStatus == "0" || order.orderStatus == "1")
+            {
+                searchItemMenu(customer);
+            }
+            else
+            {
+                cout << redundantBuffer << endl;
+                cout << "You have an ongoing order" << endl;
+                cout << redundantBuffer << endl;
+            }
         }
         else if (accountOption == "2")
         {
-            printOrder(getOrder(customer));
+            printOrder(order);
             orderMenu(customer);
         }
         else if (accountOption == "3")
