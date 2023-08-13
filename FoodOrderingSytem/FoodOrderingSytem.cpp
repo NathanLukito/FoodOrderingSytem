@@ -1129,6 +1129,7 @@ void orderMenu(Customer* customer)
                 printOrder(order);
                 acceptOrderMessage();
                 acceptOrder(customer);
+                printOrder(order);
             }
         }
         else if (orderStatus == "4")
