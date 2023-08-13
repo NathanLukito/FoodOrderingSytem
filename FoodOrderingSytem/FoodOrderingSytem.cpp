@@ -1371,44 +1371,50 @@ void adminUpdateStatus(Admin admin) {
     cin.clear();
     cin.ignore(10000, '\n');
 
-    if (admin.name == "McDonalds") {
-        McDonalds.getFront().modifyOrderStatus(orderstatus);
-        int orderID = McDonalds.getFront().OrderID;
-        List<Order>::Node<Order>* firstNode = Orders.firstNode;
-        while (firstNode->next != nullptr) {
-            if (firstNode->item.OrderID == orderID) {
-                firstNode->item.modifyOrderStatus(orderstatus);
+    
+    if (orderstatus == "3" || orderstatus == "4") {
+        if (admin.name == "McDonalds") {
+            McDonalds.getFront().modifyOrderStatus(orderstatus);
+            int orderID = McDonalds.getFront().OrderID;
+            List<Order>::Node<Order>* firstNode = Orders.firstNode;
+            while (firstNode->next != nullptr) {
+                if (firstNode->item.OrderID == orderID) {
+                    firstNode->item.modifyOrderStatus(orderstatus);
+                }
+                firstNode = firstNode->next;
             }
-            firstNode = firstNode->next;
+            firstNode->item.modifyOrderStatus(orderstatus);
+            McDonalds.dequeue();
         }
-        firstNode->item.modifyOrderStatus(orderstatus);
-        McDonalds.dequeue();
+        else if (admin.name == "Saizeriya") {
+            Saizeriya.getFront().modifyOrderStatus(orderstatus);
+            int orderID = Saizeriya.getFront().OrderID;
+            List<Order>::Node<Order>* firstNode = Orders.firstNode;
+            while (firstNode->next != nullptr) {
+                if (firstNode->item.OrderID == orderID) {
+                    firstNode->item.modifyOrderStatus(orderstatus);
+                }
+                firstNode = firstNode->next;
+            }
+            firstNode->item.modifyOrderStatus(orderstatus);
+            Saizeriya.dequeue();
+        }
+        else if (admin.name == "XiMenJie") {
+            XiMenJie.getFront().modifyOrderStatus(orderstatus);
+            int orderID = XiMenJie.getFront().OrderID;
+            List<Order>::Node<Order>* firstNode = Orders.firstNode;
+            while (firstNode->next != nullptr) {
+                if (firstNode->item.OrderID == orderID) {
+                    firstNode->item.modifyOrderStatus(orderstatus);
+                }
+                firstNode = firstNode->next;
+            }
+            firstNode->item.modifyOrderStatus(orderstatus);
+            XiMenJie.dequeue();
+        }
     }
-    else if (admin.name == "Saizeriya") {
-        Saizeriya.getFront().modifyOrderStatus(orderstatus);
-        int orderID = Saizeriya.getFront().OrderID;
-        List<Order>::Node<Order>* firstNode = Orders.firstNode;
-        while (firstNode->next != nullptr) {
-            if (firstNode->item.OrderID == orderID) {
-                firstNode->item.modifyOrderStatus(orderstatus);
-            }
-            firstNode = firstNode->next;
-        }
-        firstNode->item.modifyOrderStatus(orderstatus);
-        Saizeriya.dequeue();
-    }
-    else if (admin.name == "XiMenJie") {
-        XiMenJie.getFront().modifyOrderStatus(orderstatus);
-        int orderID = XiMenJie.getFront().OrderID;
-        List<Order>::Node<Order>* firstNode = Orders.firstNode;
-        while (firstNode->next != nullptr) {
-            if (firstNode->item.OrderID == orderID) {
-                firstNode->item.modifyOrderStatus(orderstatus);
-            }
-            firstNode = firstNode->next;
-        }
-        firstNode->item.modifyOrderStatus(orderstatus);
-        XiMenJie.dequeue();
+    else {
+        cout << "Invalid status" << endl;
     }
 }
 
