@@ -15,7 +15,7 @@ void Queue::enqueue(ItemType item)
 	struct Node* node = new Node;
 	node->item = item;
 
-	if (isEmpty() == false)
+	if (isEmpty() == true)
 	{
 		frontNode = node;
 		backNode = node;

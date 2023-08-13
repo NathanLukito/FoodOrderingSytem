@@ -1215,7 +1215,6 @@ void printAdminOrders(Admin admin) {
     if (admin.name == "McDonalds") {
         if (McDonalds.isEmpty()) {
             cout << "No orders" << endl;
-
         }
         else {
             Queue temp1 = McDonalds;
