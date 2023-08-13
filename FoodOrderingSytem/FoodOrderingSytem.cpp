@@ -1177,6 +1177,8 @@ void customerMenu(Customer* customer)
     return;
 }
 
+//Name: Bi De
+//add admin orders to order queues 
 void initialiseQueues(Admin admin) {
     List<Order>::Node<Order>* firstNode = Orders.get(0);
     if (firstNode != nullptr) {
@@ -1198,6 +1200,8 @@ void initialiseQueues(Admin admin) {
     }
 }
 
+//Name: Bi De
+//get the order items with given orderID
 OrderItem GetOrderItemWithID(int orderID) {
     List<OrderItem>::Node<OrderItem>* tempNode = OrderItems.firstNode;
     while (tempNode->next != nullptr) {
@@ -1212,6 +1216,7 @@ OrderItem GetOrderItemWithID(int orderID) {
     return cart;
 }
 
+//Name: Bi De
 bool printAdminOrders(Admin admin) {
     if (admin.name == "McDonalds") {
         if (McDonalds.isEmpty()) {
@@ -1270,6 +1275,8 @@ bool printAdminOrders(Admin admin) {
     cout << redundantBuffer << endl;
 }
 
+//Name: Bi De
+//check for account type from user
 string AccountType() {
     cout << redundantBuffer << endl;
     cout << "1) Customer\n2) Admin\n3) Exit" << endl;
@@ -1281,6 +1288,9 @@ string AccountType() {
     return accountType;
 }
 
+
+//Name: Bi De
+//prints from admin menu
 string AdminMenu() {
     cout << redundantBuffer << endl;
     cout << "1) Update status\n2) View order information" << endl;
@@ -1292,6 +1302,8 @@ string AdminMenu() {
     return adminOption;
 }
 
+//Name: Bi De
+//find admin when admin log in
 Admin findAdmin(string name, string password) {
     for (int store = 0; store < Admins.getLength(); store++) {
         List<Admin>::Node<Admin>* storeNode = Admins.get(store);
@@ -1306,6 +1318,8 @@ Admin findAdmin(string name, string password) {
     }
 }
 
+//Name: Bi De
+//admin log in function
 Admin adminLogin() {
     cout << "Enter your name: " << endl;
     string Name;
@@ -1322,6 +1336,8 @@ Admin adminLogin() {
     return admin;
 }
 
+//Name: Bi De
+//update order status
 void adminUpdateStatus(Admin admin) {
     cout << "Enter order status to update" << endl;
     string orderstatus;
@@ -1331,35 +1347,61 @@ void adminUpdateStatus(Admin admin) {
 
     if (admin.name == "McDonalds") {
         McDonalds.getFront().modifyOrderStatus(orderstatus);
+        int orderID = McDonalds.getFront().OrderID;
+        List<Order>::Node<Order>* firstNode = Orders.firstNode;
+        while (firstNode->next != nullptr) {
+            if (firstNode->item.OrderID == orderID) {
+                firstNode->item.modifyOrderStatus(orderstatus);
+            }
+            firstNode = firstNode->next;
+        }
+        firstNode->item.modifyOrderStatus(orderstatus);
         McDonalds.dequeue();
     }
     else if (admin.name == "Saizeriya") {
         Saizeriya.getFront().modifyOrderStatus(orderstatus);
+        int orderID = Saizeriya.getFront().OrderID;
+        List<Order>::Node<Order>* firstNode = Orders.firstNode;
+        while (firstNode->next != nullptr) {
+            if (firstNode->item.OrderID == orderID) {
+                firstNode->item.modifyOrderStatus(orderstatus);
+            }
+            firstNode = firstNode->next;
+        }
+        firstNode->item.modifyOrderStatus(orderstatus);
         Saizeriya.dequeue();
     }
     else if (admin.name == "XiMenJie") {
         XiMenJie.getFront().modifyOrderStatus(orderstatus);
+        int orderID = XiMenJie.getFront().OrderID;
+        List<Order>::Node<Order>* firstNode = Orders.firstNode;
+        while (firstNode->next != nullptr) {
+            if (firstNode->item.OrderID == orderID) {
+                firstNode->item.modifyOrderStatus(orderstatus);
+            }
+            firstNode = firstNode->next;
+        }
+        firstNode->item.modifyOrderStatus(orderstatus);
         XiMenJie.dequeue();
     }
 }
 
+//Name: Bi De
+//view customer information for the order
 void ViewCustomerInformation(Admin admin) {
     if (admin.name == "McDonalds") {
         string customername = McDonalds.getFront().customerName;
         Customer* customer = Customers.getCustomerWithName(customername);
-        cout << "Name - Phone Number " << endl;
         customer->print();
     }
     else if (admin.name == "Saizeriya") {
         string customername = Saizeriya.getFront().customerName;
         Customer* customer = Customers.getCustomerWithName(customername);
-        cout << "Name - Phone Number " << endl;
         customer->print();
     }
     else if (admin.name == "XiMenJie") {
         string customername = XiMenJie.getFront().customerName;
         Customer* customer = Customers.getCustomerWithName(customername);
-        cout << "Name - Phone Number " << endl;
         customer->print();
     }
 }
