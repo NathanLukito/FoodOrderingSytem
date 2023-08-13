@@ -25,7 +25,7 @@ void FoodItem::print()
 {
 	string name = "Name: " + this->foodItemName;
 	string category = "Category: " + this->category;
-	string price = "Price: " + to_string(this->price);
+	string price = "Price: $" + to_string(this->price);
 	//setw for spaceing, fixed for fixed point notation, set precision displays up to 2 decimal places
-	cout << left << setw(30) << name << left << setw(20) << category << left << setw(20) << fixed << setprecision(2) << price << endl;
+	cout << left << setw(30) << name << left << setw(20) << category << "Price: $" << left << setw(20) << fixed << setprecision(2) << this->price << endl;
 }
