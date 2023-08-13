@@ -10,6 +10,8 @@ using namespace std;
 Queue::Queue() {};
 Queue::~Queue() {};
 
+//Adds item to the back of the list
+//Arguments: Item
 void Queue::enqueue(ItemType item)
 {
 	struct Node* node = new Node;
@@ -27,6 +29,7 @@ void Queue::enqueue(ItemType item)
 	}
 }
 
+//Removed item from front of list
 void Queue::dequeue()
 {
 	if (frontNode == backNode)
@@ -42,6 +45,7 @@ void Queue::dequeue()
 	}
 }
 
+//Return dequeued item
 ItemType Queue::getdequeue()
 {
 	struct Node* temp = frontNode;
@@ -49,11 +53,15 @@ ItemType Queue::getdequeue()
 	return temp->item;
 }
 
+//get first item in list
+//Return Item
 ItemType Queue::getFront()
 {
 	return frontNode->item;
 }
 
+//Check if list is empty
+//Return bool
 bool Queue::isEmpty()
 {
 	if (frontNode == nullptr)
@@ -66,6 +74,7 @@ bool Queue::isEmpty()
 	}
 }
 
+//Display all items in queue
 void Queue::displayItems()
 {
 	struct Node* temp = frontNode;
@@ -79,6 +88,7 @@ void Queue::displayItems()
 	delete temp;
 }
 
+//Get the length og queue
 int Queue::getLength()
 {
 	struct Node* temp = frontNode;
