@@ -132,7 +132,6 @@
     <ClCompile Include="Dictionary.cpp" />
     <ClCompile Include="FoodItem.cpp" />
     <ClCompile Include="FoodOrderingSytem.cpp" />
-    <ClCompile Include="List.cpp" />
     <ClCompile Include="Order.cpp" />
     <ClCompile Include="OrderItem.cpp" />
     <ClCompile Include="Queue.cpp" />
@@ -145,7 +144,6 @@
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="FoodItem.h" />
-    <ClInclude Include="List.h" />
     <ClInclude Include="Order.h" />
     <ClInclude Include="OrderItem.h" />
     <ClInclude Include="Queue.h" />
