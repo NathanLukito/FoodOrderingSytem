@@ -13,7 +13,6 @@ public:
 	string name; 
 	string password;
 	string description;
-	string location;
 
 	Admin();
 	~Admin();

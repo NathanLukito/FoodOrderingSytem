@@ -1198,30 +1198,73 @@ void initialiseQueues(Admin admin) {
     }
 }
 
-void printAdminOrders(Admin admin) {
-    cout << "Order ID - Name - Status" << endl;
+OrderItem GetOrderItemWithID(int orderID) {
+    List<OrderItem>::Node<OrderItem>* tempNode = OrderItems.firstNode;
+    while (tempNode->next != nullptr) {
+        if (tempNode->item.OrderID == orderID) {
+            OrderItem cart = tempNode->item;
+            return cart;
+            break;
+        }
+        tempNode = tempNode->next;
+    }
+    OrderItem cart = tempNode->item;
+    return cart;
+}
+
+bool printAdminOrders(Admin admin) {
     if (admin.name == "McDonalds") {
-        if (McDonalds.getLength() == 0) {
+        if (McDonalds.isEmpty()) {
             cout << "No orders" << endl;
+            return false;
         }
         else {
-            McDonalds.displayItems();
+            Queue temp1 = McDonalds;
+            for (int i = 0; i < McDonalds.getLength(); i++) {
+                int orderid = temp1.getFront().OrderID;
+                string name = GetOrderItemWithID(orderid).name;
+                int quantity = GetOrderItemWithID(orderid).quantity;
+                cout << "Name: " << name << endl;
+                cout << "Quantity: " << quantity << endl;
+                temp1.dequeue();
+            }
+            return true;
         }
     }
     else if (admin.name == "Saizeriya") {
-        if (Saizeriya.getLength() == 0) {
+        if (Saizeriya.isEmpty()) {
             cout << "No orders" << endl;
+            return false;
         }
         else {
-            Saizeriya.displayItems();
+            Queue temp2 = Saizeriya;
+            for (int i = 0; i < Saizeriya.getLength(); i++) {
+                int orderid = temp2.getFront().OrderID;
+                string name = GetOrderItemWithID(orderid).name;
+                int quantity = GetOrderItemWithID(orderid).quantity;
+                cout << "Name: " << name << endl;
+                cout << "Quantity: " << quantity << endl;
+                temp2.dequeue();
+            }
+            return true;
         }
     }
     else if (admin.name == "XiMenJie") {
-        if (XiMenJie.getLength() == 0) {
+        if (XiMenJie.isEmpty()) {
             cout << "No orders" << endl;
+            return false;
         }
         else {
-            XiMenJie.displayItems();
+            Queue temp3 = XiMenJie;
+            for (int i = 0; i < XiMenJie.getLength(); i++) {
+                int orderid = temp3.getFront().OrderID;
+                string name = GetOrderItemWithID(orderid).name;
+                int quantity = GetOrderItemWithID(orderid).quantity;
+                cout << "Name: " << name << endl;
+                cout << "Quantity: " << quantity << endl;
+                temp3.dequeue();
+            }
+            return true;
         }
     }
     cout << redundantBuffer << endl;
@@ -1383,15 +1426,16 @@ void main()
                     cinClear();
 
                     if (option == "1") {
-                        printAdminOrders(admin);
-                        string adminOption = AdminMenu();
+                        if (printAdminOrders(admin)) {
+                            string adminOption = AdminMenu();
 
-                        if (adminOption == "1") {
-                            adminUpdateStatus(admin);
-                        }
+                            if (adminOption == "1") {
+                                adminUpdateStatus(admin);
+                            }
 
-                        else if (adminOption == "2") {
-                            ViewCustomerInformation(admin);
+                            else if (adminOption == "2") {
+                                ViewCustomerInformation(admin);
+                            }
                         }
                     }
                     else if (option == "2") {
